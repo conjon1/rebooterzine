@@ -1,4 +1,4 @@
-module github.com/YOUR_USERNAME/rebooter
+module github.com/conjon1/rebooterzine
 
 go 1.24
 

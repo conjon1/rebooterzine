@@ -13,8 +13,8 @@ import (
 
 	"golang.org/x/net/html"
 
-	"github.com/YOUR_USERNAME/rebooter/components"
-	"github.com/YOUR_USERNAME/rebooter/model"
+	"github.com/conjon1/rebooterzine/components"
+	"github.com/conjon1/rebooterzine/model"
 )
 
 func main() {

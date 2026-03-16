@@ -1,6 +1,6 @@
 package components
 
-import "github.com/YOUR_USERNAME/rebooter/model"
+import "github.com/conjon1/rebooterzine/model"
 
 // GetRecent returns up to count posts from the front of the sorted slice.
 func GetRecent(posts []model.Post, count int) []model.Post {

@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"github.com/YOUR_USERNAME/rebooter/model"
+	"github.com/conjon1/rebooterzine/model"
 )
 
 func PostItem(post model.Post) templ.Component {
