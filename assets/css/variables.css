@@ -1,0 +1,20 @@
+/* ── variables.css ─────────────────────────────────────────────────────────
+   Single source of truth for every colour and font in the design system.
+   All other CSS files consume these; nothing hardcodes hex values directly.
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Palette — One Dark Pro inspired */
+  --bg:        #1e2127;   /* page background        */
+  --bg-alt:    #282c34;   /* card / code background */
+  --fg:        #abb2bf;   /* body text              */
+  --fg-alt:    #5c6370;   /* muted text, borders    */
+  --primary:   #61afef;   /* headings, links, blue  */
+  --secondary: #c678dd;   /* h2, author links, purple */
+  --accent:    #98c379;   /* h3, post titles, green */
+  --warning:   #d19a66;   /* strong, emphasis, orange */
+  --error:     #e06c75;   /* inline code, errors, red */
+
+  /* Typography */
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+}

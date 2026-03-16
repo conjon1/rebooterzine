@@ -1,0 +1,13 @@
+/* ── base.css ──────────────────────────────────────────────────────────────
+   Global element styles. Depends on variables.css being loaded first.
+   ────────────────────────────────────────────────────────────────────────── */
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-mono {
+  font-family: var(--font-mono);
+}

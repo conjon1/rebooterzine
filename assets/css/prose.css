@@ -1,0 +1,76 @@
+/* ── prose.css ─────────────────────────────────────────────────────────────
+   Styles for rendered post HTML injected into the .prose container.
+   Only the <body> of a post file is injected, so all rules are scoped
+   to .prose to avoid leaking into the SPA chrome.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Headings */
+.prose h1 { font-size: 2rem;    color: var(--primary);   margin-top: 1.5rem; margin-bottom: 1rem; }
+.prose h2 { font-size: 1.5rem;  color: var(--secondary); margin-top: 1.5rem; margin-bottom: 0.75rem; }
+.prose h3 { font-size: 1.25rem; color: var(--accent);    margin-top: 1.5rem; margin-bottom: 0.5rem; }
+
+/* Body copy */
+.prose p         { margin-bottom: 1rem; line-height: 1.7; }
+.prose ul        { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+.prose ol        { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+.prose li        { margin-bottom: 0.4rem; }
+.prose strong    { color: var(--warning); font-weight: 600; }
+.prose a         { color: var(--secondary); text-decoration: underline; }
+.prose a:hover   { color: var(--primary); }
+
+/* Blockquote */
+.prose blockquote {
+  border-left: 4px solid var(--fg-alt);
+  padding: 0.5rem 0 0.5rem 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--fg-alt);
+  background: rgba(40, 44, 52, 0.5);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Code */
+.prose code {
+  font-family: var(--font-mono);
+  background: #2c313a;
+  color: var(--error);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+.prose pre {
+  background: var(--bg-alt);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  border: 1px solid #3e4452;
+}
+.prose pre code {
+  background: transparent;
+  color: var(--fg);
+  padding: 0;
+  font-size: 0.95em;
+}
+
+/* Tables */
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  background-color: var(--bg-alt);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #3e4452;
+}
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #3e4452;
+  border-right: 1px solid #3e4452;
+}
+.prose th               { background-color: #21252b; color: var(--primary); font-weight: 600; }
+.prose tr:last-child td { border-bottom: none; }
+.prose td:last-child,
+.prose th:last-child    { border-right: none; }
