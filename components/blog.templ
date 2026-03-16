@@ -1,0 +1,26 @@
+package components
+
+import "github.com/YOUR_USERNAME/rebooter/model"
+
+templ BlogSection(posts []model.Post) {
+	<section id="blog" class="page min-h-screen hidden">
+		<div class="fade-in">
+			<h1 class="text-4xl font-bold mb-12 border-b-2 border-[#61afef] pb-4">Blog</h1>
+
+			<div class="mb-8">
+				<input
+					type="text"
+					id="post-search"
+					placeholder="Search for posts..."
+					class="w-full md:w-1/2 bg-[#282c34] border border-[#5c6370] text-[#abb2bf] px-4 py-2 rounded focus:outline-none focus:border-[#61afef] transition-colors placeholder-gray-500"
+				/>
+			</div>
+
+			<div id="all-posts" class="space-y-10">
+				for _, post := range posts {
+					@PostItem(post)
+				}
+			</div>
+		</div>
+	</section>
+}

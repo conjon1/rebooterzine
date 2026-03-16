@@ -1,0 +1,49 @@
+package components
+
+import (
+	"fmt"
+	"github.com/YOUR_USERNAME/rebooter/model"
+)
+
+templ AuthorsSection(posts []model.Post, authors []model.AuthorData) {
+	<section id="authors" class="page min-h-screen hidden">
+		<div class="fade-in">
+			<h1 class="text-4xl font-bold mb-12 border-b-2 border-[#61afef] pb-4">Authors</h1>
+
+			<div class="space-y-16">
+				if len(authors) == 0 {
+					<p>No authors found.</p>
+				}
+				for _, author := range authors {
+					<div class="author-block">
+						<div class="mb-6">
+							<h2 class="text-3xl text-[#c678dd] font-bold mb-2">{ author.Name }</h2>
+							<div class="flex space-x-4 font-mono text-sm">
+								if author.Github != "" {
+									<a href={ templ.SafeURL(author.Github) } target="_blank" class="text-[#98c379] hover:underline">GitHub</a>
+									<span class="text-[#5c6370]">/</span>
+								}
+								if author.Linkedin != "" {
+									<a href={ templ.SafeURL(author.Linkedin) } target="_blank" class="text-[#98c379] hover:underline">LinkedIn</a>
+								}
+								<span class="text-[#5c6370]">/</span>
+								<a href={ templ.SafeURL(fmt.Sprintf("#author/%s", author.ID)) } class="text-[#98c379] hover:underline">Profile</a>
+							</div>
+						</div>
+
+						<h3 class="text-xl font-bold text-[#61afef] mb-6">Posts by { author.Name }</h3>
+						<div class="space-y-6 pl-4 border-l-2 border-[#282c34]">
+							if authorPosts := GetPostsByAuthor(posts, author.Name); len(authorPosts) > 0 {
+								for _, p := range authorPosts {
+									@PostItem(p)
+								}
+							} else {
+								<p class="text-[#5c6370] italic">No posts published yet.</p>
+							}
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</section>
+}

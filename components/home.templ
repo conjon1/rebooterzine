@@ -1,0 +1,39 @@
+package components
+
+import "github.com/YOUR_USERNAME/rebooter/model"
+
+templ HomeSection(posts []model.Post) {
+	<section id="home" class="page min-h-screen">
+		<div class="fade-in">
+			<h1 class="text-4xl md:text-6xl font-bold mb-4 text-[#61afef]">Rebooter</h1>
+			<h2 class="text-2xl md:text-3xl text-[#c678dd] mb-8">
+				<span id="typewriter"></span><span class="cursor"></span>
+			</h2>
+			<p class="max-w-3xl text-lg leading-relaxed mb-16">
+				Runtime error: Programming not found. "The Dark Crystals of Programming" have been stolen
+				by the Corquettes and are being used to construct a super weapon that will be used against
+				the hypermories, the guardians who defend against a complete caffeine drought for
+				programmers. In order to save the world and the future of programming, an eagle from the
+				transcendental realm that hosts the soul of Alexander the Great, under the orders of a
+				mysterious ancient figure, gathered various unix wizards from the early 21st Century to
+				fight back against the Corquettes and reboot the system. - Kesh
+			</p>
+		</div>
+
+		<div class="fade-in mt-12">
+			<h3 class="text-3xl font-bold mb-8 border-b-2 border-[#61afef] pb-2">Recent Posts</h3>
+			<div class="space-y-6">
+				if len(posts) == 0 {
+					<p class="text-[#5c6370]">No posts found.</p>
+				} else {
+					for _, post := range GetRecent(posts, 3) {
+						@PostItem(post)
+					}
+				}
+			</div>
+			<a href="#blog" class="nav-link inline-block mt-8 text-[#c678dd] hover:text-[#61afef] transition-transform hover:translate-x-1">
+				View all posts &rarr;
+			</a>
+		</div>
+	</section>
+}
