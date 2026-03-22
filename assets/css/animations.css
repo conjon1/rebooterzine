@@ -24,3 +24,12 @@
 @keyframes blink {
   50% { opacity: 0; }
 }
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ticker-scroll {
+  animation: ticker 22s linear infinite;
+}

@@ -74,3 +74,48 @@
 .prose tr:last-child td { border-bottom: none; }
 .prose td:last-child,
 .prose th:last-child    { border-right: none; }
+
+
+
+.prose {
+    font-family: var(--font-body);
+}
+.prose h1, .prose h2 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-left: 4px solid var(--red);
+    padding-left: 0.8rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+.prose p {
+    font-size: 13.5px;
+    color: var(--ink2);
+    line-height: 1.85;
+    margin-bottom: 1.1rem;
+}
+/* Drop cap on first paragraph */
+.prose > p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    font-size: 3.5em;
+    float: left;
+    line-height: 0.8;
+    margin: 0.1em 0.1em 0 0;
+    color: var(--red);
+}
+.prose blockquote {
+    border-left: 4px solid var(--yellow2);
+    background: var(--paper2);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--ink2);
+}
+.prose pre {
+    background: var(--ink);
+    border-left: 4px solid var(--red);
+    border-radius: 0; /* Zine feel = sharp corners */
+    padding: 1.5rem 1.8rem;
+}

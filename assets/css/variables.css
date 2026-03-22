@@ -1,20 +1,22 @@
-/* ── variables.css ─────────────────────────────────────────────────────────
-   Single source of truth for every colour and font in the design system.
-   All other CSS files consume these; nothing hardcodes hex values directly.
-   ────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* Palette — One Dark Pro inspired */
-  --bg:        #1e2127;   /* page background        */
-  --bg-alt:    #282c34;   /* card / code background */
-  --fg:        #abb2bf;   /* body text              */
-  --fg-alt:    #5c6370;   /* muted text, borders    */
-  --primary:   #61afef;   /* headings, links, blue  */
-  --secondary: #c678dd;   /* h2, author links, purple */
-  --accent:    #98c379;   /* h3, post titles, green */
-  --warning:   #d19a66;   /* strong, emphasis, orange */
-  --error:     #e06c75;   /* inline code, errors, red */
+  /* Zine Palette */
+  --paper:    #f0ebe0;
+  --paper2:   #e8e2d4;
+  --paper3:   #ddd7c8;
+  --ink:      #18130e;
+  --ink2:     #2e251c;
+  --ink3:     #4a3e30;
+  --red:      #c42a1c;
+  --red2:     #9a1e12;
+  --yellow:   #f0c000;
+  --yellow2:  #c89a00;
+  --green:    #2a6a2a;
+  --cyan-riso: rgba(0, 160, 160, 0.18);
 
   /* Typography */
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Fira Code', monospace;
+  --font-display: 'Black Han Sans', sans-serif;
+  --font-body: 'Courier Prime', monospace;
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-hand: 'Permanent Marker', cursive;
+  --font-term: 'VT323', monospace;
 }
