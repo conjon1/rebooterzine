@@ -5,18 +5,25 @@ import "github.com/conjon1/rebooterzine/model"
 templ BlogSection(posts []model.Post) {
 	<section id="blog" class="page min-h-screen hidden">
 		<div class="fade-in">
-			<h1 class="text-4xl font-bold mb-12 border-b-2 border-[#61afef] pb-4">Blog</h1>
+			<div class="flex items-center gap-4 mb-10">
+				<h1 class="text-[clamp(2.5rem,5vw,4rem)] text-[#18130e] uppercase leading-none" style="font-family: var(--font-display);">// Dispatches</h1>
+				<div class="flex-1 border-t-[3px] border-[#18130e]"></div>
+			</div>
 
-			<div class="mb-8">
+			<div class="mb-12 relative">
+				<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-[#c42a1c]">
+					<span class="text-[14px] font-bold" style="font-family: var(--font-body);">&gt;</span>
+				</div>
 				<input
 					type="text"
 					id="post-search"
-					placeholder="Search for posts..."
-					class="w-full md:w-1/2 bg-[#282c34] border border-[#5c6370] text-[#abb2bf] px-4 py-2 rounded focus:outline-none focus:border-[#61afef] transition-colors placeholder-gray-500"
+					placeholder="query database..."
+					class="w-full md:w-1/2 bg-[#e8e2d4] border-[2px] border-[#18130e] text-[#18130e] pl-10 pr-4 py-3 focus:outline-none focus:border-[#c42a1c] focus:bg-[#f0ebe0] transition-colors placeholder-[#4a3e30]/60 text-[13px] uppercase tracking-widest shadow-[4px_4px_0px_#18130e]"
+					style="font-family: var(--font-body);"
 				/>
 			</div>
 
-			<div id="all-posts" class="space-y-10">
+			<div id="all-posts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 				for _, post := range posts {
 					@PostItem(post)
 				}

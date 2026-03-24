@@ -3,10 +3,15 @@ package components
 templ ContentView() {
 	<section id="content-view" class="page min-h-screen hidden">
 		<div class="fade-in">
-			<button id="back-btn" class="mb-8 text-[#c678dd] hover:text-[#61afef] transition-transform hover:-translate-x-1">
-				&larr; Back
+			<button id="back-btn" class="mb-8 inline-flex items-center gap-2 text-[10px] text-[#18130e] bg-[#e8e2d4] border-[2px] border-[#18130e] px-3 py-2 uppercase tracking-widest hover:bg-[#c42a1c] hover:text-[#f0ebe0] hover:border-[#c42a1c] transition-colors shadow-[2px_2px_0px_rgba(24,19,14,0.2)]" style="font-family: var(--font-pixel);">
+				<span>&larr;</span> BACK TO DISPATCHES
 			</button>
-			<div id="dynamic-content" class="prose max-w-none"></div>
+			
+			<div class="bg-[#f0ebe0] border-[3px] border-[#18130e] shadow-[8px_8px_0px_#18130e] relative">
+				<div class="absolute top-[-10px] left-1/2 -translate-x-1/2 w-[120px] h-[24px] bg-[rgba(240,192,0,0.55)] rotate-[2deg] shadow-[0_1px_3px_rgba(0,0,0,0.12)] z-10 pointer-events-none"></div>
+				
+				<div id="dynamic-content" class="prose max-w-none"></div>
+			</div>
 		</div>
 	</section>
 }

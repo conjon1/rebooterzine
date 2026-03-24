@@ -4,35 +4,59 @@ import "github.com/conjon1/rebooterzine/model"
 
 templ HomeSection(posts []model.Post) {
 	<section id="home" class="page min-h-screen">
-		<div class="fade-in">
-			<h1 class="text-4xl md:text-6xl font-bold mb-4 text-[#61afef]">Rebooter</h1>
-			<h2 class="text-2xl md:text-3xl text-[#c678dd] mb-8">
-				<span id="typewriter"></span><span class="cursor"></span>
-			</h2>
-			<p class="max-w-3xl text-lg leading-relaxed mb-16">
-				Runtime error: Programming not found. "The Dark Crystals of Programming" have been stolen
-				by the Corquettes and are being used to construct a super weapon that will be used against
-				the hypermories, the guardians who defend against a complete caffeine drought for
-				programmers. In order to save the world and the future of programming, an eagle from the
-				transcendental realm that hosts the soul of Alexander the Great, under the orders of a
-				mysterious ancient figure, gathered various unix wizards from the early 21st Century to
-				fight back against the Corquettes and reboot the system. - Kesh
-			</p>
+		<div class="fade-in grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-12 border-b-[3px] border-[#18130e] pb-12 mb-12">
+			<div>
+				<h1 class="text-[clamp(3rem,6vw,5.5rem)] text-[#18130e] uppercase leading-[0.85] mb-6 relative tracking-wide" style="font-family: var(--font-display);">
+					REBOOT<br/>
+					<span class="bg-[#f0c000] text-[#18130e] px-3 inline-block -skew-x-6 my-2">THE SYSTEM</span>
+					<span class="absolute top-0 left-0 text-[rgba(0,160,160,0.18)] translate-x-[4px] translate-y-[-3px] pointer-events-none z-[-1]" aria-hidden="true">REBOOT<br/><span class="px-3 inline-block -skew-x-6 my-2 opacity-0">THE SYSTEM</span></span>
+				</h1>
+				<h2 class="text-xl text-[#c42a1c] mb-8 tracking-widest uppercase" style="font-family: var(--font-display);">
+					<span id="typewriter"></span><span class="cursor"></span>
+				</h2>
+				<blockquote class="border-l-[4px] border-[#c42a1c] bg-[#e8e2d4] p-[1rem_1.5rem] text-[13.5px] text-[#2e251c] leading-[1.8] italic" style="font-family: var(--font-body);">
+					"The Dark Crystals of Programming" have been stolen
+					by the Corquettes and are being used to construct a super weapon that will be used against
+					the hypermories, the guardians who defend against a complete caffeine drought for
+					programmers.
+					<br/><br/>
+					In order to save the world and the future of programming, an eagle from the
+					transcendental realm that hosts the soul of Alexander the Great, under the orders of a
+					mysterious ancient figure, gathered various unix wizards from the early 21st Century to
+					fight back against the Corquettes and reboot the system.
+					<br/><br/>
+					<span class="text-[#4a3e30]">— Kesh</span>
+				</blockquote>
+			</div>
+			
+			<div class="hidden md:flex flex-col items-end pt-4">
+				<div class="w-[160px] h-[160px] bg-[#060e14] border-[3px] border-[#18130e] relative overflow-hidden flex items-center justify-center shadow-[4px_4px_0px_#18130e]">
+					<span class="text-[#4ade80] text-[10px]" style="font-family: var(--font-pixel);">AWAITING SIGNAL</span>
+					<div class="absolute inset-0 pointer-events-none opacity-20" style="background: repeating-linear-gradient(0deg, #000 0px, #000 1px, transparent 1px, transparent 4px);"></div>
+				</div>
+				<div class="mt-6 text-[11px] text-[#4a3e30] -rotate-2 opacity-75" style="font-family: var(--font-hand);">
+					* terminal booted
+				</div>
+			</div>
 		</div>
 
 		<div class="fade-in mt-12">
-			<h3 class="text-3xl font-bold mb-8 border-b-2 border-[#61afef] pb-2">Recent Posts</h3>
-			<div class="space-y-6">
+			<div class="flex items-center gap-4 mb-8">
+				<h3 class="text-2xl text-[#18130e] uppercase tracking-wider" style="font-family: var(--font-display);">Recent Dispatches</h3>
+				<div class="flex-1 border-t border-dashed border-[#4a3e30]/35"></div>
+			</div>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 				if len(posts) == 0 {
-					<p class="text-[#5c6370]">No posts found.</p>
+					<p class="text-[#4a3e30]" style="font-family: var(--font-body);">No posts found.</p>
 				} else {
 					for _, post := range GetRecent(posts, 3) {
 						@PostItem(post)
 					}
 				}
 			</div>
-			<a href="#blog" class="nav-link inline-block mt-8 text-[#c678dd] hover:text-[#61afef] transition-transform hover:translate-x-1">
-				View all posts &rarr;
+			<a href="#blog" class="nav-link inline-block mt-8 text-[11px] text-[#c42a1c] uppercase tracking-[0.15em] hover:text-[#18130e] hover:underline decoration-2 underline-offset-4 transition-all" style="font-family: var(--font-body);">
+				View all transmissions &rarr;
 			</a>
 		</div>
 	</section>

@@ -8,37 +8,40 @@ import (
 templ AuthorsSection(posts []model.Post, authors []model.AuthorData) {
 	<section id="authors" class="page min-h-screen hidden">
 		<div class="fade-in">
-			<h1 class="text-4xl font-bold mb-12 border-b-2 border-[#61afef] pb-4">Authors</h1>
+			<div class="flex items-center gap-4 mb-10">
+				<h1 class="text-[clamp(2.5rem,5vw,4rem)] text-[#18130e] uppercase leading-none" style="font-family: var(--font-display);">Authors</h1>
+				<div class="flex-1 border-t-[3px] border-[#18130e]"></div>
+			</div>
 
 			<div class="space-y-16">
 				if len(authors) == 0 {
-					<p>No authors found.</p>
+					<p class="text-[#4a3e30]" style="font-family: var(--font-body);">No authors found.</p>
 				}
 				for _, author := range authors {
-					<div class="author-block">
-						<div class="mb-6">
-							<h2 class="text-3xl text-[#c678dd] font-bold mb-2">{ author.Name }</h2>
-							<div class="flex space-x-4 font-mono text-sm">
+					<div class="author-block border-[3px] border-[#18130e] bg-[#e8e2d4] p-8 shadow-[6px_6px_0px_#18130e]">
+						<div class="mb-8 border-b-[2px] border-[#18130e]/15 pb-6">
+							<h2 class="text-[2.5rem] text-[#18130e] uppercase tracking-wide leading-none mb-4" style="font-family: var(--font-display);">{ author.Name }</h2>
+							<div class="flex flex-wrap gap-4 text-[10px] uppercase tracking-widest" style="font-family: var(--font-body);">
 								if author.Github != "" {
-									<a href={ templ.SafeURL(author.Github) } target="_blank" class="text-[#98c379] hover:underline">GitHub</a>
-									<span class="text-[#5c6370]">/</span>
+									<a href={ templ.SafeURL(author.Github) } target="_blank" class="bg-[#18130e] text-[#f0ebe0] px-3 py-1 hover:bg-[#c42a1c] transition-colors border border-[#18130e]">GITHUB</a>
 								}
 								if author.Linkedin != "" {
-									<a href={ templ.SafeURL(author.Linkedin) } target="_blank" class="text-[#98c379] hover:underline">LinkedIn</a>
+									<a href={ templ.SafeURL(author.Linkedin) } target="_blank" class="bg-[#18130e] text-[#f0ebe0] px-3 py-1 hover:bg-[#c42a1c] transition-colors border border-[#18130e]">LINKEDIN</a>
 								}
-								<span class="text-[#5c6370]">/</span>
-								<a href={ templ.SafeURL(fmt.Sprintf("#author/%s", author.ID)) } class="text-[#98c379] hover:underline">Profile</a>
+								<a href={ templ.SafeURL(fmt.Sprintf("#author/%s", author.ID)) } class="bg-[#f0c000] text-[#18130e] px-3 py-1 border border-[#18130e] hover:bg-[#18130e] hover:text-[#f0c000] transition-colors">PROFILE</a>
 							</div>
 						</div>
 
-						<h3 class="text-xl font-bold text-[#61afef] mb-6">Posts by { author.Name }</h3>
-						<div class="space-y-6 pl-4 border-l-2 border-[#282c34]">
+						<h3 class="text-xl uppercase text-[#18130e] mb-6 flex items-center gap-3" style="font-family: var(--font-display);">
+							<span class="text-[#c42a1c]">✦</span> Logs by { author.Name }
+						</h3>
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 							if authorPosts := GetPostsByAuthor(posts, author.Name); len(authorPosts) > 0 {
 								for _, p := range authorPosts {
 									@PostItem(p)
 								}
 							} else {
-								<p class="text-[#5c6370] italic">No posts published yet.</p>
+								<p class="text-[#4a3e30] italic text-[13px]" style="font-family: var(--font-body);">No logs published yet.</p>
 							}
 						</div>
 					</div>

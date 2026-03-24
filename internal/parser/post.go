@@ -10,14 +10,14 @@ import (
 	"github.com/conjon1/rebooterzine/model"
 )
 
-// FindAuthors scans dir for .html files and returns parsed authors.
-func FindAuthors(dir string) ([]model.AuthorData, error) {
-	var authors []model.AuthorData
+// FindPosts scans dir for .html files and returns parsed posts.
+func FindPosts(dir string) ([]model.Post, error) {
+	var posts []model.Post
 
 	entries, err := os.ReadDir(dir)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return authors, nil
+			return posts, nil
 		}
 		return nil, err
 	}
@@ -26,40 +26,47 @@ func FindAuthors(dir string) ([]model.AuthorData, error) {
 		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".html") {
 			continue
 		}
-		author, err := parseAuthor(filepath.Join(dir, entry.Name()))
+		post, err := parsePost(filepath.Join(dir, entry.Name()))
 		if err != nil {
-			log.Printf("Skipping author %s: %v", entry.Name(), err)
+			log.Printf("Skipping post %s: %v", entry.Name(), err)
 			continue
 		}
-		authors = append(authors, author)
+		posts = append(posts, post)
 	}
 
-	return authors, nil
+	return posts, nil
 }
 
-func parseAuthor(path string) (model.AuthorData, error) {
+func parsePost(path string) (model.Post, error) {
 	doc, err := parseFile(path)
 	if err != nil {
-		return model.AuthorData{}, err
+		return model.Post{}, err
 	}
 
-	var author model.AuthorData
-	author.ID = strings.TrimSuffix(filepath.Base(path), ".html")
+	var post model.Post
+	post.ID = strings.TrimSuffix(filepath.Base(path), ".html")
+	post.URL = "/posts/" + filepath.Base(path)
 
 	extractMeta(doc, func(name, content string) {
 		switch name {
-		case "name":
-			author.Name = content
-		case "linkedin":
-			author.Linkedin = content
-		case "github":
-			author.Github = content
+		case "title":
+			post.Title = content
+		case "date":
+			post.Date = content
+		case "author":
+			post.Author = content
+		case "excerpt":
+			post.Excerpt = content
 		}
 	})
 
-	if author.Name == "" {
-		return model.AuthorData{}, fmt.Errorf("missing name metadata")
+	if post.Author == "" {
+		post.Author = "UNKNOWN"
 	}
 
-	return author, nil
+	if post.Title == "" || post.Date == "" {
+		return model.Post{}, fmt.Errorf("missing title or date metadata")
+	}
+
+	return post, nil
 }

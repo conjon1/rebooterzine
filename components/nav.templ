@@ -1,26 +1,52 @@
 package components
 
 templ Nav() {
-	<header class="sticky top-0 z-50 border-b-[3px] border-[#18130e] bg-[#e8e2d4]">
+	<header class="sticky top-0 z-[200] border-b-[3px] border-[#18130e] bg-[#f0ebe0]">
 		<div class="grid grid-cols-[auto_1fr_auto] items-stretch">
-            <div class="bg-[#18130e] px-8 py-3 border-r-[3px] border-[#18130e]">
-				<a href="#home" class="relative block text-[#f0ebe0] text-4xl" style="font-family: var(--font-display);">
+			
+			<div class="bg-[#18130e] px-[2rem] py-[0.8rem] border-r-[3px] border-[#18130e]">
+				<a href="#home" class="relative block text-[#f0ebe0] text-4xl leading-none" style="font-family: var(--font-display);">
 					REBOOTER
 					<span class="absolute inset-0 text-[#f0c000] opacity-40 translate-x-[2px] translate-y-[-2px] pointer-events-none">REBOOTER</span>
 				</a>
-				<div class="mt-1 text-[#f0ebe0]/45 text-[8px]" style="font-family: var(--font-body);">// unix wizards assemble</div>
+				<div class="mt-1 text-[#f0ebe0]/45 text-[8px]" style="font-family: var(--font-body);">{ "// unix wizards assemble" }</div>
 			</div>
 
-            <nav class="hidden md:flex items-center justify-center gap-10 px-8">
-				<a href="#home" class="text-[#4a3e30] hover:text-[#18130e] text-[11px] uppercase tracking-[0.15em] hover:underline decoration-[#c42a1c] decoration-2 underline-offset-4 transition-all" style="font-family: var(--font-body);">Home</a>
-				<a href="#blog" class="text-[#4a3e30] hover:text-[#18130e] text-[11px] uppercase tracking-[0.15em] hover:underline decoration-[#c42a1c] decoration-2 underline-offset-4 transition-all" style="font-family: var(--font-body);">Blog</a>
-				<a href="#authors" class="text-[#4a3e30] hover:text-[#18130e] text-[11px] uppercase tracking-[0.15em] hover:underline decoration-[#c42a1c] decoration-2 underline-offset-4 transition-all" style="font-family: var(--font-body);">Authors</a>
-			</nav>
-
-            <div class="hidden md:flex flex-col justify-center px-8 border-l-[3px] border-[#18130e] text-[#4a3e30]">
-				<div class="mb-1 text-[7px]" style="font-family: var(--font-pixel);">ISSUE #001</div>
-				<div class="text-[9px]" style="font-family: var(--font-body);">2026</div>
+			<div class="hidden md:flex items-center justify-between px-8">
+				<nav class="flex gap-10">
+					<a href="#home" class="text-[#4a3e30] hover:text-[#18130e] text-[11px] uppercase tracking-[0.15em] hover:after:content-[''] hover:after:block hover:after:h-[2px] hover:after:bg-[#c42a1c] hover:after:mt-[2px] transition-colors" style="font-family: var(--font-body);">Home</a>
+					<a href="#blog" class="text-[#4a3e30] hover:text-[#18130e] text-[11px] uppercase tracking-[0.15em] hover:after:content-[''] hover:after:block hover:after:h-[2px] hover:after:bg-[#c42a1c] hover:after:mt-[2px] transition-colors" style="font-family: var(--font-body);">Blog</a>
+					<a href="#authors" class="text-[#4a3e30] hover:text-[#18130e] text-[11px] uppercase tracking-[0.15em] hover:after:content-[''] hover:after:block hover:after:h-[2px] hover:after:bg-[#c42a1c] hover:after:mt-[2px] transition-colors" style="font-family: var(--font-body);">Authors</a>
+				</nav>
+				
+				<div class="grid grid-cols-4 gap-[1px] ml-auto">
+					<div class="w-[6px] h-[6px] bg-[#c42a1c]"></div>
+					<div class="w-[6px] h-[6px] bg-[#18130e]"></div>
+					<div class="w-[6px] h-[6px] bg-[#c42a1c]"></div>
+					<div class="w-[6px] h-[6px] bg-[#18130e]"></div>
+					
+					<div class="w-[6px] h-[6px] bg-[#18130e]"></div>
+					<div class="w-[6px] h-[6px] bg-[#f0c000]"></div>
+					<div class="w-[6px] h-[6px] bg-[#18130e]"></div>
+					<div class="w-[6px] h-[6px] bg-[#f0c000]"></div>
+					
+					<div class="w-[6px] h-[6px] bg-[#c42a1c]"></div>
+					<div class="w-[6px] h-[6px] bg-[#18130e]"></div>
+					<div class="w-[6px] h-[6px] bg-[#c42a1c]"></div>
+					<div class="w-[6px] h-[6px] bg-[#18130e]"></div>
+					
+					<div class="w-[6px] h-[6px] bg-[#18130e]"></div>
+					<div class="w-[6px] h-[6px] bg-[#f0c000]"></div>
+					<div class="w-[6px] h-[6px] bg-[#18130e]"></div>
+					<div class="w-[6px] h-[6px] bg-[#f0c000]"></div>
+				</div>
 			</div>
+
+			<div class="hidden md:flex flex-col justify-center px-8 border-l-[3px] border-[#18130e]">
+				<div class="text-[#4a3e30] text-[7px]" style="font-family: var(--font-pixel);">ISSUE #001</div>
+				<div class="text-[#4a3e30] text-[9px] mt-1" style="font-family: var(--font-body);">2026-03-24</div>
+			</div>
+			
 		</div>
 	</header>
 }

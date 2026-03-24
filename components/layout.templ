@@ -1,7 +1,6 @@
 package components
 
 import (
-	"github.com/conjon1/rebooterzine/assets"
 	"github.com/conjon1/rebooterzine/model"
 )
 
@@ -15,16 +14,24 @@ templ Index(posts []model.Post, authors []model.AuthorData) {
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link rel="preconnect" href="https://fonts.googleapis.com"/>
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
-		<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Black+Han+Sans&family=Permanent+Marker&family=VT323&family=Press+Start+2P&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 		<style>
 			@templ.Raw(assets.CSS())
 		</style>
 	</head>
-	<body class="bg-[#1e2127] text-[#abb2bf] antialiased">
+	<body class="bg-[#f0ebe0] text-[#2e251c] antialiased relative">
+		
+		<div class="fixed top-0 bottom-0 left-0 w-8 z-[100] pointer-events-none border-r border-[#18130e]/12 flex items-center justify-center">
+			<span class="rotate-180 text-[10px] text-[#4a3e30]" style="writing-mode: vertical-rl; font-family: var(--font-body);">rebooter.blog · vol.1 · 2026</span>
+		</div>
+		
+		<div class="fixed top-0 bottom-0 right-0 w-8 z-[100] pointer-events-none border-l border-[#18130e]/12 flex items-center justify-center">
+			<span class="rotate-180 text-[10px] text-[#4a3e30]" style="writing-mode: vertical-rl; font-family: var(--font-body);">unix wizards · built w/ go &amp; templ</span>
+		</div>
 
 		@Nav()
 
-		<main class="container mx-auto px-6 py-12">
+		<main class="container mx-auto px-12 py-12 max-w-[1200px]">
 			@HomeSection(posts)
 			@BlogSection(posts)
 			@ContentView()
