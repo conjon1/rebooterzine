@@ -34,31 +34,31 @@ func AuthorsSection(posts []model.Post, authors []model.AuthorData) templ.Compon
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section id=\"authors\" class=\"page min-h-screen hidden\"><div class=\"fade-in\"><h1 class=\"text-4xl font-bold mb-12 border-b-2 border-[#61afef] pb-4\">Authors</h1><div class=\"space-y-16\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section id=\"authors\" class=\"page min-h-screen hidden\"><div class=\"fade-in\"><div class=\"flex items-center gap-4 mb-10\"><h1 class=\"text-[clamp(2.5rem,5vw,4rem)] text-[#18130e] uppercase leading-none\" style=\"font-family: var(--font-display);\">Authors</h1><div class=\"flex-1 border-t-[3px] border-[#18130e]\"></div></div><div class=\"space-y-16\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if len(authors) == 0 {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<p>No authors found.</p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<p class=\"text-[#4a3e30]\" style=\"font-family: var(--font-body);\">No authors found.</p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		for _, author := range authors {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"author-block\"><div class=\"mb-6\"><h2 class=\"text-3xl text-[#c678dd] font-bold mb-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"author-block border-[3px] border-[#18130e] bg-[#e8e2d4] p-8 shadow-[6px_6px_0px_#18130e]\"><div class=\"mb-8 border-b-[2px] border-[#18130e]/15 pb-6\"><h2 class=\"text-[2.5rem] text-[#18130e] uppercase tracking-wide leading-none mb-4\" style=\"font-family: var(--font-display);\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(author.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 20, Col: 71}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 23, Col: 145}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</h2><div class=\"flex space-x-4 font-mono text-sm\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</h2><div class=\"flex flex-wrap gap-4 text-[10px] uppercase tracking-widest\" style=\"font-family: var(--font-body);\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -70,13 +70,13 @@ func AuthorsSection(posts []model.Post, authors []model.AuthorData) templ.Compon
 				var templ_7745c5c3_Var3 templ.SafeURL
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(author.Github))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 23, Col: 47}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 26, Col: 47}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" target=\"_blank\" class=\"text-[#98c379] hover:underline\">GitHub</a> <span class=\"text-[#5c6370]\">/</span> ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" target=\"_blank\" class=\"bg-[#18130e] text-[#f0ebe0] px-3 py-1 hover:bg-[#c42a1c] transition-colors border border-[#18130e]\">GITHUB</a> ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -89,44 +89,44 @@ func AuthorsSection(posts []model.Post, authors []model.AuthorData) templ.Compon
 				var templ_7745c5c3_Var4 templ.SafeURL
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(author.Linkedin))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 27, Col: 49}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 29, Col: 49}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" target=\"_blank\" class=\"text-[#98c379] hover:underline\">LinkedIn</a> ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" target=\"_blank\" class=\"bg-[#18130e] text-[#f0ebe0] px-3 py-1 hover:bg-[#c42a1c] transition-colors border border-[#18130e]\">LINKEDIN</a> ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<span class=\"text-[#5c6370]\">/</span> <a href=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 templ.SafeURL
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("#author/%s", author.ID)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 30, Col: 69}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 31, Col: 69}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" class=\"text-[#98c379] hover:underline\">Profile</a></div></div><h3 class=\"text-xl font-bold text-[#61afef] mb-6\">Posts by ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" class=\"bg-[#f0c000] text-[#18130e] px-3 py-1 border border-[#18130e] hover:bg-[#18130e] hover:text-[#f0c000] transition-colors\">PROFILE</a></div></div><h3 class=\"text-xl uppercase text-[#18130e] mb-6 flex items-center gap-3\" style=\"font-family: var(--font-display);\"><span class=\"text-[#c42a1c]\">✦</span> Logs by ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(author.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 34, Col: 78}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/authors.templ`, Line: 36, Col: 68}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</h3><div class=\"space-y-6 pl-4 border-l-2 border-[#282c34]\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</h3><div class=\"grid grid-cols-1 md:grid-cols-2 gap-8\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -138,7 +138,7 @@ func AuthorsSection(posts []model.Post, authors []model.AuthorData) templ.Compon
 					}
 				}
 			} else {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<p class=\"text-[#5c6370] italic\">No posts published yet.</p>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<p class=\"text-[#4a3e30] italic text-[13px]\" style=\"font-family: var(--font-body);\">No logs published yet.</p>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
