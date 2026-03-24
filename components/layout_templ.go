@@ -9,6 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
+	"github.com/conjon1/rebooterzine/assets"
 	"github.com/conjon1/rebooterzine/model"
 )
 
@@ -33,7 +34,15 @@ func Index(posts []model.Post, authors []model.AuthorData) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\" class=\"scroll-smooth\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Rebooter | Blog</title><script src=\"https://cdn.tailwindcss.com\"></script><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"anonymous\"><link href=\"https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Black+Han+Sans&family=Permanent+Marker&family=VT323&family=Press+Start+2P&family=Bebas+Neue&display=swap\" rel=\"stylesheet\"><style>\n\t\t\t@templ.Raw(assets.CSS())\n\t\t</style></head><body class=\"bg-[#f0ebe0] text-[#2e251c] antialiased relative\"><div class=\"fixed top-0 bottom-0 left-0 w-8 z-[100] pointer-events-none border-r border-[#18130e]/12 flex items-center justify-center\"><span class=\"rotate-180 text-[10px] text-[#4a3e30]\" style=\"writing-mode: vertical-rl; font-family: var(--font-body);\">rebooter.blog · vol.1 · 2026</span></div><div class=\"fixed top-0 bottom-0 right-0 w-8 z-[100] pointer-events-none border-l border-[#18130e]/12 flex items-center justify-center\"><span class=\"rotate-180 text-[10px] text-[#4a3e30]\" style=\"writing-mode: vertical-rl; font-family: var(--font-body);\">unix wizards · built w/ go &amp; templ</span></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\" class=\"scroll-smooth\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Rebooter | Blog</title><script src=\"https://cdn.tailwindcss.com\"></script><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"anonymous\"><link href=\"https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Black+Han+Sans&family=Permanent+Marker&family=VT323&family=Press+Start+2P&family=Bebas+Neue&display=swap\" rel=\"stylesheet\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ.Raw("<style>\n"+assets.CSS()+"\n</style>").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</head><body class=\"bg-[#f0ebe0] text-[#2e251c] antialiased relative\"><div class=\"fixed top-0 bottom-0 left-0 w-8 z-[100] pointer-events-none border-r border-[#18130e]/12 flex items-center justify-center\"><span class=\"rotate-180 text-[10px] text-[#4a3e30]\" style=\"writing-mode: vertical-rl; font-family: var(--font-body);\">rebooter.blog · vol.1 · 2026</span></div><div class=\"fixed top-0 bottom-0 right-0 w-8 z-[100] pointer-events-none border-l border-[#18130e]/12 flex items-center justify-center\"><span class=\"rotate-180 text-[10px] text-[#4a3e30]\" style=\"writing-mode: vertical-rl; font-family: var(--font-body);\">unix wizards · built w/ go &amp; templ</span></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +50,7 @@ func Index(posts []model.Post, authors []model.AuthorData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<main class=\"container mx-auto px-12 py-12 max-w-[1200px]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<main class=\"container mx-auto px-12 py-12 max-w-[1200px]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -61,7 +70,7 @@ func Index(posts []model.Post, authors []model.AuthorData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -69,7 +78,11 @@ func Index(posts []model.Post, authors []model.AuthorData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<script>\n\t\t\t@templ.Raw(assets.JS())\n\t\t</script></body></html>")
+		templ_7745c5c3_Err = templ.Raw("<script>\n"+assets.JS()+"\n</script>").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

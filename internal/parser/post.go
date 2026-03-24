@@ -48,24 +48,28 @@ func parsePost(path string) (model.Post, error) {
 	post.URL = "/posts/" + filepath.Base(path)
 
 	extractMeta(doc, func(name, content string) {
-		switch name {
+		// Convert name to lowercase to handle inconsistent HTML casing
+		switch strings.ToLower(name) {
 		case "title":
 			post.Title = content
 		case "date":
 			post.Date = content
 		case "author":
 			post.Author = content
-		case "excerpt":
+		case "excerpt", "description": // Added support for "description" as an alias
 			post.Excerpt = content
 		}
 	})
 
+	// Default author if none is found
 	if post.Author == "" {
 		post.Author = "UNKNOWN"
 	}
 
+	// Crucial: This check is likely why your posts were missing.
+	// If the parser doesn't find a title or date, it returns an error and FindPosts skips it.
 	if post.Title == "" || post.Date == "" {
-		return model.Post{}, fmt.Errorf("missing title or date metadata")
+		return model.Post{}, fmt.Errorf("missing required metadata (title: %q, date: %q)", post.Title, post.Date)
 	}
 
 	return post, nil

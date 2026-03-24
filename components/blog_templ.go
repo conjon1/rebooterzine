@@ -31,7 +31,20 @@ func BlogSection(posts []model.Post) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section id=\"blog\" class=\"page min-h-screen hidden\"><div class=\"fade-in\"><h1 class=\"text-4xl font-bold mb-12 border-b-2 border-[#61afef] pb-4\">Blog</h1><div class=\"mb-8\"><input type=\"text\" id=\"post-search\" placeholder=\"Search for posts...\" class=\"w-full md:w-1/2 bg-[#282c34] border border-[#5c6370] text-[#abb2bf] px-4 py-2 rounded focus:outline-none focus:border-[#61afef] transition-colors placeholder-gray-500\"></div><div id=\"all-posts\" class=\"space-y-10\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section id=\"blog\" class=\"page min-h-screen hidden\"><div class=\"fade-in\"><div class=\"flex items-center gap-4 mb-10\"><h1 class=\"text-[clamp(2.5rem,5vw,4rem)] text-[#18130e] uppercase leading-none\" style=\"font-family: var(--font-display);\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs("// Dispatches")
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/blog.templ`, Line: 9, Col: 143}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</h1><div class=\"flex-1 border-t-[3px] border-[#18130e]\"></div></div><div class=\"mb-12 relative\"><div class=\"absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-[#c42a1c]\"><span class=\"text-[14px] font-bold\" style=\"font-family: var(--font-body);\">&gt;</span></div><input type=\"text\" id=\"post-search\" placeholder=\"query database...\" class=\"w-full md:w-1/2 bg-[#e8e2d4] border-[2px] border-[#18130e] text-[#18130e] pl-10 pr-4 py-3 focus:outline-none focus:border-[#c42a1c] focus:bg-[#f0ebe0] transition-colors placeholder-[#4a3e30]/60 text-[13px] uppercase tracking-widest shadow-[4px_4px_0px_#18130e]\" style=\"font-family: var(--font-body);\"></div><div id=\"all-posts\" class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +54,7 @@ func BlogSection(posts []model.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></div></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></div></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -12,7 +12,9 @@ Object.assign(BlogApp.prototype, {
       document.querySelectorAll('#all-posts article').forEach(post => {
         const title   = post.querySelector('h3').textContent.toLowerCase();
         const excerpt = post.querySelector('.excerpt').textContent.toLowerCase();
-        post.style.display = (title.includes(term) || excerpt.includes(term)) ? 'block' : 'none';
+        
+        // Use 'flex' instead of 'block' to maintain the column layout of the zine post items
+        post.style.display = (title.includes(term) || excerpt.includes(term)) ? 'flex' : 'none';
       });
     });
   },

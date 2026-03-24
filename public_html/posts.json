@@ -1,1 +1,47 @@
-null
+[
+  {
+    "id": "gnet",
+    "title": "Tunneling All System Traffic Through Your Phone with SSH, redsocks, and Mullvad",
+    "date": "March 13, 2026",
+    "excerpt": "Routes all system TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN. DNS encrypted via dnscrypt-proxy over DoH. IPv6 disabled at runtime to prevent leaks.",
+    "url": "/posts/gnet.html",
+    "author": "Connal McInnis",
+    "authorId": "connalmcinnis"
+  },
+  {
+    "id": "TmobileSpoof",
+    "title": "T-mobile TTL spoofing",
+    "date": "January 6, 2026",
+    "excerpt": "Right now i am in a rural area where it dose not make sense to have WiFi if someones mobile data is unlimited.",
+    "url": "/posts/TmobileSpoof.html",
+    "author": "Connal McInnis",
+    "authorId": "connalmcinnis"
+  },
+  {
+    "id": "CertCIndustries",
+    "title": "Industries in Demand for CERT C Compliant Security-Focused Coders",
+    "date": "November 22, 2025",
+    "excerpt": "The Therac-25 disaster taught us that bugs in C code can be lethal. Learn why aerospace, automotive, and medical industries now mandate CERT C compliance to prevent vulnerabilities in life-critical systems.",
+    "url": "/posts/CertCIndustries.html",
+    "author": "Tanveer Salim",
+    "authorId": "tanveersalim"
+  },
+  {
+    "id": "DockerIsNotASandbox",
+    "title": "Docker is not a Sandbox",
+    "date": "November 12, 2025",
+    "excerpt": "One of the biggest misconceptions I see about Docker is that it's somehow sandboxed—a place where you can safely test programs and services in isolation.",
+    "url": "/posts/DockerIsNotASandbox.html",
+    "author": "Connal McInnis",
+    "authorId": "connalmcinnis"
+  },
+  {
+    "id": "K3S",
+    "title": "My Homelab Journey: From Mini PCs to Kubernetes with K3s",
+    "date": "October 20, 2025",
+    "excerpt": "From a few mini PCs to a fully functional Kubernetes cluster – my homelab journey using Ubuntu and K3s has been full of learning experiences.",
+    "url": "/posts/K3S.html",
+    "author": "Connal McInnis",
+    "authorId": "connalmcinnis"
+  }
+]

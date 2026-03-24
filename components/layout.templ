@@ -2,6 +2,7 @@ package components
 
 import (
 	"github.com/conjon1/rebooterzine/model"
+	"github.com/conjon1/rebooterzine/assets"
 )
 
 templ Index(posts []model.Post, authors []model.AuthorData) {
@@ -15,9 +16,8 @@ templ Index(posts []model.Post, authors []model.AuthorData) {
 		<link rel="preconnect" href="https://fonts.googleapis.com"/>
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
 		<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Black+Han+Sans&family=Permanent+Marker&family=VT323&family=Press+Start+2P&family=Bebas+Neue&display=swap" rel="stylesheet"/>
-		<style>
-			@templ.Raw(assets.CSS())
-		</style>
+		
+		@templ.Raw("<style>\n" + assets.CSS() + "\n</style>")
 	</head>
 	<body class="bg-[#f0ebe0] text-[#2e251c] antialiased relative">
 		
@@ -40,9 +40,7 @@ templ Index(posts []model.Post, authors []model.AuthorData) {
 
 		@Footer()
 
-		<script>
-			@templ.Raw(assets.JS())
-		</script>
+		@templ.Raw("<script>\n" + assets.JS() + "\n</script>")
 	</body>
 	</html>
 }

@@ -15,7 +15,14 @@ Object.assign(BlogApp.prototype, {
       });
     }, { threshold: 0.1 });
 
+    // Look for fade-in elements across the whole document
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    
+    // Also look inside dynamic content if it was just loaded
+    const dynamicContent = document.getElementById('dynamic-content');
+    if (dynamicContent) {
+        dynamicContent.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    }
   },
 
 });
