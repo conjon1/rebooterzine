@@ -1,6 +1,13 @@
 package assets
 
-import _ "embed"
+import (
+	"embed"
+	"encoding/base64"
+	"fmt"
+	"mime"
+	"path/filepath"
+
+ )
 
 // ── CSS ───────────────────────────────────────────────────────────────────
 // Files are embedded individually so the concat order is explicit and
@@ -57,4 +64,41 @@ var bootJS string
 // The result is injected directly into the <script> tag in layout.templ.
 func JS() string {
 	return appJS + routerJS + loaderJS + searchJS + typewriterJS + observersJS + mobileJS + bootJS
+}
+
+
+
+//go:embed css/variables.css
+var variablesCSS string
+
+
+
+//go:embed ascii/* gif/* pixel_art/*
+var MediaFS embed.FS
+
+// GetASCII reads a text file from the assets/ascii directory
+// and returns it as a string.
+func GetASCII(filename string) string {
+	b, err := MediaFS.ReadFile("ascii/" + filename)
+	if err != nil {
+		return fmt.Sprintf("[ASCII %s not found]", filename)
+	}
+	return string(b)
+}
+
+func GetMediaDataURI(folder, filename string) string {
+	path := folder + "/" + filename
+	b, err := MediaFS.ReadFile(path)
+	if err != nil {
+		return ""
+	}
+
+	ext := filepath.Ext(filename)
+	mimeType := mime.TypeByExtension(ext)
+	if mimeType == "" {
+		mimeType = "application/octet-stream"
+	}
+
+	encoded := base64.StdEncoding.EncodeToString(b)
+	return fmt.Sprintf("data:%s;base64,%s", mimeType, encoded)
 }
