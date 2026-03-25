@@ -1,20 +1,15 @@
 package components
 
 import "github.com/conjon1/rebooterzine/model"
+import "github.com/conjon1/rebooterzine/assets"
 
 templ HomeSection(posts []model.Post) {
 	<section id="home" class="page min-h-[80vh]">
 
-		<div class="fade-in grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-10 border-b border-[#2a2a2a] pb-12 mb-12">
+		<div class="fade-in border-b border-[#2a2a2a] pb-12 mb-12">
 			<div>
-				<!-- ASCII wordmark -->
-				<pre class="text-[#4ade80] text-[8px] sm:text-[10px] leading-[1.15] mb-8 select-none overflow-x-auto" style="font-family:var(--font-term);">
-  ____  _____ ____   ___   ___ _____
- |  _ \| ____| __ ) / _ \ / _ \_   _|
- | |_) |  _| |  _ \| | | | | | || |
- |  _ &lt;| |___| |_) | |_| | |_| || |
- |_| \_\_____|____/ \___/ \___/ |_|
-      THE SYSTEM
+				<pre class="text-[#4ade80] text-[18px] sm:text-[20px] leading-[1.15] mb-8 select-none overflow-x-auto" style="font-family:var(--font-term);">
+					@templ.Raw(assets.GetASCII("rebooter.txt"))
 				</pre>
 
 				<div class="text-[18px] text-[#888888] mb-8" style="font-family:var(--font-term);">
@@ -22,7 +17,6 @@ templ HomeSection(posts []model.Post) {
 					<span id="typewriter"></span><span class="cursor"></span>
 				</div>
 
-				<!-- System log -->
 				<div class="border border-[#2a2a2a] bg-[#0f0f0f] p-5 relative">
 					<div class="absolute -top-[11px] left-4 bg-[#0a0a0a] px-2 text-[#555555] text-[11px]" style="font-family:var(--font-body);">/var/log/system.log</div>
 					<div class="text-[14px] text-[#888888] leading-[1.9]" style="font-family:var(--font-body);">
@@ -35,38 +29,8 @@ templ HomeSection(posts []model.Post) {
 					</div>
 				</div>
 			</div>
-
-			<!-- Radar -->
-			<div class="hidden lg:flex flex-col items-end pt-2">
-				<div class="w-[180px] h-[180px] bg-[#050505] border border-[#2a2a2a] relative overflow-hidden flex items-center justify-center">
-					<div class="text-[#4ade80] text-[9px] text-center z-10" style="font-family:var(--font-pixel);">
-						[ RADAR ]
-						<div id="radar-ascii" class="text-[#5ec4d4] whitespace-pre text-[10px] leading-[10px] my-3" style="font-family:var(--font-term);"></div>
-						<span class="animate-pulse text-[#555555]">LISTENING...</span>
-					</div>
-					<!-- Sweep line — opacity only -->
-					<div class="absolute top-1/2 left-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-[#4ade80]/30 to-transparent origin-left" style="animation:radar-sweep 4s linear infinite;"></div>
-				</div>
-				<div class="mt-3 text-[12px] text-[#555555]" style="font-family:var(--font-term);">[PORT 1337]</div>
-
-				<!-- Pixel crystal -->
-				<div class="mt-6 flex flex-col items-center p-4 border border-[#2a2a2a] bg-[#0f0f0f] float-anim">
-					<div class="text-[#d4905a] text-[8px] mb-3 text-center leading-tight" style="font-family:var(--font-pixel);">DARK<br/>CRYSTAL</div>
-					<div class="pixel-crystal">
-						<div class="px-t"></div><div class="px-t"></div><div class="px-g"></div><div class="px-t"></div><div class="px-t"></div>
-						<div class="px-t"></div><div class="px-g"></div><div class="px-w"></div><div class="px-g"></div><div class="px-t"></div>
-						<div class="px-g"></div><div class="px-g"></div><div class="px-g"></div><div class="px-w"></div><div class="px-g"></div>
-						<div class="px-g"></div><div class="px-w"></div><div class="px-g"></div><div class="px-g"></div><div class="px-g"></div>
-						<div class="px-g"></div><div class="px-g"></div><div class="px-w"></div><div class="px-g"></div><div class="px-g"></div>
-						<div class="px-t"></div><div class="px-g"></div><div class="px-g"></div><div class="px-g"></div><div class="px-t"></div>
-						<div class="px-t"></div><div class="px-t"></div><div class="px-g"></div><div class="px-t"></div><div class="px-t"></div>
-					</div>
-					<div class="text-[#555555] text-[10px] mt-3" style="font-family:var(--font-term);">x1 ACQUIRED</div>
-				</div>
-			</div>
 		</div>
 
-		<!-- Recent posts -->
 		<div class="fade-in">
 			<div class="flex items-center gap-4 mb-8">
 				<span class="text-[18px] text-[#555555]" style="font-family:var(--font-term);">{"// recent dispatches"}</span>

@@ -42,7 +42,15 @@ func Index(posts []model.Post, authors []model.AuthorData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</head><body style=\"background:#0a0a0a; color:#c8c8c8;\"><!-- Sidebar rule left --><div class=\"fixed top-0 bottom-0 left-0 w-8 z-[100] pointer-events-none border-r border-[#2a2a2a] hidden md:flex items-center justify-center bg-[#0a0a0a]\"><span class=\"rotate-180 text-[10px] text-[#555555]\" style=\"writing-mode:vertical-rl; font-family:var(--font-body);\">sys.log · vol.1 · 2026</span></div><!-- Sidebar rule right --><div class=\"fixed top-0 bottom-0 right-0 w-8 z-[100] pointer-events-none border-l border-[#2a2a2a] hidden md:flex items-center justify-center bg-[#0a0a0a]\"><span class=\"rotate-180 text-[10px] text-[#555555]\" style=\"writing-mode:vertical-rl; font-family:var(--font-body);\">PID: 1337 · STATUS: OK</span></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</head><body style=\"background:#0a0a0a; color:#c8c8c8;\"><pre class=\"bg-asteroid select-none m-0\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ.Raw(assets.GetASCII("asteroid.txt")).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</pre>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -50,7 +58,7 @@ func Index(posts []model.Post, authors []model.AuthorData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<main class=\"container mx-auto px-6 md:px-16 py-12 max-w-[1100px] md:ml-8 relative z-10\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<main class=\"container mx-auto px-6 md:px-16 py-12 max-w-[1100px] relative z-10\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -70,7 +78,7 @@ func Index(posts []model.Post, authors []model.AuthorData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -82,7 +90,7 @@ func Index(posts []model.Post, authors []model.AuthorData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
