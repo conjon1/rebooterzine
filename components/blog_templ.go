@@ -31,20 +31,20 @@ func BlogSection(posts []model.Post) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section id=\"blog\" class=\"page min-h-screen hidden\"><div class=\"fade-in\"><div class=\"flex items-center gap-4 mb-10\"><h1 class=\"text-[clamp(2.5rem,5vw,4rem)] text-[#18130e] uppercase leading-none\" style=\"font-family: var(--font-display);\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section id=\"blog\" class=\"page min-h-screen hidden\"><div class=\"fade-in\"><div class=\"flex items-center gap-4 mb-10\"><span class=\"text-[18px] text-[#555555]\" style=\"font-family:var(--font-term);\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs("// Dispatches")
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs("// dispatches")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/blog.templ`, Line: 9, Col: 143}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/blog.templ`, Line: 10, Col: 99}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</h1><div class=\"flex-1 border-t-[3px] border-[#18130e]\"></div></div><div class=\"mb-12 relative\"><div class=\"absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-[#c42a1c]\"><span class=\"text-[14px] font-bold\" style=\"font-family: var(--font-body);\">&gt;</span></div><input type=\"text\" id=\"post-search\" placeholder=\"query database...\" class=\"w-full md:w-1/2 bg-[#e8e2d4] border-[2px] border-[#18130e] text-[#18130e] pl-10 pr-4 py-3 focus:outline-none focus:border-[#c42a1c] focus:bg-[#f0ebe0] transition-colors placeholder-[#4a3e30]/60 text-[13px] uppercase tracking-widest shadow-[4px_4px_0px_#18130e]\" style=\"font-family: var(--font-body);\"></div><div id=\"all-posts\" class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</span><div class=\"flex-1 border-t border-[#2a2a2a]\"></div></div><div class=\"mb-10 relative max-w-lg\"><span class=\"absolute left-3 top-1/2 -translate-y-1/2 text-[#4ade80] text-[16px]\" style=\"font-family:var(--font-term);\">$</span> <input type=\"text\" id=\"post-search\" placeholder=\"grep 'keyword' *\" class=\"w-full bg-[#0f0f0f] border border-[#2a2a2a] text-[#c8c8c8] pl-8 pr-4 py-2.5 focus:outline-none focus:border-[#4ade80] transition-colors placeholder-[#333333] text-[15px]\" style=\"font-family:var(--font-term);\"></div><div id=\"all-posts\" class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

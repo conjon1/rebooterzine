@@ -34,20 +34,20 @@ func PostItem(post model.Post) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<article class=\"group border-b-[2px] border-[#18130e]/15 pb-6 flex flex-col h-full\"><div class=\"flex items-center text-[10px] text-[#4a3e30] mb-3 uppercase tracking-widest\" style=\"font-family: var(--font-body);\"><span>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<article class=\"group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200\"><div class=\"flex items-center text-[13px] text-[#555555] mb-3\" style=\"font-family:var(--font-term);\"><span>[")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(post.Date)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 11, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 12, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</span> <span class=\"mx-2 text-[#c42a1c]\">✦</span> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "]</span> <span class=\"mx-2 text-[#2a2a2a]\">::</span> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -59,20 +59,20 @@ func PostItem(post model.Post) templ.Component {
 			var templ_7745c5c3_Var3 templ.SafeURL
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("#author/%s", post.AuthorID)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 14, Col: 69}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 15, Col: 69}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" class=\"hover:text-[#c42a1c] hover:underline decoration-2 underline-offset-4 transition-all\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" class=\"hover:text-[#4ade80] transition-colors\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(post.Author)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 16, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 17, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -90,7 +90,7 @@ func PostItem(post model.Post) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(post.Author)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 19, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 20, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -101,14 +101,14 @@ func PostItem(post model.Post) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div><h3 class=\"text-2xl text-[#18130e] uppercase group-hover:text-[#c42a1c] transition-colors leading-tight mb-3\" style=\"font-family: var(--font-display); letter-spacing: 0.05em;\"><a href=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div><h3 class=\"text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight\" style=\"font-family:var(--font-term);\"><a href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 templ.SafeURL
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("#post/%s", post.ID)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 23, Col: 60}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 25, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -121,39 +121,39 @@ func PostItem(post model.Post) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(post.Title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 23, Col: 75}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 25, Col: 75}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</a></h3><p class=\"text-[13px] text-[#2e251c] leading-[1.7] excerpt flex-grow\" style=\"font-family: var(--font-body);\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</a></h3><p class=\"text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt\" style=\"font-family:var(--font-body);\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(post.Excerpt)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 25, Col: 125}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 29, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</p><div class=\"mt-5 pt-4 border-t border-dashed border-[#18130e]/10\"><a href=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</p><div class=\"mt-auto pt-4 border-t border-[#1e1e1e]\"><a href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 templ.SafeURL
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(fmt.Sprintf("#post/%s", post.ID)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 28, Col: 60}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/post_item.templ`, Line: 33, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" class=\"inline-block text-[11px] text-[#c42a1c] uppercase tracking-widest hover:text-[#18130e] transition-colors\" style=\"font-family: var(--font-body);\">Read &rarr;</a></div></article>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" class=\"text-[14px] text-[#4ade80] hover:text-white transition-colors\" style=\"font-family:var(--font-term);\">&gt; read _</a></div></article>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

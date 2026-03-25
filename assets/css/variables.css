@@ -1,22 +1,33 @@
 :root {
-  /* Zine Palette */
-  --paper:    #f0ebe0;
-  --paper2:   #e8e2d4;
-  --paper3:   #ddd7c8;
-  --ink:      #18130e;
-  --ink2:     #2e251c;
-  --ink3:     #4a3e30;
-  --red:      #c42a1c;
-  --red2:     #9a1e12;
-  --yellow:   #f0c000;
-  --yellow2:  #c89a00;
-  --green:    #2a6a2a;
-  --cyan-riso: rgba(0, 160, 160, 0.18);
+  --bg:         #0a0a0a;
+  --bg-alt:     #111111;
+  --bg-card:    #0f0f0f;
+  --fg:         #c8c8c8;
+  --fg-dim:     #888888;
+  --fg-muted:   #555555;
+  --border:     #2a2a2a;
+  --green:      #4ade80;
+  --red:        #e05555;
+  --cyan:       #5ec4d4;
+  --orange:     #d4905a;
 
-  /* Typography */
-  --font-display: 'Black Han Sans', sans-serif;
-  --font-body: 'Courier Prime', monospace;
-  --font-pixel: 'Press Start 2P', monospace;
-  --font-hand: 'Permanent Marker', cursive;
-  --font-term: 'VT323', monospace;
+  /* Legacy aliases */
+  --primary:    #4ade80;
+  --secondary:  #5ec4d4;
+  --accent:     #d4905a;
+  --warning:    #d4905a;
+  --error:      #e05555;
+  --ink:        #c8c8c8;
+  --ink2:       #888888;
+  --ink3:       #555555;
+  --paper:      #0a0a0a;
+  --paper2:     #111111;
+  --paper3:     #1a1a1a;
+  --fg-alt:     #555555;
+
+  --font-term:    'VT323', monospace;
+  --font-body:    'Courier Prime', monospace;
+  --font-pixel:   'Press Start 2P', monospace;
+  --font-display: 'VT323', monospace;
+  --font-mono:    'Courier Prime', monospace;
 }
