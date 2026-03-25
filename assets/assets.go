@@ -68,10 +68,6 @@ func JS() string {
 
 
 
-//go:embed css/variables.css
-var variablesCSS string
-
-
 
 //go:embed ascii/* gif/* pixel_art/*
 var MediaFS embed.FS
