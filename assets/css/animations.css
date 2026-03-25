@@ -1,35 +1,57 @@
-/* ── animations.css ────────────────────────────────────────────────────────
-   Scroll-reveal fade and typewriter cursor blink.
-   JS adds .visible via IntersectionObserver to trigger .fade-in.
-   ────────────────────────────────────────────────────────────────────────── */
+/* ── animations.css ─────────────────────────────────────────────────────── */
+
+/* Scroll-reveal */
 .fade-in {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Blinking block cursor appended to the typewriter span */
+/* Cursor blink */
 .cursor {
   display: inline-block;
   width: 8px;
-  height: 1.2em;
-  background-color: var(--primary);
-  animation: blink 0.7s infinite;
+  height: 1em;
+  background-color: var(--green);
+  animation: blink 0.8s step-end infinite;
   vertical-align: middle;
+  margin-left: 2px;
 }
-@keyframes blink {
-  50% { opacity: 0; }
-}
+@keyframes blink { 50% { opacity: 0; } }
 
+/* Ticker */
 @keyframes ticker {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-scroll { animation: ticker 26s linear infinite; }
+
+/* Pixel crystal float */
+.float-anim {
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
 }
 
-.ticker-scroll {
-  animation: ticker 22s linear infinite;
+/* Pixel crystal grid */
+.pixel-crystal {
+  display: grid;
+  grid-template-columns: repeat(5, 8px);
+  grid-template-rows: repeat(7, 8px);
+  gap: 1px;
+}
+.px-g { background-color: #4ade80; }
+.px-w { background-color: #c8c8c8; }
+.px-t { background-color: transparent; }
+
+/* Radar sweep — opacity only, no glow */
+@keyframes radar-sweep {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }

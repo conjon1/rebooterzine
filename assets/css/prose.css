@@ -1,121 +1,83 @@
-/* ── prose.css ─────────────────────────────────────────────────────────────
-   Styles for rendered post HTML injected into the .prose container.
-   Only the <body> of a post file is injected, so all rules are scoped
-   to .prose to avoid leaking into the SPA chrome.
-   ────────────────────────────────────────────────────────────────────────── */
-
-/* Headings */
-.prose h1 { font-size: 2rem;    color: var(--primary);   margin-top: 1.5rem; margin-bottom: 1rem; }
-.prose h2 { font-size: 1.5rem;  color: var(--secondary); margin-top: 1.5rem; margin-bottom: 0.75rem; }
-.prose h3 { font-size: 1.25rem; color: var(--accent);    margin-top: 1.5rem; margin-bottom: 0.5rem; }
-
-/* Body copy */
-.prose p         { margin-bottom: 1rem; line-height: 1.7; }
-.prose ul        { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
-.prose ol        { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
-.prose li        { margin-bottom: 0.4rem; }
-.prose strong    { color: var(--warning); font-weight: 600; }
-.prose a         { color: var(--secondary); text-decoration: underline; }
-.prose a:hover   { color: var(--primary); }
-
-/* Blockquote */
-.prose blockquote {
-  border-left: 4px solid var(--fg-alt);
-  padding: 0.5rem 0 0.5rem 1rem;
-  margin: 1.5rem 0;
-  font-style: italic;
-  color: var(--fg-alt);
-  background: rgba(40, 44, 52, 0.5);
-  border-radius: 0 4px 4px 0;
+/* ── prose.css ───────────────────────────────────────────────────────────── */
+.prose {
+  font-family: var(--font-body);
+  padding: 2rem;
+  color: var(--fg-dim);
 }
 
-/* Code */
+.prose h1, .prose h2 {
+  font-family: var(--font-term);
+  color: var(--fg);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-left: 2px solid var(--green);
+  padding-left: 0.75rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose h1 { font-size: 1.8rem; }
+.prose h2 { font-size: 1.4rem; }
+.prose h3 { font-size: 1.1rem; color: var(--cyan); margin-top: 1.5rem; margin-bottom: 0.5rem; }
+
+.prose p {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.prose > p:first-of-type::first-letter {
+  font-family: var(--font-term);
+  font-size: 3rem;
+  float: left;
+  line-height: 0.8;
+  margin: 0.1em 0.1em 0 0;
+  color: var(--green);
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--border);
+  background: var(--bg-alt);
+  padding: 0.75rem 1.25rem;
+  margin: 1.25rem 0;
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.prose strong  { color: var(--fg); font-weight: 700; }
+.prose a       { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+.prose a:hover { color: var(--green); }
+
+.prose ul { list-style-type: disc;    padding-left: 1.5rem; margin-bottom: 1rem; }
+.prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
+.prose li { margin-bottom: 0.35rem; }
+
 .prose code {
-  font-family: var(--font-mono);
-  background: #2c313a;
-  color: var(--error);
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-size: 0.9em;
+  font-family: var(--font-body);
+  background: var(--bg-alt);
+  color: var(--green);
+  padding: 0.15em 0.35em;
+  border: 1px solid var(--border);
+  font-size: 0.88em;
 }
 .prose pre {
   background: var(--bg-alt);
-  padding: 1rem;
-  border-radius: 0.5rem;
+  border-left: 2px solid var(--green);
+  padding: 1.25rem 1.5rem;
   overflow-x: auto;
   margin-bottom: 1rem;
-  border: 1px solid #3e4452;
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .prose pre code {
   background: transparent;
-  color: var(--fg);
+  color: var(--fg-dim);
   padding: 0;
-  font-size: 0.95em;
+  border: none;
 }
 
-/* Tables */
-.prose table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 1em 0;
-  background-color: var(--bg-alt);
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #3e4452;
-}
-.prose th,
-.prose td {
-  text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid #3e4452;
-  border-right: 1px solid #3e4452;
-}
-.prose th               { background-color: #21252b; color: var(--primary); font-weight: 600; }
+.prose table { border-collapse: collapse; width: 100%; margin: 1em 0; border: 1px solid var(--border); }
+.prose th, .prose td { padding: 10px 12px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); font-size: 13px; }
+.prose th { background: var(--bg-alt); color: var(--green); font-weight: 600; }
 .prose tr:last-child td { border-bottom: none; }
-.prose td:last-child,
-.prose th:last-child    { border-right: none; }
-
-
-
-.prose {
-    font-family: var(--font-body);
-}
-.prose h1, .prose h2 {
-    font-family: var(--font-display);
-    color: var(--ink);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    border-left: 4px solid var(--red);
-    padding-left: 0.8rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-}
-.prose p {
-    font-size: 13.5px;
-    color: var(--ink2);
-    line-height: 1.85;
-    margin-bottom: 1.1rem;
-}
-/* Drop cap on first paragraph */
-.prose > p:first-of-type::first-letter {
-    font-family: var(--font-display);
-    font-size: 3.5em;
-    float: left;
-    line-height: 0.8;
-    margin: 0.1em 0.1em 0 0;
-    color: var(--red);
-}
-.prose blockquote {
-    border-left: 4px solid var(--yellow2);
-    background: var(--paper2);
-    padding: 1rem 1.5rem;
-    margin: 1.5rem 0;
-    font-style: italic;
-    color: var(--ink2);
-}
-.prose pre {
-    background: var(--ink);
-    border-left: 4px solid var(--red);
-    border-radius: 0; /* Zine feel = sharp corners */
-    padding: 1.5rem 1.8rem;
-}
+.prose td:last-child, .prose th:last-child { border-right: none; }

@@ -1,39 +1,39 @@
 package components
 
 templ Footer() {
-	<footer class="mt-20">
-		<div class="grid md:grid-cols-3 bg-[#18130e] border-t-[3px] border-[#18130e]">
-			
-			<div class="p-[2rem_2.5rem] md:border-r-[2px] border-[#f0ebe0]/10">
-				<div class="relative inline-block text-[#f0ebe0] text-[2.2rem] leading-none mb-2" style="font-family: var(--font-display);">
-					REBOOTER
-					<span class="absolute inset-0 text-[#f0c000] opacity-40 translate-x-[2px] translate-y-[-2px] pointer-events-none">REBOOTER</span>
-				</div>
-				<div class="text-[#f0ebe0]/35 text-[10px] leading-[1.7] mb-4" style="font-family: var(--font-body);">
-					The world has lore: Hypermories, Corquettes, Dark Crystals, a transcendental eagle.
-				</div>
-				<div class="text-[#f0ebe0]/20 text-[9px]" style="font-family: var(--font-body);">
-					&copy; 2026 Connal J. McInnis &amp; Keshav Italia. Built with Go &amp; Templ.
-				</div>
+	<footer class="mt-20 border-t border-[#2a2a2a] md:ml-8 md:mr-8">
+		<div class="grid md:grid-cols-3 bg-[#0a0a0a]">
+
+			<div class="p-10 md:border-r border-[#2a2a2a]">
+				<div class="text-[#c8c8c8] text-[22px] mb-3" style="font-family:var(--font-term);">REBOOTER_</div>
+				<p class="text-[#555555] text-[13px] leading-[1.7] mb-4" style="font-family:var(--font-body);">
+					Hypermories. Corquettes. Dark Crystals.<br/>A transcendental eagle. Unix wizards.
+				</p>
+				<p class="text-[#333333] text-[11px]" style="font-family:var(--font-body);">
+					&copy; 2026 Connal J. McInnis &amp; Keshav Italia.<br/>
+					Built with Go &amp; Templ.
+				</p>
 			</div>
 
-			<div class="p-[2rem_2.5rem] md:border-r-[2px] border-[#f0ebe0]/10 flex flex-col gap-3">
-				<h4 class="text-[#f0ebe0]/35 text-[9px] uppercase tracking-[0.2em] mb-2" style="font-family: var(--font-body);">Navigation</h4>
-				<a href="#home" class="text-[#f0ebe0]/65 hover:text-[#f0c000] text-[11px] transition-colors" style="font-family: var(--font-body);">Home</a>
-				<a href="#blog" class="text-[#f0ebe0]/65 hover:text-[#f0c000] text-[11px] transition-colors" style="font-family: var(--font-body);">Blog</a>
-				<a href="#authors" class="text-[#f0ebe0]/65 hover:text-[#f0c000] text-[11px] transition-colors" style="font-family: var(--font-body);">Authors</a>
+			<div class="p-10 md:border-r border-[#2a2a2a] flex flex-col gap-2">
+				<div class="text-[#333333] text-[10px] uppercase tracking-widest mb-3" style="font-family:var(--font-body);">Directories</div>
+				<a href="#home"    class="text-[#555555] hover:text-[#c8c8c8] text-[14px] transition-colors" style="font-family:var(--font-term);">&gt; home</a>
+				<a href="#blog"    class="text-[#555555] hover:text-[#c8c8c8] text-[14px] transition-colors" style="font-family:var(--font-term);">&gt; dispatches</a>
+				<a href="#authors" class="text-[#555555] hover:text-[#c8c8c8] text-[14px] transition-colors" style="font-family:var(--font-term);">&gt; authors</a>
 			</div>
 
-			<div class="p-[2rem_2.5rem] flex flex-col gap-3">
-				<h4 class="text-[#f0ebe0]/35 text-[9px] uppercase tracking-[0.2em] mb-2" style="font-family: var(--font-body);">Recent Dispatches</h4>
-				<a href="#blog" class="text-[#f0ebe0]/65 hover:text-[#f0c000] text-[11px] transition-colors" style="font-family: var(--font-body);">View all transmissions &rarr;</a>
+			<div class="p-10 flex flex-col gap-2">
+				<div class="text-[#333333] text-[10px] uppercase tracking-widest mb-3" style="font-family:var(--font-body);">Execute</div>
+				<a href="#blog"    class="text-[#4ade80] hover:text-white text-[14px] transition-colors" style="font-family:var(--font-term);">&gt; tail -f transmissions</a>
+				<a href="#authors" class="text-[#555555] hover:text-[#c8c8c8] text-[14px] transition-colors mt-1" style="font-family:var(--font-term);">&gt; whoami</a>
 			</div>
+
 		</div>
 
-		<div class="bg-[#f0c000] border-t-[3px] border-[#c89a00] flex flex-wrap justify-center md:justify-between items-center px-8 py-3 text-[#18130e] text-[7px]" style="font-family: var(--font-pixel);">
+		<div class="border-t border-[#2a2a2a] flex flex-wrap justify-between items-center px-8 py-3 text-[#555555] text-[11px]" style="font-family:var(--font-body);">
 			<span>REBOOTER.BLOG</span>
-			<span class="hidden md:inline">✦ UNIX WIZARDS ASSEMBLE ✦</span>
-			<span>VOL.1 — 2026</span>
+			<span class="hidden md:inline">CONNECTION SECURE</span>
+			<span>VOL.1 · 2026</span>
 		</div>
 	</footer>
 }
