@@ -4,360 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Industries in Demand for CERT C Compliant Security-Focused Coders</title>
-  <meta name="date"    content="November 22, 2025">
-  <meta name="excerpt" content="The Therac-25 disaster taught us that bugs in C code can be lethal. Learn why aerospace, automotive, and medical industries now mandate CERT C compliance to prevent vulnerabilities in life-critical systems.">
-  <meta name="author"  content="Tanveer Salim">
-  <meta name="tags"    content="c, security, embedded, cert-c">
+  <meta content="November 22, 2025" name="date"/>
+  <meta content="The Therac-25 disaster taught us that bugs in C code can be lethal. Learn why aerospace, automotive, and medical industries now mandate CERT C compliance to prevent vulnerabilities in life-critical systems." name="excerpt"/>
+  <meta content="Tanveer Salim" name="author"/>
+  <meta content="c, security, embedded, cert-c" name="tags"/>
 </head>
 <body>
 
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Black+Han+Sans&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<style>
-/* ── ZINE TOKENS ──────────────────────────────────────────────────────────── */
-.zp{
-  --paper:#f0ebe0;--paper2:#e8e2d4;--paper3:#ddd7c8;
-  --ink:#18130e;--ink2:#2e251c;--ink3:#4a3e30;
-  --red:#c42a1c;--red2:#9a1e12;
-  --yellow:#f0c000;--yellow2:#c89a00;
-  --green:#2a6a2a;
-}
-/* ── WRAPPER ──────────────────────────────────────────────────────────────── */
-.zp{
-  background:var(--paper);color:var(--ink);
-  font-family:'Courier Prime',monospace;
-  position:relative;overflow-x:hidden;
-  margin:-1rem;/* bleed into .prose padding */
-}
-/* Grain overlay */
-.zp::before{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:900;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
-}
-/* Riso mis-reg pass */
-.zp::after{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:901;
-  background:radial-gradient(ellipse 120% 80% at 30% 40%,rgba(0,160,160,0.025) 0%,transparent 60%);
-}
-/* ── CROP MARKS ───────────────────────────────────────────────────────────── */
-.zp-crop{position:absolute;z-index:902;pointer-events:none;}
-.zp-crop.tl{top:8px;left:8px;border-top:1px solid rgba(24,19,14,0.3);border-left:1px solid rgba(24,19,14,0.3);width:14px;height:14px;}
-.zp-crop.tr{top:8px;right:8px;border-top:1px solid rgba(24,19,14,0.3);border-right:1px solid rgba(24,19,14,0.3);width:14px;height:14px;}
-.zp-crop.bl{bottom:8px;left:8px;border-bottom:1px solid rgba(24,19,14,0.3);border-left:1px solid rgba(24,19,14,0.3);width:14px;height:14px;}
-.zp-crop.br{bottom:8px;right:8px;border-bottom:1px solid rgba(24,19,14,0.3);border-right:1px solid rgba(24,19,14,0.3);width:14px;height:14px;}
-/* ── TRANSMISSION EYEBROW ─────────────────────────────────────────────────── */
-.zp-eyebrow{
-  display:flex;align-items:center;gap:0.8rem;
-  padding:0.55rem 1.4rem;
-  border-bottom:3px solid var(--ink);
-  background:var(--paper2);
-  flex-wrap:wrap;
-}
-.zp-eyebrow-label{
-  font-family:'Press Start 2P',monospace;font-size:7px;
-  color:var(--red);letter-spacing:0.12em;text-transform:uppercase;
-}
-.zp-eyebrow-from{
-  font-family:'Courier Prime',monospace;font-size:10px;
-  color:var(--ink3);letter-spacing:0.1em;text-transform:uppercase;
-}
-.zp-eyebrow-from strong{color:var(--ink);font-weight:700;}
-.zp-eyebrow-line{flex:1;border-top:1px dashed rgba(24,19,14,0.25);}
-/* ── TAGS ─────────────────────────────────────────────────────────────────── */
-.rt{display:inline-block;font-family:'Press Start 2P',monospace;font-size:7px;padding:3px 7px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);letter-spacing:0.04em;image-rendering:pixelated;}
-.rt.r{background:var(--red);border-color:var(--red2);color:var(--paper);}
-.rt.y{background:var(--yellow);border-color:var(--yellow2);color:var(--ink);}
-.rt.g{background:var(--green);border-color:#1a4a1a;color:var(--paper);}
-.rt.o{background:var(--paper);border-color:var(--ink);color:var(--ink);}
-/* ── HERO (dark) ──────────────────────────────────────────────────────────── */
-.zp-hero{
-  background:var(--ink);padding:2.5rem 2.5rem 2rem;
-  border-bottom:3px solid var(--ink);
-  position:relative;overflow:hidden;
-}
-.zp-hero::before{
-  content:'';position:absolute;top:-40px;right:-60px;
-  width:180px;height:460px;background:var(--red);
-  transform:rotate(-8deg);opacity:0.04;pointer-events:none;
-}
-.zp-hero-tags{display:flex;gap:0.4rem;margin-bottom:1.2rem;flex-wrap:wrap;}
-.zp-title{
-  font-family:'Black Han Sans',sans-serif;
-  font-size:clamp(2rem,5vw,3.5rem);
-  line-height:0.9;text-transform:uppercase;letter-spacing:0.02em;
-  color:var(--paper);margin-bottom:1.4rem;position:relative;
-}
-.zp-title::before{
-  content:attr(data-t);position:absolute;inset:0;
-  color:rgba(0,160,160,0.15);transform:translate(3px,-2px);
-  font-family:'Black Han Sans',sans-serif;font-size:inherit;
-  line-height:inherit;letter-spacing:inherit;pointer-events:none;z-index:-1;
-}
-.t-inv{background:var(--red);color:var(--paper);padding:0 0.06em;display:inline;}
-.zp-excerpt{
-  font-family:'Courier Prime',monospace;font-size:12px;
-  color:rgba(240,235,224,0.55);line-height:1.8;
-  border-left:3px solid var(--red);padding-left:1rem;max-width:560px;
-}
-/* ── TICKER ───────────────────────────────────────────────────────────────── */
-.zp-ticker{
-  background:var(--red);border-bottom:3px solid var(--ink);
-  height:30px;display:flex;align-items:stretch;overflow:hidden;
-}
-.zp-ticker-lbl{
-  flex-shrink:0;background:var(--ink);color:var(--paper);
-  font-family:'Press Start 2P',monospace;font-size:7px;letter-spacing:0.1em;
-  padding:0 1rem;display:flex;align-items:center;
-  border-right:3px solid var(--red2);white-space:nowrap;
-}
-.zp-ticker-scroll{flex:1;overflow:hidden;display:flex;align-items:center;}
-.zp-ticker-track{display:flex;animation:zptick 26s linear infinite;white-space:nowrap;will-change:transform;}
-.zp-ticker-item{font-family:'Courier Prime',monospace;font-size:11px;color:var(--paper);padding:0 2rem;letter-spacing:0.07em;flex-shrink:0;}
-.zp-ticker-item::before{content:'✦ ';font-size:8px;opacity:0.6;}
-@keyframes zptick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-/* ── BODY LAYOUT ──────────────────────────────────────────────────────────── */
-.zp-body{padding:2.5rem 2.5rem 3rem;}
-/* ── PROSE ────────────────────────────────────────────────────────────────── */
-.zp-body p{
-  font-family:'Courier Prime',monospace;font-size:13.5px;
-  color:var(--ink2);line-height:1.85;margin-bottom:1.1rem;
-}
-.zp-body p:first-of-type::first-letter{
-  font-family:'Black Han Sans',sans-serif;font-size:3.2em;
-  float:left;line-height:0.82;margin:0.08em 0.1em 0 0;color:var(--red);
-}
-.zp-body h2{
-  font-family:'Black Han Sans',sans-serif;font-size:1.3rem;
-  color:var(--ink);text-transform:uppercase;letter-spacing:0.08em;
-  border-left:4px solid var(--red);padding-left:0.75rem;
-  margin:2.5rem 0 0.9rem;
-}
-.zp-body h2::before{
-  content:attr(data-h);display:block;position:absolute;
-  color:rgba(0,160,160,0.12);transform:translate(3px,-2px);
-  font-family:'Black Han Sans',sans-serif;font-size:inherit;pointer-events:none;
-}
-.zp-body h2{position:relative;}
-.zp-body h3{
-  font-family:'Black Han Sans',sans-serif;font-size:1rem;
-  color:var(--ink2);letter-spacing:0.05em;text-transform:uppercase;
-  margin:1.8rem 0 0.5rem;
-}
-.zp-body h4{
-  font-family:'Courier Prime',monospace;font-size:12px;font-weight:700;
-  color:var(--ink3);text-transform:uppercase;letter-spacing:0.12em;
-  margin:1.4rem 0 0.4rem;
-}
-.zp-body strong{color:var(--ink);font-weight:700;}
-.zp-body em{font-style:italic;color:var(--ink2);}
-.zp-body a{color:var(--red);text-decoration:none;border-bottom:1px solid var(--red2);}
-.zp-body a:hover{color:var(--red2);}
-.zp-body ul{font-family:'Courier Prime',monospace;font-size:13px;color:var(--ink2);list-style:none;padding-left:1.4rem;margin-bottom:1rem;line-height:1.75;}
-.zp-body ul li{margin-bottom:0.3rem;}
-.zp-body ul li::before{content:'▶  ';color:var(--red);font-size:9px;}
-.zp-body ol{font-family:'Courier Prime',monospace;font-size:13px;color:var(--ink2);padding-left:1.6rem;margin-bottom:1rem;line-height:1.75;}
-.zp-body ol li{margin-bottom:0.3rem;}
-/* inline code */
-.zp-body code{
-  background:var(--ink);color:#f5a623;
-  padding:1px 5px;border-radius:2px;
-  font-family:'Courier Prime',monospace;font-size:11.5px;font-weight:600;
-}
-/* ── CODE BLOCK ───────────────────────────────────────────────────────────── */
-.zp-code{margin:1.5rem 0;}
-.zp-code-hdr{
-  background:var(--ink2);padding:0.35rem 1.2rem;
-  font-family:'Press Start 2P',monospace;font-size:7px;
-  color:rgba(240,235,224,0.35);letter-spacing:0.1em;
-  display:flex;justify-content:space-between;align-items:center;
-}
-.zp-code-hdr .blink{animation:bl 1s step-end infinite;}
-@keyframes bl{50%{opacity:0;}}
-.zp-code pre{
-  background:var(--ink);border-left:4px solid var(--red);
-  padding:1.2rem 1.5rem;margin:0;overflow-x:auto;
-}
-.zp-code pre code{
-  background:transparent;color:#d4c5a0;padding:0;
-  font-family:'Courier Prime',monospace;font-size:12px;line-height:1.7;font-weight:400;
-}
-/* ── TERMINAL BLOCK ───────────────────────────────────────────────────────── */
-.zp-term{
-  background:#080e08;border:1px solid #1a2a1a;border-left:4px solid var(--green);
-  padding:1.2rem 1.5rem;margin:1.5rem 0;
-  font-family:'VT323',monospace;font-size:1.15rem;color:#44ee66;line-height:1.5;
-}
-.zp-term-hdr{
-  font-family:'Press Start 2P',monospace;font-size:7px;color:rgba(68,238,102,0.4);
-  letter-spacing:0.1em;margin-bottom:0.6rem;
-  border-bottom:1px solid rgba(68,238,102,0.12);padding-bottom:0.4rem;
-}
-/* ── CALLOUT ──────────────────────────────────────────────────────────────── */
-.zp-callout{
-  border:2px solid;background:var(--paper2);padding:0.9rem 1.1rem;margin:1.4rem 0;
-}
-.zp-callout.note{border-color:var(--yellow2);}
-.zp-callout.warn{border-color:var(--red);}
-.zp-callout-hdr{
-  font-family:'Press Start 2P',monospace;font-size:7px;letter-spacing:0.1em;
-  margin-bottom:0.45rem;
-}
-.zp-callout.note .zp-callout-hdr{color:var(--yellow2);}
-.zp-callout.warn .zp-callout-hdr{color:var(--red);}
-.zp-callout p{font-family:'Courier Prime',monospace;font-size:12px;color:var(--ink2);margin:0;line-height:1.75;}
-.zp-callout code{font-size:11px;}
-/* ── BLOCKQUOTE ───────────────────────────────────────────────────────────── */
-.zp-body blockquote{
-  border-left:4px solid var(--yellow2);background:var(--paper2);
-  padding:0.9rem 1.4rem;margin:1.4rem 0;
-  font-family:'Courier Prime',monospace;font-style:italic;font-size:13px;
-  color:var(--ink2);line-height:1.8;
-}
-/* ── TABLE ────────────────────────────────────────────────────────────────── */
-.zp-body table{
-  border-collapse:collapse;width:100%;margin:1.2rem 0;
-  font-family:'Courier Prime',monospace;font-size:12px;
-  border:2px solid var(--ink);
-}
-.zp-body th{
-  background:var(--ink);color:var(--paper);
-  padding:7px 12px;text-align:left;
-  font-family:'Black Han Sans',sans-serif;font-size:0.78rem;
-  letter-spacing:0.06em;text-transform:uppercase;
-}
-.zp-body td{padding:6px 12px;border-bottom:1px solid rgba(24,19,14,0.18);color:var(--ink2);}
-.zp-body tr:last-child td{border-bottom:none;}
-/* ── PATH BLOCK ───────────────────────────────────────────────────────────── */
-.zp-path{
-  background:var(--paper2);border:1px solid var(--ink3);
-  border-left:4px solid var(--ink);
-  padding:0.75rem 1.1rem;margin:1rem 0;
-  font-family:'Courier Prime',monospace;font-size:12px;color:var(--ink2);
-  white-space:pre;overflow-x:auto;line-height:1.6;
-}
-/* ── STAMP ────────────────────────────────────────────────────────────────── */
-.zp-stamp{
-  display:inline-flex;align-items:center;justify-content:center;
-  border:3px solid var(--red);color:var(--red);
-  font-family:'Black Han Sans',sans-serif;text-transform:uppercase;
-  letter-spacing:0.12em;font-size:9px;padding:4px 10px;
-  opacity:0.85;transform:rotate(-1.5deg);
-}
-/* ── TAPE ─────────────────────────────────────────────────────────────────── */
-.zp-tape{
-  display:inline-block;background:rgba(240,192,0,0.52);
-  padding:4px 18px;font-family:'Courier Prime',monospace;
-  font-size:9px;letter-spacing:0.1em;color:var(--ink2);
-  box-shadow:0 1px 3px rgba(0,0,0,0.1);position:relative;
-}
-.zp-tape::before,.zp-tape::after{content:'';position:absolute;top:0;bottom:0;width:8px;background:rgba(240,192,0,0.25);}
-.zp-tape::before{left:-6px;}.zp-tape::after{right:-6px;}
-/* ── THICK RULE ───────────────────────────────────────────────────────────── */
-.zp-rule{border:none;border-top:3px solid var(--ink);margin:1.8rem 0 0;}
-.zp-rule-dash{border:none;border-top:1px dashed rgba(24,19,14,0.3);margin:1.2rem 0;}
-/* ── REDACTION ────────────────────────────────────────────────────────────── */
-.redacted{background:var(--ink);color:transparent;user-select:none;padding:0 3px;}
-/* ── SPEC GRID ────────────────────────────────────────────────────────────── */
-.zp-specs{
-  display:grid;grid-template-columns:auto 1fr;gap:0.25em 1.2em;
-  font-family:'Courier Prime',monospace;font-size:12px;
-  background:var(--paper2);border:1px solid rgba(24,19,14,0.2);
-  border-left:4px solid var(--ink);padding:0.9em 1.2em;margin:1em 0;
-}
-.zp-specs .sk{color:var(--ink3);}.zp-specs .sv{color:var(--ink);}
-/* ── THREAT BLOCK (Docker post) ───────────────────────────────────────────── */
-.zp-threat{border:2px solid var(--ink3);margin:1em 0;}
-.zp-threat-hdr{
-  background:var(--ink2);color:var(--paper);
-  padding:0.35em 0.9em;
-  font-family:'Black Han Sans',sans-serif;font-size:0.8rem;
-  letter-spacing:0.1em;text-transform:uppercase;
-  display:flex;justify-content:space-between;align-items:center;
-}
-.zp-threat-body{padding:0.8em 1em;background:var(--paper);}
-.zp-threat-body p{margin:0 0 0.4em;font-size:12px;}
-.zp-threat-body ul{font-size:12px;margin:0;}
-.zp-threat.mitigate .zp-threat-hdr{background:var(--green);}
-/* ── SCRIPT TOGGLE ────────────────────────────────────────────────────────── */
-.zp-toggle{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--ink2);border:1px solid var(--ink3);
-  padding:5px 12px;font-family:'Courier Prime',monospace;font-size:11px;
-  color:rgba(240,235,224,0.7);cursor:pointer;user-select:none;
-  transition:background .15s;margin-bottom:0.4em;
-}
-.zp-toggle:hover{background:var(--ink);}
-.zp-toggle .arr{transition:transform .2s;display:inline-block;}
-.zp-toggle.collapsed .arr{transform:rotate(-90deg);}
-#script-block.collapsed{max-height:14em;overflow:hidden;position:relative;mask-image:linear-gradient(to bottom,black 55%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 55%,transparent 100%);}
-/* ── DEP BLOCK ────────────────────────────────────────────────────────────── */
-.zp-dep{
-  background:var(--paper2);border-left:4px solid var(--ink3);
-  padding:0.7em 1em;margin:0.75em 0;
-}
-.zp-dep strong{color:var(--ink);font-family:'Black Han Sans',sans-serif;font-size:0.9rem;letter-spacing:0.04em;}
-.zp-dep p,.zp-dep ul{font-family:'Courier Prime',monospace;font-size:12px;color:var(--ink2);margin:0.3em 0 0;}
-.zp-dep a{color:var(--red);text-decoration:none;border-bottom:1px solid var(--red2);}
-</style>
+<header><p><strong>Tanveer Salim</strong>// November 22, 2025 — c, security, cert-c, embedded</p></header>
 
-<div class="zp">
-<span class="zp-crop tl"></span><span class="zp-crop tr"></span>
-<span class="zp-crop bl"></span><span class="zp-crop br"></span>
+<h1>Industries That Mandate CERT C</h1>
+<p><em>The Therac-25 killed three people because of a race condition in C code. The kind of concurrency error that CERT C rules are specifically designed to prevent. These are the industries that learned this lesson the hard way.</em></p>
 
-<div class="zp-eyebrow">
-  <span class="zp-eyebrow-label">transmission from:</span>
-  <span class="zp-eyebrow-from"><strong>Tanveer Salim</strong> // November 22, 2025</span>
-  <span class="zp-eyebrow-line"></span>
-  <span class="rt">c</span> <span class="rt">security</span> <span class="rt">cert-c</span> <span class="rt">embedded</span>
-</div>
-<div class="zp-hero">
-  <div class="zp-hero-tags"><span class="rt">c</span> <span class="rt">security</span> <span class="rt">cert-c</span></div>
-  <div class="zp-title" data-t="Industries That Mandate CERT C">Industries That Mandate CERT C</div>
-  <div class="zp-excerpt">The Therac-25 killed three people because of a race condition in C code. The kind of concurrency error that CERT C rules are specifically designed to prevent. These are the industries that learned this lesson the hard way.</div>
-</div>
-<div class="zp-ticker">
-  <span class="zp-ticker-lbl">// REBOOTER</span>
-  <div class="zp-ticker-scroll"><div class="zp-ticker-track"><span class="zp-ticker-item">Therac-25</span><span class="zp-ticker-item">buffer overflow</span><span class="zp-ticker-item">integer wraparound</span><span class="zp-ticker-item">null pointer dereference</span><span class="zp-ticker-item">format string</span><span class="zp-ticker-item">gets()</span><span class="zp-ticker-item">undefined behavior</span><span class="zp-ticker-item">CERT C ARR30-C</span><span class="zp-ticker-item">pacemaker firmware</span><span class="zp-ticker-item">SCADA exploit</span><span class="zp-ticker-item">99% of bugs: coding errors</span><span class="zp-ticker-item">Therac-25</span><span class="zp-ticker-item">buffer overflow</span><span class="zp-ticker-item">integer wraparound</span><span class="zp-ticker-item">null pointer dereference</span><span class="zp-ticker-item">format string</span><span class="zp-ticker-item">gets()</span><span class="zp-ticker-item">undefined behavior</span><span class="zp-ticker-item">CERT C ARR30-C</span><span class="zp-ticker-item">pacemaker firmware</span><span class="zp-ticker-item">SCADA exploit</span><span class="zp-ticker-item">99% of bugs: coding errors</span></div></div>
-</div>
-<div class="zp-body">
 <p>Between 1985 and 1987, a radiation therapy machine called the <a href="https://www.cs.columbia.edu/~junfeng/08fa-e6998/sched/readings/therac25.pdf">Therac-25</a> killed three people and seriously injured three others. It was supposed to deliver controlled doses of radiation to cancer patients. Instead it delivered doses hundreds of times higher than intended.</p>
 <p>The cause was a race condition in the C code controlling the machine — exactly the kind of concurrency error that CERT C rules are specifically designed to prevent. This is what happens when C code controlling life-critical systems has bugs. People die. And the industries that learned this the hard way are now desperate for developers who know how to write secure C.</p>
-
 <h2>Aerospace: Where Every Line Gets Audited</h2>
 <p>Flight control software runs on embedded systems with no room for error. You're at 35,000 feet when the autopilot makes a calculation based on sensor data stored in memory. If a buffer overflow corrupts the memory location next to that sensor data, the autopilot is now making decisions based on garbage values.</p>
 <p>The <code>gets()</code> function copies characters into a buffer regardless of size. If you're reading sensor data and fail to validate array bounds, you can overwrite adjacent memory storing your altitude. Or your airspeed. Or your pitch angle.</p>
 <p>When aerospace engineers read CERT C Rule ARR30-C — <em>"Do not form or use out-of-bounds pointers or array subscripts"</em> — they're not reading a style guideline. They're reading a rule written in blood.</p>
-
 <h2>Automotive: Your Car is a Computer on Wheels</h2>
 <p>Modern vehicles have millions of lines of C code controlling anti-lock brakes, airbag deployment, electronic stability control, and autonomous driving features. What happens when a multiplication in the braking calculation overflows?</p>
 <p>In C, when you multiply two integers and the result exceeds the maximum value the type can hold, you don't get an error. You get wraparound. A large positive number becomes small — or negative. Then that negative value gets cast to unsigned, and suddenly you have a massive number that makes no physical sense. Your car's computer thinks the vehicle ahead is either impossibly close or impossibly far away.</p>
-<div class="zp-callout warn">
-  <div class="zp-callout-hdr">INTEGER OVERFLOW</div>
-  <p>The automotive industry requires secure coding practices because integer overflows have caused real crashes with real injuries.</p>
-</div>
+<blockquote><p><strong>INTEGER OVERFLOW</strong></p>
+
+<p>The automotive industry requires secure coding practices because integer overflows have caused real crashes with real injuries.</p>
+</blockquote>
 <h2>Medical Devices: Code Running Inside Your Body</h2>
 <p>A pacemaker is a small computer implanted in your chest. The code runs in C because the hardware is resource-constrained and needs direct memory access for real-time performance.</p>
 <p>Imagine the code has a null pointer dereference. In a desktop application: segfault, restart. In a pacemaker: the device crashes and stops monitoring heart rhythm. If the patient has a life-threatening arrhythmia in those seconds, there's no one watching. No one delivering the electrical impulse that keeps them alive.</p>
 <p>Consider an insulin pump: a simple bounds checking error could cause it to misread glucose values. Too much insulin means hypoglycemic shock, seizure, coma, death. CERT C exists to eliminate undefined behavior before code gets implanted in someone's body.</p>
-
 <h2>Industrial Control Systems: When SCADA Fails</h2>
 <p>SCADA systems were designed in the 1970s and 80s when "security" meant a chain-link fence. They now connect to corporate networks, which connect to the internet. A format string vulnerability in the chlorine monitor logging code can let an attacker write to arbitrary memory addresses and disable the monitors that detect when water isn't properly disinfected.</p>
-<div class="zp-callout warn">
-  <div class="zp-callout-hdr">REAL INCIDENT</div>
-  <p>In 2021, an attacker accessed a water treatment facility's SCADA system and attempted to poison the water supply by remotely changing chemical levels. The attack was detected and stopped — but it proved these systems are accessible and vulnerable.</p>
-</div>
+<blockquote><p><strong>REAL INCIDENT</strong></p>
+
+<p>In 2021, an attacker accessed a water treatment facility's SCADA system and attempted to poison the water supply by remotely changing chemical levels. The attack was detected and stopped — but it proved these systems are accessible and vulnerable.</p>
+</blockquote>
 <h2>IoT: Billions of Targets</h2>
 <p>39.6 billion devices projected by 2033. Most run embedded C on processors with no memory protection and no runtime bounds checking. Here's firmware for a smart thermostat:</p>
-<div class="zp-code">
-  <div class="zp-code-hdr"><span>C</span><span class="blink">█</span></div>
-  <pre><code>char buffer[64];
-gets(buffer);  /* Read the setpoint command */</code></pre>
-</div><p>The same <code>gets()</code> that enabled the Morris worm in 1988. An attacker sends 200 bytes. Your 64-byte buffer overflows. Adjacent memory gets corrupted — maybe the authentication token, maybe function pointers the attacker can redirect to malicious code. Multiply this across millions of IoT devices and you have a massive botnet.</p>
 
+<pre><code>char buffer[64];
+gets(buffer);  /* Read the setpoint command */</code></pre>
+<p>The same <code>gets()</code> that enabled the Morris worm in 1988. An attacker sends 200 bytes. Your 64-byte buffer overflows. Adjacent memory gets corrupted — maybe the authentication token, maybe function pointers the attacker can redirect to malicious code. Multiply this across millions of IoT devices and you have a massive botnet.</p>
 <h2>Why These Industries Need You</h2>
 <p>82% of software vulnerabilities come from coding errors — not zero-days, not sophisticated exploits. Just bugs in the code. The <a href="https://wiki.sei.cmu.edu/confluence/display/c">CERT C Coding Standard</a> was developed by over 1,900 security experts who analyzed real-world vulnerabilities and documented the practices that prevent them.</p>
 <p>If you're learning CERT C, you're not just learning rules. You're learning the accumulated wisdom from decades of debugging failures that killed people. You're learning how to write code that saves lives.</p>
-</div>
 
-</div>
 </body>
 </html>

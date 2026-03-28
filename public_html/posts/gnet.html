@@ -4,107 +4,85 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tunneling All System Traffic Through Your Phone with SSH, redsocks, and Mullvad</title>
-  <meta name="date"    content="March 13, 2026">
-  <meta name="excerpt" content="Routes all system TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN. DNS encrypted via dnscrypt-proxy over DoH. IPv6 disabled at runtime to prevent leaks.">
-  <meta name="author"  content="Connal McInnis">
-  <meta name="tags"    content="bash, networking, privacy, linux, mullvad">
+  <meta content="March 13, 2026" name="date"/>
+  <meta content="Routes all system TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN. DNS encrypted via dnscrypt-proxy over DoH. IPv6 disabled at runtime to prevent leaks." name="excerpt"/>
+  <meta content="Connal McInnis" name="author"/>
+  <meta content="bash, networking, privacy, linux, mullvad" name="tags"/>
 </head>
 <body>
 
+<header><p><strong>Connal McInnis</strong>// March 13, 2026 — bash, networking, privacy, mullvad</p></header>
 
-<div class="zp">
-<span class="zp-crop tl"></span><span class="zp-crop tr"></span>
-<span class="zp-crop bl"></span><span class="zp-crop br"></span>
+<h1>Your Phone as a System-Wide VPN</h1>
+<p><em>Routes all TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN. DNS encrypted via dnscrypt-proxy over DoH. IPv6 disabled at runtime to prevent leaks. Confirmed clean via browserleaks.com.</em></p>
 
-<div class="zp-eyebrow">
-  <span class="zp-eyebrow-label">transmission from:</span>
-  <span class="zp-eyebrow-from"><strong>Connal McInnis</strong> // March 13, 2026</span>
-  <span class="zp-eyebrow-line"></span>
-  <span class="rt">bash</span> <span class="rt">networking</span> <span class="rt">privacy</span> <span class="rt">mullvad</span>
-</div>
-<div class="zp-hero">
-  <div class="zp-hero-tags"><span class="rt">bash</span> <span class="rt">networking</span> <span class="rt">privacy</span></div>
-  <div class="zp-title" data-t="Your Phone as a System-Wide VPN">Your Phone as a System-Wide VPN</div>
-  <div class="zp-excerpt">Routes all TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN. DNS encrypted via dnscrypt-proxy over DoH. IPv6 disabled at runtime to prevent leaks. Confirmed clean via browserleaks.com.</div>
-</div>
-<div class="zp-ticker">
-  <span class="zp-ticker-lbl">// REBOOTER</span>
-  <div class="zp-ticker-scroll"><div class="zp-ticker-track"><span class="zp-ticker-item">SSH -D 1080</span><span class="zp-ticker-item">redsocks</span><span class="zp-ticker-item">iptables NAT</span><span class="zp-ticker-item">dnscrypt-proxy</span><span class="zp-ticker-item">Mullvad DoH</span><span class="zp-ticker-item">resolv.conf override</span><span class="zp-ticker-item">IPv6 disabled</span><span class="zp-ticker-item">SOCKS5</span><span class="zp-ticker-item">gnet active</span><span class="zp-ticker-item">masked: yes</span><span class="zp-ticker-item">leak: none</span><span class="zp-ticker-item">tunnel confirmed</span><span class="zp-ticker-item">SSH -D 1080</span><span class="zp-ticker-item">redsocks</span><span class="zp-ticker-item">iptables NAT</span><span class="zp-ticker-item">dnscrypt-proxy</span><span class="zp-ticker-item">Mullvad DoH</span><span class="zp-ticker-item">resolv.conf override</span><span class="zp-ticker-item">IPv6 disabled</span><span class="zp-ticker-item">SOCKS5</span><span class="zp-ticker-item">gnet active</span><span class="zp-ticker-item">masked: yes</span><span class="zp-ticker-item">leak: none</span><span class="zp-ticker-item">tunnel confirmed</span></div></div>
-</div>
-<div class="zp-body">
 <p>If you have a phone with a mobile data plan, you can use it as a fully encrypted VPN for your computer — without paying for a separate VPN service for the machine itself. All traffic through Mullvad, DNS encrypted, zero leaks.</p>
-
 <h2>How it works</h2>
 <p>A chain of tools, each handing traffic to the next:</p>
-<div class="zp-path">your app
+<pre>your app
   → iptables (intercepts all outbound TCP)
     → redsocks (converts to SOCKS5)
       → SSH tunnel (encrypted pipe to your phone)
         → phone (running Mullvad VPN)
-          → internet</div><p>And for DNS:</p><div class="zp-path">your app asks "what is google.com?"
+          → internet</pre><p>And for DNS:</p><pre>your app asks "what is google.com?"
   → resolv.conf points to 127.0.0.1
     → dnscrypt-proxy (encrypts query over HTTPS)
       → goes through the SSH tunnel
         → Mullvad's DNS servers
-          → answer comes back the same way</div>
+          → answer comes back the same way</pre>
 <p>Without the DNS piece, your computer leaks domain names to your ISP even if all actual traffic is hidden. dnscrypt-proxy closes that gap.</p>
-<div class="zp-callout note">
-  <div class="zp-callout-hdr">VERIFIED CLEAN</div>
-  <p>Confirmed via browserleaks.com/dns and ipleak.net: Mullvad exit node, Mullvad upstream DNS resolvers, IPv6 absent, WebRTC disabled in Brave via <code>brave://flags</code>. T-Mobile sees: encrypted SSH blob only.</p>
-</div>
+<blockquote><p><strong>VERIFIED CLEAN</strong></p>
+
+<p>Confirmed via browserleaks.com/dns and ipleak.net: Mullvad exit node, Mullvad upstream DNS resolvers, IPv6 absent, WebRTC disabled in Brave via <code>brave://flags</code>. T-Mobile sees: encrypted SSH blob only.</p>
+</blockquote>
 <h2>What you need</h2>
 <h3>On your computer (Arch Linux)</h3>
-<div class="zp-code">
-  <div class="zp-code-hdr"><span>BASH</span><span class="blink">█</span></div>
-  <pre><code>sudo pacman -S openssh redsocks bind netcat dnscrypt-proxy</code></pre>
-</div>
-<table>
-  <thead><tr><th>package</th><th>what it does</th></tr></thead>
-  <tbody>
-    <tr><td><code>openssh</code></td><td>creates the encrypted tunnel to your phone</td></tr>
-    <tr><td><code>redsocks</code></td><td>intercepts system TCP and forwards through the tunnel</td></tr>
-    <tr><td><code>iptables</code></td><td>redirects all traffic to redsocks (usually pre-installed)</td></tr>
-    <tr><td><code>dnscrypt-proxy</code></td><td>encrypts DNS queries over HTTPS through the tunnel</td></tr>
-  </tbody>
-</table>
 
+<pre><code>sudo pacman -S openssh redsocks bind netcat dnscrypt-proxy</code></pre>
+
+<table>
+<thead><tr><th>package</th><th>what it does</th></tr></thead>
+<tbody>
+<tr><td><code>openssh</code></td><td>creates the encrypted tunnel to your phone</td></tr>
+<tr><td><code>redsocks</code></td><td>intercepts system TCP and forwards through the tunnel</td></tr>
+<tr><td><code>iptables</code></td><td>redirects all traffic to redsocks (usually pre-installed)</td></tr>
+<tr><td><code>dnscrypt-proxy</code></td><td>encrypts DNS queries over HTTPS through the tunnel</td></tr>
+</tbody>
+</table>
 <h3>On your phone</h3>
-<div class="zp-dep">
-  <strong>Termux</strong>
-  <p>A Linux terminal for Android. Install from F-Droid: <a href="https://f-droid.org/packages/com.termux/">https://f-droid.org/packages/com.termux/</a></p>
-</div>
-<div class="zp-dep">
-  <strong>openssh in Termux</strong>
-  <p>Run inside Termux — sshd runs on port <code>8022</code> by default (not standard 22).</p>
-</div>
-<div class="zp-dep">
-  <strong>Mullvad VPN</strong>
-  <p>Install from <a href="https://mullvad.net/en/download/android">https://mullvad.net/en/download/android</a> and connect to your exit country of choice.</p>
-</div>
+
+<strong>Termux</strong>
+<p>A Linux terminal for Android. Install from F-Droid: <a href="https://f-droid.org/packages/com.termux/">https://f-droid.org/packages/com.termux/</a></p>
+
+<strong>openssh in Termux</strong>
+<p>Run inside Termux — sshd runs on port <code>8022</code> by default (not standard 22).</p>
+
+<strong>Mullvad VPN</strong>
+<p>Install from <a href="https://mullvad.net/en/download/android">https://mullvad.net/en/download/android</a> and connect to your exit country of choice.</p>
+
 <h2>Commands</h2>
 <table>
-  <thead><tr><th>command</th><th>what it does</th></tr></thead>
-  <tbody>
-    <tr><td><code>gnet</code></td><td>brings the whole tunnel up</td></tr>
-    <tr><td><code>gdown</code></td><td>tears everything down cleanly</td></tr>
-    <tr><td><code>gstatus</code></td><td>shows the current state of every component</td></tr>
-  </tbody>
+<thead><tr><th>command</th><th>what it does</th></tr></thead>
+<tbody>
+<tr><td><code>gnet</code></td><td>brings the whole tunnel up</td></tr>
+<tr><td><code>gdown</code></td><td>tears everything down cleanly</td></tr>
+<tr><td><code>gstatus</code></td><td>shows the current state of every component</td></tr>
+</tbody>
 </table>
-
 <h3>Startup order (gnet)</h3>
 <ol>
-  <li>SSH tunnel opens on port 1080</li>
-  <li>redsocks starts, listens on 12345, forwards to 1080</li>
-  <li>iptables redirects all outbound TCP to redsocks</li>
-  <li>dnscrypt-proxy starts, listens on 127.0.0.1:53</li>
-  <li>resolv.conf set to 127.0.0.1</li>
-  <li>IPv6 disabled system-wide</li>
+<li>SSH tunnel opens on port 1080</li>
+<li>redsocks starts, listens on 12345, forwards to 1080</li>
+<li>iptables redirects all outbound TCP to redsocks</li>
+<li>dnscrypt-proxy starts, listens on 127.0.0.1:53</li>
+<li>resolv.conf set to 127.0.0.1</li>
+<li>IPv6 disabled system-wide</li>
 </ol>
-<div class="zp-callout warn">
-  <div class="zp-callout-hdr">TEARDOWN ORDER</div>
-  <p>iptables must come down first. If you kill the SSH tunnel while iptables is still running, all traffic is redirected to a dead process and your network goes completely dead.</p>
-</div><h3>Reading gstatus</h3><div class="zp-term">
-  <div class="zp-term-hdr">GSTATUS OUTPUT</div>
+<blockquote><p><strong>TEARDOWN ORDER</strong></p>
+
+<p>iptables must come down first. If you kill the SSH tunnel while iptables is still running, all traffic is redirected to a dead process and your network goes completely dead.</p>
+</blockquote><h3>Reading gstatus</h3><pre>
+
 [ ssh tunnel ]
   status   active
   port     1080
@@ -123,45 +101,27 @@
 [ system ]
   iface    enp0s20f0u2
   ttl      65
-</div>
+</pre>
 <h2>Configuration variables</h2>
 <table>
-  <thead><tr><th>variable</th><th>default</th><th>what it is</th></tr></thead>
-  <tbody>
-    <tr><td><code>GNET_USER</code></td><td>u0_a242</td><td>Termux username (run <code>whoami</code> in Termux)</td></tr>
-    <tr><td><code>GNET_PORT</code></td><td>8022</td><td>Termux sshd port</td></tr>
-    <tr><td><code>GNET_PROXY</code></td><td>1080</td><td>local SOCKS5 port SSH creates</td></tr>
-    <tr><td><code>GNET_REDSOCKS</code></td><td>12345</td><td>port redsocks listens on</td></tr>
-  </tbody>
+<thead><tr><th>variable</th><th>default</th><th>what it is</th></tr></thead>
+<tbody>
+<tr><td><code>GNET_USER</code></td><td>u0_a242</td><td>Termux username (run <code>whoami</code> in Termux)</td></tr>
+<tr><td><code>GNET_PORT</code></td><td>8022</td><td>Termux sshd port</td></tr>
+<tr><td><code>GNET_PROXY</code></td><td>1080</td><td>local SOCKS5 port SSH creates</td></tr>
+<tr><td><code>GNET_REDSOCKS</code></td><td>12345</td><td>port redsocks listens on</td></tr>
+</tbody>
 </table>
-
 <h2>Known limitations</h2>
 <ul>
-  <li><strong>UDP bypasses the tunnel</strong> — redsocks and iptables only handle TCP. Some games, video calls, HTTP/3 (QUIC) bypass entirely. Fundamental SOCKS5 limitation.</li>
-  <li><strong>NetworkManager may reset DNS on reconnect</strong> — add <code>dns=none</code> to <code>/etc/NetworkManager/conf.d/no-dns.conf</code> to prevent this permanently.</li>
-  <li><strong>Phone must stay connected</strong> — if the phone locks, USB disconnects, or Mullvad drops, the tunnel dies. Run <code>gdown</code> then <code>gnet</code> to re-establish.</li>
+<li><strong>UDP bypasses the tunnel</strong> — redsocks and iptables only handle TCP. Some games, video calls, HTTP/3 (QUIC) bypass entirely. Fundamental SOCKS5 limitation.</li>
+<li><strong>NetworkManager may reset DNS on reconnect</strong> — add <code>dns=none</code> to <code>/etc/NetworkManager/conf.d/no-dns.conf</code> to prevent this permanently.</li>
+<li><strong>Phone must stay connected</strong> — if the phone locks, USB disconnects, or Mullvad drops, the tunnel dies. Run <code>gdown</code> then <code>gnet</code> to re-establish.</li>
 </ul>
-
 <h2>The Script</h2>
 <p>Add everything below to your <code>~/.bashrc</code>. Only the four variables at the top need changing.</p>
 
-<button class="zp-toggle collapsed" id="script-btn" onclick="
-  var b=document.getElementById('script-block');
-  var btn=document.getElementById('script-btn');
-  var lbl=document.getElementById('script-label');
-  if(b.classList.contains('collapsed')){b.classList.remove('collapsed');btn.classList.remove('collapsed');lbl.textContent='collapse script';}
-  else{b.classList.add('collapsed');btn.classList.add('collapsed');lbl.textContent='expand script';}
-"><span class="arr">▾</span><span id="script-label"> expand script</span></button>
-<button class="zp-toggle" onclick="
-  var code=document.querySelector('#script-block pre code');
-  navigator.clipboard.writeText(code?code.innerText:'').then(function(){
-    var l=document.getElementById('copy-label');l.textContent=' copied!';
-    setTimeout(function(){l.textContent=' copy script';},2000);
-  });
-"><span>⎘</span><span id="copy-label"> copy script</span></button>
-<div id="script-block" class="collapsed"><div class="zp-code">
-  <div class="zp-code-hdr"><span>BASH — ~/.bashrc</span><span class="blink">█</span></div>
-  <pre><code>GNET_USER="u0_a242"
+<pre><code>GNET_USER="u0_a242"
 GNET_PORT="8022"
 GNET_PROXY="1080"
 GNET_REDSOCKS="12345"
@@ -246,8 +206,6 @@ function gstatus() {
     echo "[ dns ]"; pgrep -x dnscrypt-proxy &gt;/dev/null &amp;&amp; echo "  dnscrypt active" || echo "  inactive -- DNS may be leaking"
     echo "[ system ]"; echo "  iface $IFACE  ttl $(sysctl -n net.ipv4.ip_default_ttl 2&gt;/dev/null)"
 }</code></pre>
-</div></div>
-</div>
-</div>
+
 </body>
 </html>
