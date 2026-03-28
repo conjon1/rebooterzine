@@ -1,7 +1,8 @@
 #+title: Todo
 
 * Art
-** PROJ More Art 
+** PROJ More Art
+Art is the essence of everything. It is the vehicle through which truth can be conveyed.
 *** ASCII
 **** TODO star figher
 **** TODO planets
