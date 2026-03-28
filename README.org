@@ -1,0 +1,156 @@
+#+TITLE: Rebooterzine (Rebooter Blog)
+#+AUTHOR: Connal McInnis
+#+DESCRIPTION: Documentation for the Rebooterzine static site generator.
+
+* Overview
+Rebooterzine is a lightning-fast, custom-built static site generator written in Go. Instead of relying on Markdown and heavy parsers, it uses [[https://templ.guide/][Templ]] to write blog posts directly as compiled Go code. This ensures type safety, insanely fast build times, and the ability to inject custom, interactive UI components directly into blog prose.
+
+* Folder Structure & Key Files
+The project follows a strict separation of content, presentation, and backend Go logic.
+
+#+BEGIN_EXAMPLE
+rebooterzine/
+├── assets/                 # Static frontend assets
+│   ├── ascii/              # ASCII art banners (e.g., rebooter.txt)
+│   ├── css/                # Styling (variables.css, base.css, post.css)
+│   └── js/                 # Client logic (router.js, search.js, boot.js)
+├── cmd/                    # Command-line executables
+│   └── build/
+│       └── main.go         # The main build script/compiler
+├── components/             # Templ UI Component Library
+│   ├── elements.templ      # Inline prose components (Terminals, Callouts)
+│   ├── layout.templ        # Base HTML shell for index pages
+│   ├── post_layout.templ   # Specific HTML shell wrapper for blog posts
+│   └── nav.templ / etc.    # Reusable UI fragments
+├── internal/               # Core engine logic
+│   ├── builder/            # Handles data manipulation and file writing
+│   │   ├── sort.go         # Chronologically sorts the post registry
+│   │   └── writer.go       # Generates posts.json and authors.json
+│   └── parser/             # Scans and parses external manual files
+│       ├── author.go       # Extracts metadata from author HTML profiles
+│       └── html.go         # Core HTML node parsing utilities
+├── model/                  # Application data models
+│   └── types.go            # Data structures (Post, AuthorData)
+├── posts/                  # The Blog Content
+│   ├── _new_post_...templ  # Template for writing a new post
+│   ├── registry.go         # Auto-registers posts into the build map
+│   └── *.templ             # Individual blog posts
+└── public_html/            # Build Output & Static Sources
+    ├── authors/            # Source HTML files for author profiles (Manual)
+    ├── index.html          # Main entry page (Generated)
+    ├── posts.json          # Search index data (Generated)
+    ├── authors.json        # Compiled author data (Generated)
+    └── posts/              # Compiled static HTML for each post (Generated)
+#+END_EXAMPLE
+
+* How to Write a New Post
+Adding a post requires zero configuration or manual routing.
+
+1. Copy =posts/_new_post_template.templ= to a new file (e.g., =posts/my_topic.templ=).
+2. Update the metadata in the =init()= function.
+3. Write your content inside the =templ= function using standard HTML and our custom components.
+
+#+BEGIN_SRC go
+package posts
+
+import (
+	"github.com/conjon1/rebooterzine/components"
+	"github.com/conjon1/rebooterzine/model"
+)
+
+func init() {
+	Register(model.Post{
+		ID:       "my-topic",
+		Title:    "My Awesome Topic",
+		Date:     "April 1, 2026",
+		Author:   "Connal McInnis",
+		AuthorID: "connalmcinnis",
+		Excerpt:  "A short description for the SEO and index cards.",
+	}, MyTopic)
+}
+
+templ MyTopic(post model.Post) {
+	@components.PostLayout(post) {
+		@components.SectionHeader("Introduction")
+		<p>Here is my content.</p>
+        @components.Callout("tip", "This is a custom component!")
+	}
+}
+#+END_SRC
+
+** Important Templ Quirks for Writing
+Because we are writing prose inside a Go templating language, you must follow two rules to avoid breaking the parser:
+1. *Escape Apostrophes:* Use =&apos;= instead of ='= in normal text paragraphs (e.g., =It&apos;s= instead of =It's=). Otherwise, Go thinks it's an unclosed rune literal.
+2. *No Go Keywords:* Do not start a line of text with a Go keyword like =if=, =for=, or =switch=.
+
+* Component Library Reference
+The =components/= directory houses all UI building blocks. They are divided into Layout Shells, Page Elements, and Prose Elements.
+
+** Layout & Page Shells
+These components structure entire pages. You rarely use these directly when writing a post, as =PostLayout= handles it for you.
+- =layout.templ= :: The master HTML shell. Injects global CSS/JS and wraps standard pages.
+- =post_layout.templ= :: The specific wrapper for blog posts. Injects post-specific CSS, the author metadata header, and the "back to dispatches" footer link.
+- =nav.templ= & =footer.templ= :: The top and bottom navigation elements.
+- =home.templ=, =blog.templ=, =authors.templ= :: Macro components that assemble the specific routes of the site.
+- =post_item.templ= :: Renders a single post preview card (used in the blog index feed).
+- =ticker.templ= :: Renders scrolling status text or alerts.
+
+** Prose Elements (=elements.templ=)
+Use these components directly inside your post's =.templ= file to give your writing the signature terminal/hacker aesthetic.
+
+- *@components.CodeBlock(lang string, code string)*
+  Renders a syntax-highlighted code block with an optional language label tab.
+- *@components.Terminal(prompt string, content string)*
+  Renders a fake terminal window with traffic-light window controls and a bash prompt. Good for step-by-step commands.
+- *@components.Callout(kind string, message string)*
+  A highlighted callout box. Valid =kind= strings are: ="info"=, ="warn"=, ="danger"=, ="tip"=.
+- *@components.SectionHeader(title string)*
+  A styled H2 section divider that prepends a terminal prompt (=$=) to the title.
+- *@components.FileTree(tree string)*
+  Renders a raw string as a monospace file/directory tree.
+- *@components.Aside() { ...children }*
+  A pull-quote or side note box. You pass your content inside the curly braces.
+- *@components.Image(src string, caption string)*
+  A responsive image block that automatically renders a =<figcaption>= if a caption is provided.
+- *@components.StatusBadge(label string, value string)*
+  An inline, high-contrast status badge. Excellent for hardware specs or "TESTED ON: Ubuntu 24.04" notes at the top of a post.
+
+*When to add a new component:*
+If you find yourself writing the same complex HTML structure in more than two posts, abstract it into a generic function in =components/elements.templ=.
+
+* Assets: CSS, JS, and Art
+All static assets live in the =assets/= directory.
+
+** CSS (=assets/css/=)
+- =variables.css= :: Defines the global color palette, fonts, and sizing. Edit this to change the overall theme.
+- =base.css= :: Global resets and typography.
+- =post.css= :: Specific styling for the prose inside blog posts (headers, blockquotes, spacing).
+- =prose.css= & =animations.css= :: Styling for custom components and transition effects.
+
+*How it applies to a new post:*
+You don't need to manually link CSS or JS in your posts. The =@components.PostLayout(post)= wrapper automatically injects the =<head>= tags, linking =style.css= and =post.css=, and bundles the JS required for the site.
+
+** JavaScript (=assets/js/=)
+The site uses vanilla JS (no React/Vue) to handle client-side routing, search functionality, and aesthetic effects (like the typewriter boot sequence).
+- =router.js= :: Intercepts link clicks to do seamless client-side page transitions.
+- =search.js= :: Fetches the compiled =posts.json= to provide instant search.
+
+** ASCII Art (=assets/ascii/=)
+The terminal aesthetic relies on ASCII art. These text files are fetched by the frontend (or embedded) to display banners and generala art. You can drop new =.txt= files here and reference them in your JS or components to add flavor to specific pages.
+
+* Building the Site
+To compile the site:
+
+1. Generate the Go code from the templates:
+   #+BEGIN_SRC bash
+   templ generate
+   #+END_SRC
+2. Build the site into =public_html/=:
+   #+BEGIN_SRC bash
+   go run cmd/build/main.go
+   #+END_SRC
+    
+
+* Resources
+- [[https://templ.guide/][Templ Official Documentation]]
+- [[https://go.dev/doc/][Go Documentation]]
