@@ -1,0 +1,41 @@
+package components
+
+import "github.com/conjon1/rebooterzine/model"
+
+// PostLayout wraps any post with the full site chrome.
+// Usage in a post .templ file:
+//
+//   @components.PostLayout(meta) {
+//       <p>Your post content here...</p>
+//       @components.Callout("warn", "Watch out!")
+//   }
+templ PostLayout(post model.Post) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ post.Title } | REBOOTER_</title>
+			<meta name="description" content={ post.Excerpt }/>
+			<link rel="stylesheet" href="/static/style.css"/>
+		</head>
+		<body>
+			@Nav()
+			<main class="post-page">
+				<div class="post-header">
+					<span class="post-meta-line">
+						[{ post.Date }] :: <a href={ templ.URL("/#author/" + post.AuthorID) }>{ post.Author }</a>
+					</span>
+					<h1 class="post-title">{ post.Title }</h1>
+				</div>
+				<article class="post-body">
+					{ children... }
+				</article>
+				<footer class="post-footer">
+					<a href="/#blog">[&lt; back to dispatches _]</a>
+				</footer>
+			</main>
+			@Footer()
+		</body>
+	</html>
+}

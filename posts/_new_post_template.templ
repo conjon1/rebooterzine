@@ -1,0 +1,79 @@
+// HOW TO ADD A NEW POST
+// ─────────────────────
+// 1. Copy this file to posts/<your-slug>.templ
+// 2. Rename the function to match your slug (PascalCase), e.g. MyNewPost()
+// 3. Fill in your content using the components below
+// 4. Register it in posts/registry.go:
+//
+//    "my-new-post": {
+//        Meta: model.Post{
+//            ID:       "my-new-post",
+//            Title:    "My Awesome Post",
+//            Date:     "March 28, 2026",
+//            Author:   "Your Name",
+//            AuthorID: "yourid",
+//            Excerpt:  "One sentence summary.",
+//            URL:      "post/my-new-post",
+//        },
+//        Renderer: func() templ.Component { return MyNewPost() },
+//    },
+//
+// 5. Run: templ generate && go run .
+
+package posts
+
+import "github.com/conjon1/rebooterzine/components"
+
+templ MyNewPost() {
+	@components.PostLayout(Registry["my-new-post"].Meta) {
+
+		// ── Status badge (optional) ──────────────────────────────────────────
+		@components.StatusBadge("TESTED ON", "Ubuntu 24.04 LTS")
+
+		// ── Section with a callout ───────────────────────────────────────────
+		@components.SectionHeader("Introduction")
+		<p>Your intro paragraph goes here.</p>
+		@components.Callout("info", "Background knowledge: assumes you know X.")
+
+		// ── A terminal command ───────────────────────────────────────────────
+		@components.SectionHeader("Step 1: Do the thing")
+		@components.Terminal("root@reboot:~#", `some-command --flag value`)
+
+		// ── A code block ─────────────────────────────────────────────────────
+		@components.SectionHeader("Step 2: Config file")
+		@components.CodeBlock("toml", `[section]
+key = "value"`)
+
+		// ── A warning callout ────────────────────────────────────────────────
+		@components.Callout("warn", "This step is destructive. Back up first.")
+
+		// ── File tree ────────────────────────────────────────────────────────
+		@components.FileTree(`/etc/your-tool/
+├── config.toml
+└── keys/`)
+
+		// ── An image ─────────────────────────────────────────────────────────
+		// @components.Image("/static/img/your-diagram.png", "Diagram caption")
+
+		// ── An aside/pull-quote ───────────────────────────────────────────────
+		@components.Aside() {
+			<p>Fun fact or tangent that's worth noting but not main flow.</p>
+		}
+
+		// ── Inline code in prose ──────────────────────────────────────────────
+		<p>
+			You can also use <code>inline code</code> directly in HTML, along with
+			<strong>bold</strong> and <em>italic</em> text normally.
+		</p>
+
+		// ── Tip callout ───────────────────────────────────────────────────────
+		@components.Callout("tip", "Pro tip: do X instead of Y for better results.")
+
+		// ── Custom raw HTML is fine too ───────────────────────────────────────
+		<ul>
+			<li>Point one</li>
+			<li>Point two</li>
+		</ul>
+
+	}
+}

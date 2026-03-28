@@ -1,0 +1,110 @@
+package components
+
+// ── CodeBlock ────────────────────────────────────────────────────────────────
+// Renders a syntax-highlighted code block with an optional language label.
+//
+//   @components.CodeBlock("bash", `ssh -D 1080 user@host`)
+templ CodeBlock(lang string, code string) {
+	<div class="code-block">
+		if lang != "" {
+			<span class="code-lang">{ lang }</span>
+		}
+		<pre><code class={ "language-" + lang }>{ code }</code></pre>
+	</div>
+}
+
+// ── Terminal ─────────────────────────────────────────────────────────────────
+// Renders a fake terminal window with a prompt. Good for showing
+// command sequences step by step.
+//
+//   @components.Terminal("root@reboot:~#", `systemctl restart networking`)
+templ Terminal(prompt string, content string) {
+	<div class="terminal-block">
+		<div class="terminal-bar">
+			<span class="terminal-dot"></span>
+			<span class="terminal-dot"></span>
+			<span class="terminal-dot"></span>
+		</div>
+		<pre class="terminal-body"><span class="terminal-prompt">{ prompt } </span>{ content }</pre>
+	</div>
+}
+
+// ── Callout ───────────────────────────────────────────────────────────────────
+// A highlighted callout box. kind can be: "info" | "warn" | "danger" | "tip"
+//
+//   @components.Callout("warn", "Make sure IPv6 is disabled before continuing.")
+templ Callout(kind string, message string) {
+	<div class={ "callout callout-" + kind }>
+		<span class="callout-icon">
+			switch kind {
+			case "warn":
+				{ "[WARN]" }
+			case "danger":
+				{ "[ERR]" }
+			case "tip":
+				{ "[TIP]" }
+			default:
+				{ "[INFO]" }
+			}
+		</span>
+		<span class="callout-text">{ message }</span>
+	</div>
+}
+
+// ── SectionHeader ─────────────────────────────────────────────────────────────
+// A styled section divider that fits the terminal aesthetic.
+//
+//   @components.SectionHeader("Step 1: Configure redsocks")
+templ SectionHeader(title string) {
+	<div class="section-header">
+		<span class="section-prompt">$</span>
+		<h2>{ title }</h2>
+	</div>
+}
+
+// ── FileTree ──────────────────────────────────────────────────────────────────
+// Renders a file/directory tree in monospace. Pass raw tree string.
+//
+//   @components.FileTree(`/etc/redsocks.conf
+// /etc/dnscrypt-proxy/dnscrypt-proxy.toml`)
+templ FileTree(tree string) {
+	<div class="file-tree">
+		<pre>{ tree }</pre>
+	</div>
+}
+
+// ── Aside ─────────────────────────────────────────────────────────────────────
+// A pull-quote or side note. Children are the content.
+//
+//   @components.Aside() {
+//       <p>Fun fact: redsocks was written in 2007...</p>
+//   }
+templ Aside() {
+	<aside class="post-aside">
+		{ children... }
+	</aside>
+}
+
+// ── Image ─────────────────────────────────────────────────────────────────────
+// A responsive image with an optional caption.
+//
+//   @components.Image("/static/img/diagram.png", "Network topology diagram")
+templ Image(src string, caption string) {
+	<figure class="post-figure">
+		<img src={ src } alt={ caption } loading="lazy"/>
+		if caption != "" {
+			<figcaption>{ caption }</figcaption>
+		}
+	</figure>
+}
+
+// ── StatusBadge ───────────────────────────────────────────────────────────────
+// Inline status badge — good for "TESTED ON: Ubuntu 24.04" style notes.
+//
+//   @components.StatusBadge("TESTED ON", "Ubuntu 24.04 LTS")
+templ StatusBadge(label string, value string) {
+	<span class="status-badge">
+		<span class="status-label">{ label }:</span>
+		<span class="status-value">{ value }</span>
+	</span>
+}

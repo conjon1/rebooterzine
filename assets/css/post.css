@@ -1,0 +1,215 @@
+/* ── Post page shell ─────────────────────────────────────────────────────── */
+.post-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  font-family: var(--font-mono, "Courier New", monospace);
+  color: var(--color-text);
+}
+
+.post-header {
+  border-bottom: 1px solid var(--color-border, #333);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.post-meta-line {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.post-meta-line a {
+  color: var(--color-accent, #0f0);
+  text-decoration: none;
+}
+
+.post-title {
+  margin: 0.5rem 0 0;
+  font-size: 1.4rem;
+  line-height: 1.3;
+}
+
+.post-body {
+  line-height: 1.75;
+}
+
+.post-footer {
+  margin-top: 3rem;
+  border-top: 1px solid var(--color-border, #333);
+  padding-top: 1rem;
+}
+
+.post-footer a {
+  color: var(--color-accent, #0f0);
+  text-decoration: none;
+}
+
+/* ── CodeBlock ───────────────────────────────────────────────────────────── */
+.code-block {
+  position: relative;
+  margin: 1.25rem 0;
+  background: var(--color-surface, #111);
+  border: 1px solid var(--color-border, #333);
+  border-radius: 2px;
+}
+
+.code-lang {
+  display: block;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent, #0f0);
+  border-bottom: 1px solid var(--color-border, #333);
+  opacity: 0.8;
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 1rem 0.75rem;
+  overflow-x: auto;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* ── Terminal ────────────────────────────────────────────────────────────── */
+.terminal-block {
+  margin: 1.25rem 0;
+  background: #000;
+  border: 1px solid var(--color-border, #333);
+  border-radius: 2px;
+}
+
+.terminal-bar {
+  display: flex;
+  gap: 6px;
+  padding: 6px 10px;
+  border-bottom: 1px solid #222;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #444;
+}
+
+.terminal-body {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #c0c0c0;
+}
+
+.terminal-prompt {
+  color: var(--color-accent, #0f0);
+}
+
+/* ── Callout ─────────────────────────────────────────────────────────────── */
+.callout {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid;
+  background: var(--color-surface, #111);
+  font-size: 0.9rem;
+}
+
+.callout-icon {
+  font-weight: bold;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.callout-info  { border-color: #4af; }
+.callout-info  .callout-icon { color: #4af; }
+
+.callout-warn  { border-color: #fa4; }
+.callout-warn  .callout-icon { color: #fa4; }
+
+.callout-danger { border-color: #f44; }
+.callout-danger .callout-icon { color: #f44; }
+
+.callout-tip   { border-color: var(--color-accent, #0f0); }
+.callout-tip   .callout-icon { color: var(--color-accent, #0f0); }
+
+/* ── SectionHeader ───────────────────────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.section-prompt {
+  color: var(--color-accent, #0f0);
+  font-size: 1.1rem;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+
+/* ── FileTree ────────────────────────────────────────────────────────────── */
+.file-tree {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface, #111);
+  border: 1px dashed var(--color-border, #333);
+  font-size: 0.85rem;
+}
+
+.file-tree pre {
+  margin: 0;
+}
+
+/* ── Aside ───────────────────────────────────────────────────────────────── */
+.post-aside {
+  margin: 1.5rem 0;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--color-border, #333);
+  opacity: 0.85;
+  font-size: 0.9rem;
+}
+
+/* ── Figure / Image ──────────────────────────────────────────────────────── */
+.post-figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.post-figure img {
+  max-width: 100%;
+  border: 1px solid var(--color-border, #333);
+}
+
+.post-figure figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  opacity: 0.65;
+}
+
+/* ── StatusBadge ─────────────────────────────────────────────────────────── */
+.status-badge {
+  display: inline-flex;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  border: 1px solid var(--color-border, #333);
+  padding: 0.15rem 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.status-label {
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.status-value {
+  color: var(--color-accent, #0f0);
+}

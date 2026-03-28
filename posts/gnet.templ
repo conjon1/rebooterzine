@@ -1,0 +1,68 @@
+package posts
+
+import "github.com/conjon1/rebooterzine/components"
+
+// Gnet is the templ component for the "gnet" post.
+// To add custom elements, just drop any @components.X() call inline.
+templ Gnet() {
+	@components.PostLayout(Registry["gnet"].Meta) {
+		@components.StatusBadge("TESTED ON", "Ubuntu 24.04 LTS · Android 14 · Mullvad")
+
+		@components.SectionHeader("Overview")
+		<p>
+			This setup routes <em>all</em> TCP traffic from your Linux box through a SOCKS5 tunnel
+			over USB tethering, landing on an Android phone running Mullvad VPN.
+			DNS is encrypted via dnscrypt-proxy over DoH. IPv6 is disabled at runtime to plug leaks.
+		</p>
+
+		@components.Callout("warn", "This will break your normal network path. Keep a fallback TTY open.")
+
+		@components.SectionHeader("1. Enable USB tethering")
+		<p>
+			On Android, go to <strong>Settings → Hotspot &amp; tethering → USB tethering</strong>.
+			Your phone will appear as <code>usb0</code> on the host.
+		</p>
+		@components.Terminal("root@reboot:~#", `ip link show usb0`)
+
+		@components.SectionHeader("2. Install redsocks")
+		@components.CodeBlock("bash", `sudo apt install redsocks`)
+
+		@components.SectionHeader("3. Configure redsocks")
+		<p>Edit <code>/etc/redsocks.conf</code>:</p>
+		@components.CodeBlock("conf", `base {
+    log_debug = off;
+    log_info = on;
+    daemon = on;
+    redirector = iptables;
+}
+
+redsocks {
+    local_ip = 127.0.0.1;
+    local_port = 12345;
+    ip = 127.0.0.1;
+    port = 1080;        // SSH SOCKS5 port
+    type = socks5;
+}`)
+
+		@components.FileTree(`/etc/redsocks.conf
+/etc/dnscrypt-proxy/dnscrypt-proxy.toml
+/etc/systemd/system/redsocks.service`)
+
+		@components.SectionHeader("4. Open the SSH SOCKS5 tunnel")
+		@components.Terminal("root@reboot:~#", `ssh -D 1080 -N -f user@your-vps`)
+
+		@components.Callout("tip", "Add -o ServerAliveInterval=60 to keep the tunnel alive.")
+
+		@components.SectionHeader("5. Redirect traffic with iptables")
+		@components.CodeBlock("bash", `# Exclude the SSH server itself from redirection
+iptables -t nat -A OUTPUT -d YOUR_VPS_IP -j RETURN
+# Redirect everything else
+iptables -t nat -A OUTPUT -p tcp -j REDIRECT --to-ports 12345`)
+
+		@components.SectionHeader("6. Disable IPv6")
+		@components.CodeBlock("bash", `sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sysctl -w net.ipv6.conf.default.disable_ipv6=1`)
+
+		@components.Callout("info", "These settings are not persistent. Add them to /etc/sysctl.conf for permanence.")
+	}
+}
