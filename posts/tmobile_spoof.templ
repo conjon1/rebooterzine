@@ -1,9 +1,23 @@
 package posts
 
-import "github.com/conjon1/rebooterzine/components"
+import (
+	"github.com/conjon1/rebooterzine/components"
+	"github.com/conjon1/rebooterzine/model"
+)
 
-templ TmobileSpoof() {
-	@components.PostLayout(Registry["TmobileSpoof"].Meta) {
+func init() {
+	Register(model.Post{
+		ID:       "TmobileSpoof",
+		Title:    "T-mobile TTL spoofing",
+		Date:     "January 6, 2026",
+		Author:   "Connal McInnis",
+		AuthorID: "connalmcinnis",
+		Excerpt:  "Bypassing hotspot throttling via TTL modification.",
+	}, TmobileSpoof)
+}
+
+templ TmobileSpoof(post model.Post) {
+	@components.PostLayout(post) {
 		@components.StatusBadge("TESTED ON", "T-Mobile · Android Hotspot")
 
 		@components.SectionHeader("The Problem")
@@ -28,4 +42,4 @@ iptables -t mangle -A POSTROUTING -j TTL --ttl-set 65`)
 
 		@components.Callout("warn", "Using this may violate your carrier&apos;s ToS. Proceed at your own risk.")
 	}
-}
+}                               

@@ -8,9 +8,23 @@ package posts
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/conjon1/rebooterzine/components"
+import (
+	"github.com/conjon1/rebooterzine/components"
+	"github.com/conjon1/rebooterzine/model"
+)
 
-func TmobileSpoof() templ.Component {
+func init() {
+	Register(model.Post{
+		ID:       "TmobileSpoof",
+		Title:    "T-mobile TTL spoofing",
+		Date:     "January 6, 2026",
+		Author:   "Connal McInnis",
+		AuthorID: "connalmcinnis",
+		Excerpt:  "Bypassing hotspot throttling via TTL modification.",
+	}, TmobileSpoof)
+}
+
+func TmobileSpoof(post model.Post) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -98,7 +112,7 @@ iptables -t mangle -A POSTROUTING -j TTL --ttl-set 65`).Render(ctx, templ_7745c5
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = components.PostLayout(Registry["TmobileSpoof"].Meta).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.PostLayout(post).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

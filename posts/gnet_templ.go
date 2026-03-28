@@ -8,11 +8,23 @@ package posts
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/conjon1/rebooterzine/components"
+import (
+	"github.com/conjon1/rebooterzine/components"
+	"github.com/conjon1/rebooterzine/model"
+)
 
-// Gnet is the templ component for the "gnet" post.
-// To add custom elements, just drop any @components.X() call inline.
-func Gnet() templ.Component {
+func init() {
+	Register(model.Post{
+		ID:       "gnet",
+		Title:    "Tunneling All System Traffic Through Your Phone with SSH, redsocks, and Mullvad",
+		Date:     "March 13, 2026",
+		Author:   "Connal McInnis",
+		AuthorID: "connalmcinnis",
+		Excerpt:  "Routes all system TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN.",
+	}, Gnet)
+}
+
+func Gnet(post model.Post) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -206,7 +218,7 @@ sysctl -w net.ipv6.conf.default.disable_ipv6=1`).Render(ctx, templ_7745c5c3_Buff
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = components.PostLayout(Registry["gnet"].Meta).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.PostLayout(post).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
