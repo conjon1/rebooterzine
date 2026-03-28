@@ -9,7 +9,8 @@ templ TmobileSpoof() {
 		@components.SectionHeader("The Problem")
 		<p>
 			Right now I am in a rural area where it does not make sense to have WiFi
-			if someone's mobile data is unlimited. But T-Mobile throttles hotspot traffic
+			whenever someone&apos;s mobile data is unlimited. 
+			But T-Mobile throttles hotspot traffic
 			by checking the TTL of packets leaving your device.
 		</p>
 
@@ -18,13 +19,13 @@ templ TmobileSpoof() {
 		@components.SectionHeader("The Fix: TTL spoofing with iptables")
 		<p>
 			We intercept outgoing packets and rewrite the TTL to match what T-Mobile
-			expects from a phone, making your laptop's traffic look native.
+			expects from a phone, making your laptop&apos;s traffic look native.
 		</p>
 		@components.CodeBlock("bash", `# Set outgoing TTL to 65 so after one router hop it reads as 64
 iptables -t mangle -A POSTROUTING -j TTL --ttl-set 65`)
 
 		@components.Terminal("root@reboot:~#", `curl -s https://ipinfo.io | jq .org`)
 
-		@components.Callout("warn", "Using this may violate your carrier's ToS. Proceed at your own risk.")
+		@components.Callout("warn", "Using this may violate your carrier&apos;s ToS. Proceed at your own risk.")
 	}
 }
