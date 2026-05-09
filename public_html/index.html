@@ -1,497 +1,611 @@
-<!doctype html><html lang="en" class="scroll-smooth"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Rebooter | SYSTEM_TERMINAL</title><script src="https://cdn.tailwindcss.com"></script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1100">
+<meta name="description" content="rebooter.blog — connal mcinnis — security research, low-level systems, arch linux">
+<title>rebooter.blog :: connal mcinnis</title>
+<style>
 :root {
-  --bg:         #0a0a0a;
-  --bg-alt:     #111111;
-  --bg-card:    #0f0f0f;
-  --fg:         #c8c8c8;
-  --fg-dim:     #888888;
-  --fg-muted:   #555555;
-  --border:     #2a2a2a;
-  --green:      #4ade80;
-  --red:        #e05555;
-  --cyan:       #5ec4d4;
-  --orange:     #d4905a;
-
-  /* Legacy aliases */
-  --primary:    #4ade80;
-  --secondary:  #5ec4d4;
-  --accent:     #d4905a;
-  --warning:    #d4905a;
-  --error:      #e05555;
-  --ink:        #c8c8c8;
-  --ink2:       #888888;
-  --ink3:       #555555;
-  --paper:      #0a0a0a;
-  --paper2:     #111111;
-  --paper3:     #1a1a1a;
-  --fg-alt:     #555555;
-
-  --font-term:    'VT323', monospace;
-  --font-body:    'Courier Prime', monospace;
-  --font-pixel:   'Press Start 2P', monospace;
-  --font-display: 'VT323', monospace;
-  --font-mono:    'Courier Prime', monospace;
+  --bg:       #06060a;
+  --bg2:      #0b0b12;
+  --bg3:      #101018;
+  --border:   #1c1c2c;
+  --brite:    #2c2c44;
+  --amber:    #ffaa00;
+  --amber2:   #cc8800;
+  --amber3:   #3a2800;
+  --amber4:   #1e1400;
+  --green:    #22cc44;
+  --green2:   #184d28;
+  --red:      #ff3344;
+  --blue:     #4488ff;
+  --text:     #bfbcb0;
+  --dim:      #50506a;
+  --font:     'Courier New','Lucida Console','DejaVu Sans Mono',monospace;
 }
-/* ── base.css ────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
 body {
-  background-color: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-body);
-  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.65;
+  min-width: 940px;
+  position: relative;
 }
 
-/* Subtle grain */
-body::before {
+/* scanlines */
+body::after {
   content: '';
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px, transparent 3px,
+    rgba(0,0,0,0.08) 3px, rgba(0,0,0,0.08) 4px
+  );
   pointer-events: none;
-  z-index: 9000;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+  z-index: 9999;
 }
 
-::selection {
-  background-color: #4ade80;
-  color: #0a0a0a;
+a { color: var(--amber); text-decoration: none; }
+a:hover { color: #fff; text-shadow: 0 0 8px rgba(255,170,0,0.7); }
+::selection { background: var(--amber3); color: var(--amber); }
+pre { font-family: var(--font); }
+code { font-family: var(--font); color: var(--amber2); }
+
+/* ── HEADER ────────────────────────────────────── */
+header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+  overflow: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-term);
-  color: var(--fg);
-  letter-spacing: 0.03em;
+.header-top {
+  padding: 22px 22px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-/* Flat colour helpers */
-.c-green   { color: #4ade80; }
-.c-cyan    { color: #5ec4d4; }
-.c-orange  { color: #d4905a; }
-.c-red     { color: #e05555; }
-.c-muted   { color: #555555; }
-/* ── animations.css ─────────────────────────────────────────────────────── */
-
-/* Scroll-reveal */
-.fade-in {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* big REBOOTER art */
+.ascii-hero {
+  font-size: 15px;
+  line-height: 1.18;
+  color: var(--amber);
+  text-shadow:
+    0 0 16px rgba(255,170,0,0.55),
+    0 0 40px rgba(255,120,0,0.18);
+  margin-bottom: 10px;
+  animation: crt-flicker 8s ease-in-out infinite;
+  user-select: none;
 }
 
-/* Cursor blink */
-.cursor {
+@keyframes crt-flicker {
+  0%,96%,100% { opacity: 1; }
+  97%          { opacity: 0.88; }
+  98%          { opacity: 1; }
+  99%          { opacity: 0.92; }
+}
+
+.header-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  font-size: 12px;
+  margin-bottom: 10px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  width: 100%;
+}
+
+.meta-seg {
+  padding: 5px 14px;
+  border-right: 1px solid var(--border);
+  color: var(--dim);
+}
+.meta-seg:first-child { padding-left: 0; }
+.meta-seg .val { color: var(--text); }
+.meta-seg .amber { color: var(--amber); }
+.meta-seg .green { color: var(--green); }
+
+.cursor { animation: blink 1.1s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.stack-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 8px 0;
+}
+.tag {
+  font-size: 10px;
+  border: 1px solid var(--brite);
+  padding: 1px 7px;
+  color: var(--dim);
+  letter-spacing: 1px;
+}
+.tag.a { border-color: var(--amber3); color: var(--amber2); }
+.tag.g { border-color: #002244; color: #4488ff; }
+.tag.l { border-color: var(--green2); color: var(--green); }
+
+/* main nav */
+.header-nav {
+  display: flex;
+  border-top: 1px solid var(--border);
+  width: 100%;
+  margin-top: 4px;
+}
+.header-nav a {
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  color: var(--dim);
+  border-right: 1px solid var(--border);
+  transition: color 0.12s, background 0.12s;
+  text-transform: uppercase;
+}
+.header-nav a:first-child { padding-left: 0; }
+.header-nav a:hover { color: var(--amber); background: var(--amber4); text-shadow: none; }
+
+/* ── MARQUEE ────────────────────────────────────── */
+.marquee-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  padding: 3px 0;
+  user-select: none;
+}
+.marquee-wrap.g { border-color: var(--green2); }
+.marquee-wrap.g .mq { color: var(--green); }
+
+.mq {
   display: inline-block;
-  width: 8px;
-  height: 1em;
-  background-color: var(--green);
-  animation: blink 0.8s step-end infinite;
-  vertical-align: middle;
-  margin-left: 2px;
+  animation: mq-scroll 30s linear infinite;
+  color: var(--amber2);
+  font-size: 11px;
+  letter-spacing: 1px;
+  opacity: 0.8;
 }
-@keyframes blink { 50% { opacity: 0; } }
-
-/* Ticker */
-@keyframes ticker {
+.mq span { margin: 0 8px; }
+@keyframes mq-scroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-.ticker-scroll { animation: ticker 26s linear infinite; }
 
-/* Pixel crystal float */
-.float-anim {
-  animation: float 4s ease-in-out infinite;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-8px); }
+/* ── PAGE LAYOUT ────────────────────────────────── */
+.page-wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 308px;
 }
 
+.col-main { padding: 18px 20px 20px 0; border-right: 1px solid var(--border); }
+.col-side  { padding: 18px 0 20px 20px; }
 
-/* Asteroid Flight Path */
-@keyframes fly-asteroid {
-    0% {
-        transform: translate(-20vw, 110vh) rotate(0deg);
-    }
-    100% {
-        transform: translate(120vw, -20vh) rotate(360deg);
-    }
-}
-
-.bg-asteroid {
-    position: fixed;
-    z-index: -10; /* Keep it behind content */
-    color: #808080; 
-    pointer-events: none; /* Prevents it from blocking clicks on links */
-    font-family: var(--font-term);
-    font-size: 14px;
-    line-height: 1.2;
-    opacity: 0.5;
-    animation: fly-asteroid 60s linear infinite; 
-}
-/* ── prose.css ───────────────────────────────────────────────────────────── */
-.prose {
-  font-family: var(--font-body);
-  padding: 2rem;
-  color: var(--fg-dim);
-}
-
-.prose h1, .prose h2 {
-  font-family: var(--font-term);
-  color: var(--fg);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  border-left: 2px solid var(--green);
-  padding-left: 0.75rem;
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-}
-.prose h1 { font-size: 1.8rem; }
-.prose h2 { font-size: 1.4rem; }
-.prose h3 { font-size: 1.1rem; color: var(--cyan); margin-top: 1.5rem; margin-bottom: 0.5rem; }
-
-.prose p {
-  font-size: 14px;
-  line-height: 1.8;
-  margin-bottom: 1rem;
-}
-
-.prose > p:first-of-type::first-letter {
-  font-family: var(--font-term);
-  font-size: 3rem;
-  float: left;
-  line-height: 0.8;
-  margin: 0.1em 0.1em 0 0;
-  color: var(--green);
-}
-
-.prose blockquote {
-  border-left: 2px solid var(--border);
-  background: var(--bg-alt);
-  padding: 0.75rem 1.25rem;
-  margin: 1.25rem 0;
-  font-style: italic;
-  color: var(--fg-muted);
-}
-
-.prose strong  { color: var(--fg); font-weight: 700; }
-.prose a       { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
-.prose a:hover { color: var(--green); }
-
-.prose ul { list-style-type: disc;    padding-left: 1.5rem; margin-bottom: 1rem; }
-.prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1rem; }
-.prose li { margin-bottom: 0.35rem; }
-
-.prose code {
-  font-family: var(--font-body);
-  background: var(--bg-alt);
-  color: var(--green);
-  padding: 0.15em 0.35em;
+/* ── PANEL ──────────────────────────────────────── */
+.panel {
   border: 1px solid var(--border);
-  font-size: 0.88em;
+  background: var(--bg2);
+  margin-bottom: 14px;
 }
-.prose pre {
-  background: var(--bg-alt);
-  border-left: 2px solid var(--green);
-  padding: 1.25rem 1.5rem;
-  overflow-x: auto;
-  margin-bottom: 1rem;
-  border-top: 1px solid var(--border);
-  border-right: 1px solid var(--border);
+.panel-head {
   border-bottom: 1px solid var(--border);
+  padding: 5px 12px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--amber);
+  background: var(--bg3);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-transform: uppercase;
 }
-.prose pre code {
-  background: transparent;
-  color: var(--fg-dim);
-  padding: 0;
-  border: none;
+.panel-head::before { content: '>>'; color: var(--amber3); }
+.panel-body { padding: 12px 14px; }
+
+.panel.g .panel-head { color: var(--green); border-color: var(--green2); background: #050e08; }
+.panel.g .panel-head::before { color: var(--green2); }
+.panel.g { border-color: var(--green2); }
+
+/* ── SYSINFO TABLE ──────────────────────────────── */
+.sysinfo { font-size: 12px; line-height: 2.0; width: 100%; }
+.sysinfo td:first-child {
+  color: var(--amber2);
+  padding-right: 16px;
+  white-space: nowrap;
+  width: 1%;
+}
+.about-txt { font-size: 12px; line-height: 1.85; margin-top: 12px; }
+.about-txt p { margin-bottom: 8px; }
+
+/* ── TERM BLOCK ─────────────────────────────────── */
+.term {
+  background: #030307;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  font-size: 11px;
+  line-height: 1.85;
+  margin: 10px 0 4px;
+}
+.term .p  { color: var(--green); }
+.term .c  { color: var(--text); }
+.term .o  { color: var(--dim); }
+.term .w  { color: var(--amber2); }
+.term .e  { color: var(--red); }
+
+/* ── PROJECTS ───────────────────────────────────── */
+.proj-list { list-style: none; }
+.proj-item {
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+.proj-item:last-child { border-bottom: none; padding-bottom: 0; }
+.proj-hdr {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-bottom: 3px;
+}
+.proj-name { color: var(--amber); font-size: 13px; font-weight: bold; }
+.lang {
+  font-size: 10px;
+  border: 1px solid;
+  padding: 0 5px;
+  letter-spacing: 0.5px;
+}
+.lang.go   { border-color: #002266; color: #4488ff; }
+.lang.cpp  { border-color: #220055; color: #9966ff; }
+.lang.lisp { border-color: var(--green2); color: var(--green); }
+.lang.bash { border-color: #332200; color: #bbaa00; }
+.proj-desc { font-size: 11px; color: var(--dim); line-height: 1.7; }
+
+/* ── ARTICLES ───────────────────────────────────── */
+.art-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.art-item:last-child { border-bottom: none; padding-bottom: 0; }
+.art-date { color: var(--dim); font-size: 10px; margin-bottom: 1px; }
+.art-title { color: var(--amber); }
+.art-title:hover { color: #fff; }
+
+/* ── STATUS ─────────────────────────────────────── */
+.status-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11px;
+  margin-bottom: 7px;
+}
+.dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  flex-shrink: 0;
+  margin-top: 3px;
+  animation: pulse 2.8s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.slabel { color: var(--dim); min-width: 54px; }
+.sval   { color: var(--text); }
+
+/* ── PROGRESS ───────────────────────────────────── */
+.prog { margin: 4px 0 9px; }
+.prog-lbl {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--dim);
+  margin-bottom: 2px;
+}
+.prog-track {
+  height: 5px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+}
+.prog-fill {
+  height: 100%;
+  background: var(--amber);
+  box-shadow: 0 0 5px var(--amber2);
+  transition: width 1.2s ease;
+}
+.prog-fill.g { background: var(--green); box-shadow: 0 0 5px var(--green2); }
+
+/* ── LINKS ──────────────────────────────────────── */
+.link-list { list-style: none; }
+.link-list li { border-bottom: 1px solid var(--border); padding: 5px 0; font-size: 12px; }
+.link-list li:last-child { border-bottom: none; }
+.lcat {
+  font-size: 10px; color: var(--dim);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-top: 8px; margin-bottom: 2px;
+  border-bottom: none !important; padding: 0 !important;
 }
 
-.prose table { border-collapse: collapse; width: 100%; margin: 1em 0; border: 1px solid var(--border); }
-.prose th, .prose td { padding: 10px 12px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); font-size: 13px; }
-.prose th { background: var(--bg-alt); color: var(--green); font-weight: 600; }
-.prose tr:last-child td { border-bottom: none; }
-.prose td:last-child, .prose th:last-child { border-right: none; }
-
-</style></head><body style="background:#0a0a0a; color:#c8c8c8;"><pre class="bg-asteroid select-none m-0">            ______
-        _.-'      '-._
-      .'   _..._      '.
-     /    /     \       \
-    |     \     /   .    |
-    | .    '-.-'         |
-     \  .           O   /
-      '.      * .'
-        '-._      _.-'
-            `""""`
-</pre><header class="sticky top-0 z-[200] border-b border-[#2a2a2a] bg-[#0a0a0a]"><div class="grid grid-cols-[auto_1fr_auto] items-stretch"><div class="px-6 py-3 border-r border-[#2a2a2a] flex flex-col justify-center"><a href="#home" class="text-[#4ade80] text-2xl leading-none tracking-widest hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; REBOOTER_</a><div class="mt-1 text-[#555555] text-[10px]" style="font-family:var(--font-body);">[ INIT ] <span id="nav-spinner" class="text-[#4ade80] ml-1">[-]</span></div></div><div class="hidden md:flex items-center px-8 gap-8"><a href="#home" class="text-[#888888] hover:text-[#c8c8c8] text-[16px] tracking-widest transition-colors" style="font-family:var(--font-term);">&gt; Home</a> <a href="#blog" class="text-[#888888] hover:text-[#c8c8c8] text-[16px] tracking-widest transition-colors" style="font-family:var(--font-term);">&gt; Dispatches</a> <a href="#authors" class="text-[#888888] hover:text-[#c8c8c8] text-[16px] tracking-widest transition-colors" style="font-family:var(--font-term);">&gt; Authors</a></div><div class="hidden md:flex flex-col justify-center px-6 border-l border-[#2a2a2a]"><div class="text-[#4ade80] text-[11px]" style="font-family:var(--font-term);">TTY1</div><div class="text-[#555555] text-[10px] mt-0.5" style="font-family:var(--font-body);">UPTIME: 99.9%</div></div></div></header><main class="container mx-auto px-6 md:px-16 py-12 max-w-[1100px] relative z-10"><section id="home" class="page min-h-[80vh]"><div class="fade-in border-b border-[#2a2a2a] pb-12 mb-12"><div><pre class="text-[#4ade80] text-[18px] sm:text-[20px] leading-[1.15] mb-8 select-none overflow-x-auto" style="font-family:var(--font-term);">  ____  _____ ____   ___   ___ _____
- |  _ \| ____| __ ) / _ \ / _ \_   _|
- | |_) |  _| |  _ \| | | | | | || |
- |  _ <| |___| |_) | |_| | |_| || |
- |_| \_\_____|____/ \___/ \___/ |_|
-       THE SYSTEM
-</pre><div class="text-[18px] text-[#888888] mb-8" style="font-family:var(--font-term);"><span class="text-[#e05555]">root@reboot:~#</span> <span id="typewriter"></span><span class="cursor"></span></div><div class="border border-[#2a2a2a] bg-[#0f0f0f] p-5 relative"><div class="absolute -top-[11px] left-4 bg-[#0a0a0a] px-2 text-[#555555] text-[11px]" style="font-family:var(--font-body);">/var/log/system.log</div><div class="text-[14px] text-[#888888] leading-[1.9]" style="font-family:var(--font-body);"><p class="mb-1"><span class="text-[#e05555]">[ERR]</span> Dark Crystals of Programming stolen.</p><p class="mb-1"><span class="text-[#d4905a]">[WARN]</span> Corquettes constructing super weapon.</p><p class="mb-3"><span class="text-[#5ec4d4]">[INFO]</span> Target: hypermories (caffeine guardians).</p><p class="mb-1"><span class="text-[#4ade80]">[EXEC]</span> Gathering unix wizards...</p><p class="text-[#c8c8c8]">&gt; Mission: fight back. Reboot the system.</p><p class="mt-3 text-[#555555]">-- Signed: Kesh --</p></div></div></div></div><div class="fade-in"><div class="flex items-center gap-4 mb-8"><span class="text-[18px] text-[#555555]" style="font-family:var(--font-term);">// recent dispatches</span><div class="flex-1 border-t border-[#2a2a2a]"></div></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[March 13, 2026]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/gnet">Tunneling All System Traffic Through Your Phone with SSH, redsocks, and Mullvad</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">Routes all system TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/gnet" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[January 6, 2026]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/TmobileSpoof">T-mobile TTL spoofing</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">Bypassing hotspot throttling via TTL modification.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/TmobileSpoof" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[November 22, 2025]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/tanveersalim" class="hover:text-[#4ade80] transition-colors">Tanveer Salim</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/CertCIndustries">Industries in Demand for CERT C Compliant Security-Focused Coders</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">The Therac-25 disaster taught us that bugs in C code can be lethal. Learn why aerospace, automotive, and medical industries now mandate CERT C compliance to prevent vulnerabilities in life-critical systems.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/CertCIndustries" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article></div><a href="#blog" class="nav-link inline-block mt-8 text-[14px] text-[#555555] hover:text-[#4ade80] transition-colors" style="font-family:var(--font-term);">&gt; view all transmissions _</a></div></section><section id="blog" class="page min-h-screen hidden"><div class="fade-in"><div class="flex items-center gap-4 mb-10"><span class="text-[18px] text-[#555555]" style="font-family:var(--font-term);">// dispatches</span><div class="flex-1 border-t border-[#2a2a2a]"></div></div><div class="mb-10 relative max-w-lg"><span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#4ade80] text-[16px]" style="font-family:var(--font-term);">$</span> <input type="text" id="post-search" placeholder="grep 'keyword' *" class="w-full bg-[#0f0f0f] border border-[#2a2a2a] text-[#c8c8c8] pl-8 pr-4 py-2.5 focus:outline-none focus:border-[#4ade80] transition-colors placeholder-[#333333] text-[15px]" style="font-family:var(--font-term);"></div><div id="all-posts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[March 13, 2026]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/gnet">Tunneling All System Traffic Through Your Phone with SSH, redsocks, and Mullvad</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">Routes all system TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/gnet" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[January 6, 2026]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/TmobileSpoof">T-mobile TTL spoofing</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">Bypassing hotspot throttling via TTL modification.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/TmobileSpoof" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[November 22, 2025]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/tanveersalim" class="hover:text-[#4ade80] transition-colors">Tanveer Salim</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/CertCIndustries">Industries in Demand for CERT C Compliant Security-Focused Coders</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">The Therac-25 disaster taught us that bugs in C code can be lethal. Learn why aerospace, automotive, and medical industries now mandate CERT C compliance to prevent vulnerabilities in life-critical systems.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/CertCIndustries" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[November 12, 2025]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/DockerIsNotASandbox">Docker is not a Sandbox</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">One of the biggest misconceptions I see about Docker is that it&apos;s somehow sandboxed—a place where you can safely test programs and services in isolation.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/DockerIsNotASandbox" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[October 20, 2025]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/K3S">My Homelab Journey: From Mini PCs to Kubernetes with K3s</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">From a few mini PCs to a fully functional Kubernetes cluster – my homelab journey using Ubuntu and K3s has been full of learning experiences.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/K3S" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article></div></div></section><section id="content-view" class="page min-h-screen hidden"><div class="fade-in"><button id="back-btn" class="mb-8 inline-flex items-center gap-2 text-[9px] text-[#555555] border border-[#2a2a2a] px-3 py-2 uppercase tracking-widest hover:border-[#4ade80] hover:text-[#4ade80] transition-colors" style="font-family:var(--font-pixel);">&larr; Back</button><div class="border border-[#2a2a2a] bg-[#0f0f0f]"><!-- Terminal titlebar --><div class="flex items-center gap-2 px-4 py-2 border-b border-[#2a2a2a] bg-[#0a0a0a]"><div class="w-2.5 h-2.5 rounded-full bg-[#e05555]"></div><div class="w-2.5 h-2.5 rounded-full bg-[#d4905a]"></div><div class="w-2.5 h-2.5 rounded-full bg-[#4ade80]"></div><span class="ml-3 text-[#555555] text-[12px]" style="font-family:var(--font-term);">transmission.log</span></div><div id="dynamic-content" class="prose max-w-none"></div></div></div></section><section id="authors" class="page min-h-screen hidden"><div class="fade-in"><div class="flex items-center gap-4 mb-10"><span class="text-[18px] text-[#555555]" style="font-family:var(--font-term);">// authors</span><div class="flex-1 border-t border-[#2a2a2a]"></div></div><div class="space-y-12"><div class="author-block border border-[#2a2a2a] bg-[#0f0f0f] p-8"><div class="mb-6 pb-6 border-b border-[#2a2a2a]"><h2 class="text-[2rem] text-[#c8c8c8] uppercase tracking-wide leading-none mb-4" style="font-family:var(--font-term);">Connal McInnis</h2><div class="flex flex-wrap gap-3" style="font-family:var(--font-pixel); font-size:9px;"><a href="https://github.com/conjon1" target="_blank" class="text-[#555555] border border-[#2a2a2a] px-3 py-1.5 hover:border-[#4ade80] hover:text-[#4ade80] transition-colors uppercase tracking-widest">Github</a> <a href="https://www.linkedin.com/in/connalmcinnis/" target="_blank" class="text-[#555555] border border-[#2a2a2a] px-3 py-1.5 hover:border-[#5ec4d4] hover:text-[#5ec4d4] transition-colors uppercase tracking-widest">LinkedIn</a> <a href="#author/connalmcinnis" class="text-[#555555] border border-[#2a2a2a] px-3 py-1.5 hover:border-[#c8c8c8] hover:text-[#c8c8c8] transition-colors uppercase tracking-widest">Profile</a></div></div><div class="text-[14px] text-[#555555] mb-5" style="font-family:var(--font-term);">&gt; logs by Connal McInnis</div><div class="grid grid-cols-1 md:grid-cols-2 gap-5"><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[March 13, 2026]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/gnet">Tunneling All System Traffic Through Your Phone with SSH, redsocks, and Mullvad</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">Routes all system TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/gnet" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[January 6, 2026]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/TmobileSpoof">T-mobile TTL spoofing</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">Bypassing hotspot throttling via TTL modification.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/TmobileSpoof" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[November 12, 2025]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/DockerIsNotASandbox">Docker is not a Sandbox</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">One of the biggest misconceptions I see about Docker is that it&apos;s somehow sandboxed—a place where you can safely test programs and services in isolation.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/DockerIsNotASandbox" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[October 20, 2025]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/connalmcinnis" class="hover:text-[#4ade80] transition-colors">Connal McInnis</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/K3S">My Homelab Journey: From Mini PCs to Kubernetes with K3s</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">From a few mini PCs to a fully functional Kubernetes cluster – my homelab journey using Ubuntu and K3s has been full of learning experiences.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/K3S" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article></div></div><div class="author-block border border-[#2a2a2a] bg-[#0f0f0f] p-8"><div class="mb-6 pb-6 border-b border-[#2a2a2a]"><h2 class="text-[2rem] text-[#c8c8c8] uppercase tracking-wide leading-none mb-4" style="font-family:var(--font-term);">Keshav Italia</h2><div class="flex flex-wrap gap-3" style="font-family:var(--font-pixel); font-size:9px;"><a href="https://github.com/Keshav25" target="_blank" class="text-[#555555] border border-[#2a2a2a] px-3 py-1.5 hover:border-[#4ade80] hover:text-[#4ade80] transition-colors uppercase tracking-widest">Github</a> <a href="https://www.linkedin.com/in/keshav-italia-151b74171/" target="_blank" class="text-[#555555] border border-[#2a2a2a] px-3 py-1.5 hover:border-[#5ec4d4] hover:text-[#5ec4d4] transition-colors uppercase tracking-widest">LinkedIn</a> <a href="#author/keshavitalia" class="text-[#555555] border border-[#2a2a2a] px-3 py-1.5 hover:border-[#c8c8c8] hover:text-[#c8c8c8] transition-colors uppercase tracking-widest">Profile</a></div></div><div class="text-[14px] text-[#555555] mb-5" style="font-family:var(--font-term);">&gt; logs by Keshav Italia</div><div class="grid grid-cols-1 md:grid-cols-2 gap-5"><p class="text-[#555555] text-[13px]" style="font-family:var(--font-term);">No logs published yet.</p></div></div><div class="author-block border border-[#2a2a2a] bg-[#0f0f0f] p-8"><div class="mb-6 pb-6 border-b border-[#2a2a2a]"><h2 class="text-[2rem] text-[#c8c8c8] uppercase tracking-wide leading-none mb-4" style="font-family:var(--font-term);">Tanveer Salim</h2><div class="flex flex-wrap gap-3" style="font-family:var(--font-pixel); font-size:9px;"><a href="https://github.com/fosres" target="_blank" class="text-[#555555] border border-[#2a2a2a] px-3 py-1.5 hover:border-[#4ade80] hover:text-[#4ade80] transition-colors uppercase tracking-widest">Github</a> <a href="https://linkedin.com/in/fosres" target="_blank" class="text-[#555555] border border-[#2a2a2a] px-3 py-1.5 hover:border-[#5ec4d4] hover:text-[#5ec4d4] transition-colors uppercase tracking-widest">LinkedIn</a> <a href="#author/tanveersalim" class="text-[#555555] border border-[#2a2a2a] px-3 py-1.5 hover:border-[#c8c8c8] hover:text-[#c8c8c8] transition-colors uppercase tracking-widest">Profile</a></div></div><div class="text-[14px] text-[#555555] mb-5" style="font-family:var(--font-term);">&gt; logs by Tanveer Salim</div><div class="grid grid-cols-1 md:grid-cols-2 gap-5"><article class="group border border-[#2a2a2a] bg-[#0f0f0f] p-5 flex flex-col h-full hover:border-[#4ade80] transition-colors duration-200"><div class="flex items-center text-[13px] text-[#555555] mb-3" style="font-family:var(--font-term);"><span>[November 22, 2025]</span> <span class="mx-2 text-[#2a2a2a]">::</span> <a href="#author/tanveersalim" class="hover:text-[#4ade80] transition-colors">Tanveer Salim</a></div><h3 class="text-[20px] text-[#c8c8c8] group-hover:text-[#4ade80] transition-colors mb-3 leading-tight" style="font-family:var(--font-term);"><a href="#post/CertCIndustries">Industries in Demand for CERT C Compliant Security-Focused Coders</a></h3><p class="text-[13px] text-[#555555] leading-[1.7] flex-grow mb-5 excerpt" style="font-family:var(--font-body);">The Therac-25 disaster taught us that bugs in C code can be lethal. Learn why aerospace, automotive, and medical industries now mandate CERT C compliance to prevent vulnerabilities in life-critical systems.</p><div class="mt-auto pt-4 border-t border-[#1e1e1e]"><a href="#post/CertCIndustries" class="text-[14px] text-[#4ade80] hover:text-white transition-colors" style="font-family:var(--font-term);">&gt; read _</a></div></article></div></div></div></div></section></main><footer class="mt-20 border-t border-[#2a2a2a]"><div class="grid md:grid-cols-3 bg-[#0a0a0a]"><div class="p-10 md:border-r border-[#2a2a2a]"><div class="text-[#c8c8c8] text-[22px] mb-3" style="font-family:var(--font-term);">REBOOTER_</div><p class="text-[#555555] text-[13px] leading-[1.7] mb-4" style="font-family:var(--font-body);">Hypermories. Corquettes. Dark Crystals.<br>A transcendental eagle. Unix wizards.</p><p class="text-[#333333] text-[11px]" style="font-family:var(--font-body);">&copy; 2026 Connal J. McInnis &amp; Keshav Italia.<br>Built with Go &amp; Templ.</p></div><div class="p-10 md:border-r border-[#2a2a2a] flex flex-col gap-2"><div class="text-[#333333] text-[10px] uppercase tracking-widest mb-3" style="font-family:var(--font-body);">Directories</div><a href="#home" class="text-[#555555] hover:text-[#c8c8c8] text-[14px] transition-colors" style="font-family:var(--font-term);">&gt; home</a> <a href="#blog" class="text-[#555555] hover:text-[#c8c8c8] text-[14px] transition-colors" style="font-family:var(--font-term);">&gt; dispatches</a> <a href="#authors" class="text-[#555555] hover:text-[#c8c8c8] text-[14px] transition-colors" style="font-family:var(--font-term);">&gt; authors</a></div><div class="p-10 flex flex-col gap-2"><div class="text-[#333333] text-[10px] uppercase tracking-widest mb-3" style="font-family:var(--font-body);">Execute</div><a href="#blog" class="text-[#4ade80] hover:text-white text-[14px] transition-colors" style="font-family:var(--font-term);">&gt; tail -f transmissions</a> <a href="#authors" class="text-[#555555] hover:text-[#c8c8c8] text-[14px] transition-colors mt-1" style="font-family:var(--font-term);">&gt; whoami</a></div></div><div class="border-t border-[#2a2a2a] flex flex-wrap justify-between items-center px-8 py-3 text-[#555555] text-[11px]" style="font-family:var(--font-body);"><span>REBOOTER.BLOG</span> <span class="hidden md:inline">CONNECTION SECURE</span> <span>VOL.1 · 2026</span></div></footer><script>
-/* ── app.js ────────────────────────────────────────────────────────────────
-   BlogApp class skeleton.
-   Methods are added to the prototype by the files that follow in concat order:
-     router.js → loader.js → search.js → typewriter.js → observers.js → mobile.js
-   boot.js fires DOMContentLoaded last.
-   ────────────────────────────────────────────────────────────────────────── */
-class BlogApp {
-  constructor() {
-    this.pages       = document.querySelectorAll('.page');
-    this.contentDiv  = document.getElementById('dynamic-content');
-    this.authorsData = [];
-    this.init();
-  }
-
-  async init() {
-    await this.fetchAuthors();
-    this.initRouter();
-    this.initMobileMenu();
-  }
-
-  async fetchAuthors() {
-    try {
-      const res = await fetch('authors.json');
-      if (res.ok) this.authorsData = await res.json();
-    } catch (_) {}
-  }
+/* ── 88x31 BUTTONS ──────────────────────────────── */
+.btn-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+.btn88 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 31px;
+  border: 1px solid var(--brite);
+  background: var(--bg3);
+  font-family: var(--font);
+  font-size: 9px;
+  text-align: center;
+  color: var(--dim);
+  line-height: 1.2;
+  padding: 2px;
+  text-decoration: none;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
 }
-/* ── router.js ─────────────────────────────────────────────────────────────
-   Hash-based SPA routing.
-   Handles #home, #blog, #authors, #post/<id>, #author/<id>.
-   ────────────────────────────────────────────────────────────────────────── */
-Object.assign(BlogApp.prototype, {
+.btn88:hover { border-color: var(--amber2); color: var(--amber); background: var(--amber4); text-shadow: none; }
+.btn88.a { border-color: var(--amber3); color: var(--amber2); }
+.btn88.g { border-color: var(--green2); color: var(--green); }
 
-  initRouter() {
-    window.addEventListener('hashchange', () => this.handleRoute());
-    this.handleRoute();
-    this.initSearch();
-    this.initTypewriter();
-    this.initObservers();
+/* ── FOOTER ─────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  font-size: 10px;
+  color: var(--dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.f-hate { color: var(--amber3); letter-spacing: 0.5px; }
+</style>
+</head>
+<body>
 
-    document.getElementById('back-btn').addEventListener('click', () => {
-      window.history.back();
-      setTimeout(() => {
-        if (!window.location.hash) window.location.hash = '#blog';
-      }, 100);
-    });
-  },
+<!-- ══ HEADER ══════════════════════════════════════════════════════ -->
+<header>
+  <div class="header-top">
 
-  async handleRoute() {
-    const hash = window.location.hash || '#home';
-    if (hash.startsWith('#post/')) {
-      await this.loadPost(hash.replace('#post/', ''));
-      this.showPage('content-view');
-    } else if (hash.startsWith('#author/')) {
-      await this.loadAuthorPage(hash.replace('#author/', ''));
-      this.showPage('content-view');
-    } else {
-      this.showPage(hash.replace('#', ''));
-    }
-    window.scrollTo(0, 0);
-  },
+    <pre class="ascii-hero">██████╗ ███████╗██████╗  ██████╗  ██████╗ ████████╗███████╗██████╗ 
+██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔═══██╗╚══██╔══╝██╔════╝██╔══██╗
+██████╔╝█████╗  ██████╔╝██║   ██║██║   ██║   ██║   █████╗  ██████╔╝
+██╔══██╗██╔══╝  ██╔══██╗██║   ██║██║   ██║   ██║   ██╔══╝  ██╔══██╗
+██║  ██║███████╗██████╔╝╚██████╔╝╚██████╔╝   ██║   ███████╗██║  ██║
+╚═╝  ╚═╝╚══════╝╚═════╝  ╚═════╝  ╚═════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝</pre>
 
-  showPage(id) {
-    this.pages.forEach(p => {
-      if (p.id === id) {
-        p.classList.remove('hidden');
-        setTimeout(() => {
-          p.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
-        }, 50);
-      } else {
-        p.classList.add('hidden');
-      }
-    });
-  },
+    <div class="header-meta-row">
+      <span class="meta-seg">
+        <span class="val amber">connal mcinnis</span>
+      </span>
+      <span class="meta-seg">
+        <span class="val"><a href="https://rebooter.blog">rebooter.blog</a></span>
+      </span>
+      <span class="meta-seg">
+        security research · low-level systems
+      </span>
+      <span class="meta-seg">
+        <span class="val green">$ _<span class="cursor">█</span></span>
+      </span>
+    </div>
 
-});
-/* ── loader.js ───────────────────────────────────────────────────────────── */
-Object.assign(BlogApp.prototype, {
+    <div class="stack-tags">
+      <span class="tag a">arch linux (btw)</span>
+      <span class="tag a">doom emacs</span>
+      <span class="tag g">go</span>
+      <span class="tag">c++</span>
+      <span class="tag l">common lisp</span>
+      <span class="tag">bash</span>
+      <span class="tag">rebooter.blog</span>
+    </div>
 
-  async loadPost(id) {
-    this.contentDiv.innerHTML = '<p class="p-8 text-[#555555]" style="font-family:var(--font-term);">> fetching transmission...</p>';
-    try {
-      const res = await fetch(`posts/${id}.html`);
-      if (!res.ok) throw new Error('transmission missing or redacted');
-      const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+    <nav class="header-nav">
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#articles">articles</a>
+      <a href="#links">links</a>
+    </nav>
 
-      const authorName = doc.querySelector('meta[name="author"]')?.content;
-      if (authorName) {
-        const authorObj = this.authorsData.find(a => a.name === authorName);
-        const nameHtml  = authorObj
-          ? `<a href="#author/${authorObj.id}" class="text-[#5ec4d4] hover:text-white transition-colors">${authorName}</a>`
-          : `<span class="text-[#5ec4d4]">${authorName}</span>`;
-        const byline = `
-          <div class="flex items-center gap-2 mb-6 mt-1 text-[13px] text-[#555555]" style="font-family:var(--font-term);">
-            <span>>></span><span>author ::</span>${nameHtml}
-          </div>`;
-        const h1 = doc.querySelector('h1');
-        if (h1) { h1.style.fontFamily = 'var(--font-term)'; h1.insertAdjacentHTML('afterend', byline); }
-        else doc.body.insertAdjacentHTML('afterbegin', byline);
-      }
-      this.contentDiv.innerHTML = doc.body.innerHTML;
-      setTimeout(() => { if (typeof this.initObservers === 'function') this.initObservers(); }, 50);
-    } catch (e) {
-      this.contentDiv.innerHTML = `
-        <div class="border border-[#e05555] p-6 m-6">
-          <p class="text-[10px] text-[#e05555] mb-2" style="font-family:var(--font-pixel);">[ERR] FAILED</p>
-          <p class="text-[13px] text-[#888888]" style="font-family:var(--font-term);">${e.message}</p>
-        </div>`;
-    }
-  },
+  </div>
+</header>
 
-  async loadAuthorPage(id) {
-    this.contentDiv.innerHTML = '<p class="p-8 text-[#555555]" style="font-family:var(--font-term);">> locating personnel file...</p>';
-    try {
-      const res = await fetch(`authors/${id}.html`);
-      if (!res.ok) throw new Error('personnel file not found');
-      const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
-      this.contentDiv.innerHTML = doc.body.innerHTML;
-      setTimeout(() => { if (typeof this.initObservers === 'function') this.initObservers(); }, 50);
-    } catch (e) {
-      this.contentDiv.innerHTML = `
-        <div class="border border-[#e05555] p-6 m-6">
-          <p class="text-[10px] text-[#e05555] mb-2" style="font-family:var(--font-pixel);">[ERR] ACCESS DENIED</p>
-          <p class="text-[13px] text-[#888888]" style="font-family:var(--font-term);">${e.message}</p>
-        </div>`;
-    }
-  },
+<!-- ══ MARQUEE 1 ════════════════════════════════════════════════════ -->
+<div class="marquee-wrap">
+  <div class="mq">
+    <span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span><span>⌞ REBOOTER.BLOG ⌝ ↓</span><span>⌞ CONNAL MCINNIS ⌝ ↓</span>
+  </div>
+</div>
 
-});
-/* ── search.js ─────────────────────────────────────────────────────────────
-   Live search: filters #all-posts articles by title and excerpt text.
-   Hides non-matching articles immediately on input.
-   ────────────────────────────────────────────────────────────────────────── */
-Object.assign(BlogApp.prototype, {
+<!-- ══ MAIN ═════════════════════════════════════════════════════════ -->
+<div class="page-wrap">
+<div class="grid">
 
-  initSearch() {
-    const input = document.getElementById('post-search');
-    if (!input) return;
-    input.addEventListener('input', e => {
-      const term = e.target.value.toLowerCase();
-      document.querySelectorAll('#all-posts article').forEach(post => {
-        const title   = post.querySelector('h3').textContent.toLowerCase();
-        const excerpt = post.querySelector('.excerpt').textContent.toLowerCase();
-        
-        // Use 'flex' instead of 'block' to maintain the column layout of the zine post items
-        post.style.display = (title.includes(term) || excerpt.includes(term)) ? 'flex' : 'none';
-      });
-    });
-  },
+<!-- LEFT ─────────────────────────────────────────── -->
+<main class="col-main">
 
-});
-/* ── typewriter.js ─────────────────────────────────────────────────────────
-   Cycles through role strings in the #typewriter span with a typing effect.
-   The .cursor element (a blinking block) is rendered by home.templ.
-   ────────────────────────────────────────────────────────────────────────── */
-Object.assign(BlogApp.prototype, {
+  <section id="about" class="panel">
+    <div class="panel-head">ABOUT</div>
+    <div class="panel-body">
+      <table class="sysinfo">
+        <tr><td>NAME</td>   <td>Connal McInnis</td></tr>
+        <tr><td>SITE</td>   <td><a href="https://rebooter.blog">rebooter.blog</a></td></tr>
+        <tr><td>OS</td>     <td>arch linux (btw) — no bloat, no hand-holding</td></tr>
+        <tr><td>EDITOR</td> <td>doom emacs — configured to be scary</td></tr>
+        <tr><td>STACK</td>  <td>go · c++ · common lisp · bash</td></tr>
+        <tr><td>FIELD</td>  <td>security research / low-level systems</td></tr>
+        <tr><td>EMAIL</td>  <td><a href="mailto:connal@rebooter.blog">connal@rebooter.blog</a></td></tr>
+      </table>
 
-  initTypewriter() {
-    const el = document.getElementById('typewriter');
-    if (!el) return;
+      <div class="about-txt">
+        <p>
+          Security is the primary focus: network recon, exploit research,
+          malware analysis, and building scanners in Go and C++.
+          I also write Common Lisp when I want to feel somthing.
+          Bash holds everything together.
+        </p>
+        <p>
+          The system always comes back up.
+          This site is my corner of the web — no tracking, no ads,
+          no JavaScript frameworks. Zero deps.
+        </p>
+      </div>
 
-    const roles = [
-      'Software Engineers',
-      'Cybersecurity Researchers',
-      'Free Software Advocates',
-      'Technology Consultants',
-      'Data Scientists',
-      'Linux Enthusiasts',
-      'Software Architects',
-      'Legacy Modernizers',
-      'Platform Builders',
-      'Daemon Slayers',
-      'Unix Wizards',
-      'Coffee-Driven Developers',
-      'Documentation Meditators',
-      'GNU/Programmers',
-      'idots',
-    ];
+      <div class="term">
+        <span class="p">connal@rebooter</span><span class="o"> ~ </span><span class="p">$</span> <span class="c">neofetch --off</span><br>
+        <span class="o">OS:     </span>Arch Linux x86_64<br>
+        <span class="o">Kernel: </span>7.0.3-arch1-2<br>
+        <span class="o">Shell:  </span>bash 5.3.9<br>
+        <span class="o">Editor: </span>3.0.0-pre<br>
+        <span class="o">Stack:  </span>go · c++ · common lisp · bash<br>
+      </div>
+    </div>
+  </section>
 
-    let roleIdx = 0, charIdx = 0, isDeleting = false;
+  <section id="projects" class="panel">
+    <div class="panel-head">PROJECTS</div>
+    <div class="panel-body">
+      <ul class="proj-list">
 
-    const type = () => {
-      const current = roles[roleIdx];
-      el.textContent = current.substring(0, charIdx + (isDeleting ? -1 : 1));
-      charIdx += isDeleting ? -1 : 1;
+      </ul>
+    </div>
+  </section>
 
-      if (!isDeleting && charIdx === current.length) {
-        setTimeout(() => { isDeleting = true; }, 2000);
-      } else if (isDeleting && charIdx === 0) {
-        isDeleting = false;
-        roleIdx = (roleIdx + 1) % roles.length;
-      }
-      setTimeout(type, isDeleting ? 100 : 150);
-    };
+  <section id="articles" class="panel">
+    <div class="panel-head">ARTICLES</div>
+    <div class="panel-body">
 
-    type();
-  },
+    </div>
+  </section>
 
-});
-/* ── observers.js ──────────────────────────────────────────────────────────
-   IntersectionObserver that adds .visible to .fade-in elements when they
-   enter the viewport, triggering the CSS opacity/translate transition.
-   Each element is unobserved after first reveal (fire-once).
-   ────────────────────────────────────────────────────────────────────────── */
-Object.assign(BlogApp.prototype, {
+</main>
 
-  initObservers() {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+<!-- RIGHT ────────────────────────────────────────── -->
+<aside class="col-side">
 
-    // Look for fade-in elements across the whole document
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    
-    // Also look inside dynamic content if it was just loaded
-    const dynamicContent = document.getElementById('dynamic-content');
-    if (dynamicContent) {
-        dynamicContent.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    }
-  },
+  <div class="panel g">
+    <div class="panel-head">STATUS</div>
+    <div class="panel-body">
+      <div class="status-row">
+        <div class="dot"></div>
+        <span class="slabel">system:</span>
+        <span class="sval">online — rebooter.blog</span>
+      </div>
+      <div class="status-row">
+        <span class="slabel">now:</span>
+        <span class="sval">Bashing head agianst the wall learning c++</span>
+      </div>
+      <div class="status-row" style="margin-top:4px;">
+        <span class="slabel">mood:</span>
+        <span class="sval">rebooting into something new</span>
+      </div>
 
-});
-/* ── mobile.js ─────────────────────────────────────────────────────────────
-   Toggles the mobile nav drawer open/closed.
-   The hamburger button and drawer are rendered by nav.templ.
-   ────────────────────────────────────────────────────────────────────────── */
-Object.assign(BlogApp.prototype, {
+      <div style="height:8px;"></div>
 
-  initMobileMenu() {
-    const btn  = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    if (!btn || !menu) return;
+      <div class="prog">
+        <div class="prog-lbl"><span>100 sec projects</span><span>0/100</span></div>
+        <div class="prog-track"><div class="prog-fill" id="pf1" style="width:0%"></div></div>
+      </div>
+      <div class="prog">
+        <div class="prog-lbl"><span>htb rank</span><span>Noob</span></div>
+        <div class="prog-track"><div class="prog-fill g" id="pf2" style="width:0%"></div></div>
+      </div>
+      <div class="prog">
+        <div class="prog-lbl"><span>caffine consumed</span><span>∞</span></div>
+        <div class="prog-track"><div class="prog-fill" style="width:100%"></div></div>
+      </div>
+    </div>
+  </div>
 
-    btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  <div class="panel">
+    <div class="panel-head">SITE INFO</div>
+    <div class="panel-body">
+      <table class="sysinfo">
+        <tr><td>updated</td><td id="lu">—</td></tr>
+        <tr><td>version</td><td>v0.1.0</td></tr>
+        <tr><td>host</td>   <td>rebooter.blog</td></tr>
+        <tr><td>built</td>  <td>doom emacs + bash</td></tr>
+        <tr><td>deps</td>   <td>0</td></tr>
+      </table>
+    </div>
+  </div>
 
-    menu.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => menu.classList.add('hidden'));
-    });
-  },
+  <section id="links" class="panel">
+    <div class="panel-head">LINKS</div>
+    <div class="panel-body">
+      <ul class="link-list">
+        <li class="lcat">// security</li>
+        <li><a href="https://tmpout.sh" target="_blank">tmp.out zine ↗</a></li>
+        <li><a href="https://hackthebox.com" target="_blank">hackthebox ↗</a></li>
+        <li><a href="https://vulnhub.com" target="_blank">vulnhub ↗</a></li>
+        <li><a href="https://bazaar.abuse.ch" target="_blank">malwarebazaar ↗</a></li>
+        <li><a href="https://phrack.org" target="_blank">phrack ↗</a></li>
 
-});
-/* ── boot.js ─────────────────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  new BlogApp();
+        <li class="lcat">// tools i use</li>
+        <li><a href="https://archlinux.org" target="_blank">arch linux ↗</a></li>
+        <li><a href="https://github.com/doomemacs" target="_blank">doom emacs ↗</a></li>
+        <li><a href="https://go.dev" target="_blank">golang ↗</a></li>
+        <li><a href="https://projectdiscovery.io" target="_blank">projectdiscovery ↗</a></li>
 
-  // Nav spinner
-  const frames = ['[-]', '[\\]', '[|]', '[/]'];
-  let i = 0;
-  const el = document.getElementById('nav-spinner');
-  if (el) setInterval(() => { el.innerText = frames[i]; i = (i + 1) % frames.length; }, 150);
+        <li class="lcat">// web</li>
+        <li><a href="https://neocities.org" target="_blank">neocities ↗</a></li>
+        <li><a href="https://xiokka.neocities.org" target="_blank">xiokka ↗</a></li>
+        <li><a href="https://lwn.net" target="_blank">lwn.net ↗</a></li>
+      </ul>
+    </div>
+  </section>
 
-  // Radar animation
-  const radarFrames = ['  . \n -o-\n  . ', ' . .\n -O-\n . .', '  . \n =O=\n  . ', '    \n ~0~\n    '];
-  let r = 0;
-  const radar = document.getElementById('radar-ascii');
-  if (radar) setInterval(() => { radar.innerText = radarFrames[r]; r = (r + 1) % radarFrames.length; }, 500);
-});
+  <div class="panel">
+    <div class="panel-head">BUTTONS &amp; BADGES</div>
+    <div class="panel-body">
+      <div class="btn-grid">
+        <a class="btn88 a" href="https://rebooter.blog">rebooter<br>.blog</a>
+        <a class="btn88 g" href="https://archlinux.org" target="_blank">Arch<br>Linux</a>
+        <a class="btn88" href="https://tmpout.sh" target="_blank">read<br>tmp.out</a>
+        <a class="btn88" href="https://neocities.org" target="_blank">hosted on<br>neocities</a>
+        <a class="btn88 g" href="https://fsf.org" target="_blank">free<br>software</a>
+        <a class="btn88" href="#">no python<br>never</a>
+        <a class="btn88" href="#">hates<br>phones</a>
+        <a class="btn88 a" href="#">connal<br>mcinnis</a>
+      </div>
+    </div>
+  </div>
 
-</script></body></html>
+  
+</aside>
+</div>
+</div>
+
+<!-- ══ MARQUEE 2 ════════════════════════════════════════════════════ -->
+<div class="marquee-wrap g">
+  <div class="mq g" style="animation-direction:reverse;animation-duration:24s;">
+      <span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span><span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span>
+      <span>⌞ GO · C++ · LISP · BASH ⌝ ↑</span><span>⌞ RIGHT TO REPAIR⌝ ↑</span>
+  </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════ -->
+<footer>
+  <span>© connal mcinnis — <a href="https://rebooter.blog">rebooter.blog</a> — built with doom emacs, bash, and spite</span>
+  <span class="f-hate">(/¯◡‿◡)/¯ ~ ┻━┻ &nbsp; this website hates your phone</span>
+</footer>
+
+<script>
+(function(){
+  var n = Math.floor(Math.random()*3000)+10200;
+  document.getElementById('vc').textContent='VISITORS: '+String(n).padStart(6,'0');
+  var d=new Date();
+  document.getElementById('lu').textContent=
+    d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+})();
+</script>
+</body>
+</html>
