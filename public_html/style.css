@@ -232,18 +232,44 @@ header {
 
 /* ── TERM BLOCK ─────────────────────────────────── */
 .term {
-  background: #030307;
+  background: #010105;
   border: 1px solid var(--border);
-  padding: 10px 14px;
+  border-left: 3px solid var(--green);
+  border-radius: 0 2px 2px 0;
+  box-shadow:
+    0 0 0 1px rgba(34,204,68,0.06),
+    inset 0 0 30px rgba(0,0,0,0.4);
+  padding: 0;
   font-size: 11px;
   line-height: 1.85;
-  margin: 10px 0 4px;
+  margin: 12px 0 6px;
+  overflow: hidden;
 }
-.term .p  { color: var(--green); }
-.term .c  { color: var(--text); }
+.term::before {
+  content: '$ terminal';
+  display: block;
+  background: #040a06;
+  border-bottom: 1px solid var(--green2);
+  padding: 3px 10px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--green);
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.term-body {
+  padding: 10px 14px;
+}
+/* fallback if no .term-body wrapper */
+.term > span, .term > br {
+  display: block;
+  padding: 0 14px;
+}
+.term .p  { color: var(--green); text-shadow: 0 0 6px rgba(34,204,68,0.4); }
+.term .c  { color: #d0cfc4; }
 .term .o  { color: var(--dim); }
-.term .w  { color: var(--amber2); }
-.term .e  { color: var(--red); }
+.term .w  { color: var(--amber); }
+.term .e  { color: var(--red); text-shadow: 0 0 6px rgba(255,51,68,0.5); }
 
 /* ── PROJECTS ───────────────────────────────────── */
 .proj-list { list-style: none; }
@@ -374,14 +400,199 @@ footer {
 .f-hate { color: var(--amber3); letter-spacing: 0.5px; }
 
 /* ── ORG-EXPORT SPECIFIC CLASSES ────────────────── */
-.title { color: var(--amber); font-size: 22px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-.outline-2 { margin-bottom: 30px; }
-.outline-text-2 { margin-left: 10px; }
-h2 { color: var(--amber); font-size: 18px; margin-top: 25px; margin-bottom: 10px; }
-h3 { color: var(--amber2); font-size: 16px; margin-top: 15px; }
-.todo { color: var(--red); font-weight: bold; }
-.done { color: var(--green); font-weight: bold; }
-.tag { font-size: 10px; padding: 1px 4px; border: 1px solid var(--border); margin-left: 5px; color: var(--dim); }
-table { border-collapse: collapse; width: 100%; margin: 15px 0; }
-th, td { border: 1px solid var(--border); padding: 8px; text-align: left; }
+#content {
+  max-width: 860px;
+  margin: 30px auto;
+  padding: 0 24px 60px;
+}
+
+.title {
+  color: var(--amber);
+  font-size: 22px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+h2 { color: var(--amber);  font-size: 18px; margin-top: 30px; margin-bottom: 10px; }
+h3 { color: var(--amber2); font-size: 15px; margin-top: 20px; margin-bottom: 8px; }
+h4 { color: var(--text);   font-size: 13px; margin-top: 15px; margin-bottom: 6px; }
+
+p { margin-bottom: 10px; line-height: 1.75; }
+
+/* ── ORG-SRC-CONTAINER ───────────────────────────── */
+/* org-mode wraps src blocks in this div — strip it */
+.org-src-container {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 14px 0 !important;
+}
+.org-src-container pre {
+  margin: 0 !important;
+}
+
+/* ── CODE BLOCKS ─────────────────────────────────── */
+pre {
+  background: #010105 !important;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--amber3);
+  border-radius: 0 2px 2px 0;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+  padding: 12px 16px;
+  font-family: var(--font);
+  font-size: 12px;
+  line-height: 1.75;
+  overflow-x: auto;
+  margin: 14px 0;
+  color: var(--text);
+}
+
+/* Lang label: rendered as a wrapper div injected via CSS on the container.
+   Since we can't change org's HTML, use .org-src-container::before instead. */
+.org-src-container { position: relative; }
+
+.org-src-container::before {
+  content: attr(data-lang);  /* fallback — won't show without data-lang */
+  display: none;
+}
+
+/* Per-language label via adjacent sibling approach doesn't work in pure CSS;
+   instead we target the pre classes directly using a top border trick. */
+pre.src {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+/* Language label — piggyback on the pre::before.
+   Must set content AND it renders in normal flow since pre is block. */
+pre.src::before {
+  content: '';           /* default: empty, no space used */
+  display: block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--amber2);
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin: -12px -16px 10px -16px;  /* bleed to pre edges */
+  padding: 3px 16px;
+  background: rgba(7,7,16,0.9);
+  border-bottom: 1px solid var(--border);
+  line-height: 1.8;
+}
+
+pre.src-bash::before       { content: '▸  bash'; }
+pre.src-sh::before         { content: '▸  sh'; }
+pre.src-emacs-lisp::before { content: '▸  elisp'; }
+pre.src-toml::before       { content: '▸  toml'; }
+pre.src-nginx::before      { content: '▸  nginx'; }
+pre.src-ini::before        { content: '▸  ini'; }
+pre.src-org::before        { content: '▸  org'; }
+pre.src-nil::before        { content: '▸  text'; }
+pre.src-go::before         { content: '▸  go'; color: #4488ff; }
+pre.src-c::before          { content: '▸  c'; color: #9966ff; }
+pre.src-cpp::before        { content: '▸  c++'; color: #9966ff; }
+pre.src-python::before     { content: '▸  python'; color: #4ec9b0; }
+
+pre.example {
+  border-left-color: var(--brite);
+  border-left-width: 2px;
+  color: var(--dim);
+  background: #020207 !important;
+  box-shadow: none;
+}
+
+/* inline code */
+code {
+  font-family: var(--font);
+  color: var(--amber2);
+  font-size: 12px;
+  background: rgba(58, 40, 0, 0.3);
+  padding: 0 4px;
+  border: 1px solid rgba(58, 40, 0, 0.55);
+  border-radius: 1px;
+}
+
+/* reset inside pre — org puts a <code> wrapper inside <pre> */
+pre code {
+  color: inherit !important;
+  font-size: inherit !important;
+  background: none !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+/* ── BLOCKQUOTE ──────────────────────────────────── */
+blockquote {
+  border-left: 3px solid var(--brite);
+  margin: 14px 0;
+  padding: 8px 16px;
+  color: var(--dim);
+  font-size: 12px;
+}
+
+/* ── TABLES ──────────────────────────────────────── */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+  font-size: 12px;
+}
+th, td { border: 1px solid var(--border); padding: 7px 12px; text-align: left; }
 th { background: var(--bg3); color: var(--amber); }
+tr:nth-child(even) td { background: var(--bg2); }
+
+/* ── TOC ─────────────────────────────────────────── */
+#table-of-contents {
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  margin-bottom: 30px;
+  font-size: 12px;
+  text-align: center; 
+}
+
+#text-table-of-contents { 
+  display: inline-block; 
+  text-align: left;      
+  padding: 10px 16px; 
+}
+
+#table-of-contents h2 {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--amber);
+  padding: 7px 14px;
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  background: var(--bg3);
+}
+#table-of-contents h2::before { content: '>> '; color: var(--amber3); }
+#table-of-contents h2::after  { content: ' [+]'; color: var(--dim); font-size: 10px; }
+#table-of-contents.active h2::after { content: ' [-]'; }
+
+#text-table-of-contents { display: none; padding: 10px 16px; }
+#table-of-contents.active #text-table-of-contents { display: block; }
+
+#text-table-of-contents ul { list-style: none; padding-left: 12px; }
+#text-table-of-contents > ul { padding-left: 0; }
+#text-table-of-contents li { padding: 2px 0; }
+#text-table-of-contents a { color: var(--text); }
+#text-table-of-contents a:hover { color: var(--amber); }
+
+/* ── ORG MISC ────────────────────────────────────── */
+.outline-2 { margin-bottom: 30px; }
+.todo { color: var(--red);   font-weight: bold; }
+.done { color: var(--green); font-weight: bold; }
+.tag  { font-size: 10px; padding: 1px 5px; border: 1px solid var(--border); margin-left: 5px; color: var(--dim); }
+
+#postamble {
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+  padding-top: 10px;
+  font-size: 10px;
+  color: var(--dim);
+}
