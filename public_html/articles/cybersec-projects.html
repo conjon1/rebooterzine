@@ -3,197 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-05-09 Sat 15:15 -->
+<!-- 2026-05-17 Sun 17:30 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CyberSec Projects</title>
 <meta name="author" content="Connal McInnis" />
 <meta name="generator" content="Org Mode" />
-<style type="text/css">
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-c:before { content: 'C'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'JavaScript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
 <link rel='stylesheet' type='text/css' href='../../style.css'/>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -225,133 +40,133 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3ca4917">1. CHAINS KEY</a>
+<li><a href="#org9fa0f19">1. CHAINS KEY</a>
 <ul>
-<li><a href="#orga90ab8d">1.1. ══════════════════════════════════════════</a></li>
+<li><a href="#org64c9578">1.1. ══════════════════════════════════════════</a></li>
 </ul>
 </li>
-<li><a href="#orgcead959">2. TIER 1 — WEEKEND PROJECTS (1–2 days each)</a>
+<li><a href="#orga5784f7">2. TIER 1 — WEEKEND PROJECTS (1–2 days each)</a>
 <ul>
-<li><a href="#orgdffb611">2.1. ══════════════════════════════════════════</a></li>
-<li><a href="#org50e8987">2.2. <span class="todo TODO">TODO</span> [NET-W1] Set Up Kali Linux VM&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#orgd3d8e8c">2.3. <span class="todo TODO">TODO</span> [NET-W2] Home Network Recon with Nmap&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#org9750034">2.4. <span class="todo TODO">TODO</span> [NET-W3] Wireshark Traffic Analysis&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#orgb771ada">2.5. <span class="todo TODO">TODO</span> [NET-W4] Crack a WPA2 Handshake (Own Router)&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#orgf27b01c">2.6. <span class="todo TODO">TODO</span> [NET-W5] Netcat Fundamentals — Shells &amp; Transfers&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#org96d9682">2.7. <span class="todo TODO">TODO</span> [WEB-W1] SQLi &amp; XSS on DVWA&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
-<li><a href="#org4d459b0">2.8. <span class="todo TODO">TODO</span> [WEB-W2] Burp Suite Interception Basics&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
-<li><a href="#org84dc287">2.9. <span class="todo TODO">TODO</span> [WEB-W3] Command Injection &amp; File Inclusion on DVWA&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
-<li><a href="#org07fa206">2.10. <span class="todo TODO">TODO</span> [WEB-W4] Subdomain Enumeration &amp; Recon&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="osint">osint</span></span></a></li>
-<li><a href="#orgff6ceef">2.11. <span class="todo TODO">TODO</span> [OSINT-W1] Google Dorking &amp; Shodan Recon&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></a></li>
-<li><a href="#org9b759dd">2.12. <span class="todo TODO">TODO</span> [OSINT-W2] Email &amp; Username OSINT&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></a></li>
-<li><a href="#orge27925e">2.13. <span class="todo TODO">TODO</span> [OSINT-W3] DNS Enumeration&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="network">network</span></span></a></li>
-<li><a href="#org3fff843">2.14. <span class="todo TODO">TODO</span> [SCRPT-W1] Python or Go Port Scanner&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span></span></a></li>
-<li><a href="#org880fdc1">2.15. <span class="todo TODO">TODO</span> [SCRPT-W2] Caesar Cipher → Basic Crypto in Python/go&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="crypto">crypto</span></span></a></li>
-<li><a href="#org41715e0">2.16. <span class="todo TODO">TODO</span> [CRYPT-W1] Hash Cracking with Hashcat&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span></span></a></li>
-<li><a href="#org63ec02a">2.17. <span class="todo TODO">TODO</span> [CRYPT-W2] Steganography — Hide &amp; Find&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span></span></a></li>
-<li><a href="#org4072c9d">2.18. <span class="todo TODO">TODO</span> [DEF-W1] SSH Hardening + Key Auth&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
-<li><a href="#org1b0e0e4">2.19. <span class="todo TODO">TODO</span> [DEF-W2] Firewall Rules with UFW/iptables&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
-<li><a href="#org5ea482c">2.20. <span class="todo TODO">TODO</span> [MAL-W1] Static Malware Analysis&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span></span></a></li>
-<li><a href="#org4160ccc">2.21. <span class="todo TODO">TODO</span> [MAL-W2] Analyze a Malicious PCAP&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="network">network</span></span></a></li>
-<li><a href="#org43e7e0f">2.22. <span class="todo TODO">TODO</span> [RE-W1] Linux Privilege Escalation Basics&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></a></li>
-<li><a href="#org3ef184b">2.23. <span class="todo TODO">TODO</span> [DEF-W3] GPG Encryption — Files &amp; Email&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="crypto">crypto</span></span></a></li>
-<li><a href="#orgbafc271">2.24. <span class="todo TODO">TODO</span> [NET-W6] Set Up WireGuard VPN&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="defense">defense</span></span></a></li>
-<li><a href="#orgd689412">2.25. <span class="todo TODO">TODO</span> [OSINT-W4] Digital Forensics — File Recovery&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></a></li>
-<li><a href="#org0aa273a">2.26. <span class="todo TODO">TODO</span> [WEB-W5] JWT Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
-<li><a href="#org2ba0fa1">2.27. <span class="todo TODO">TODO</span> [CTF-W1] Complete 5 picoCTF Beginner Challenges&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="crypto">crypto</span>&nbsp;<span class="re">re</span></span></a></li>
-<li><a href="#orgfb7c58e">2.28. <span class="todo TODO">TODO</span> [SCRPT-W3] Log Parser in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="defense">defense</span></span></a></li>
-<li><a href="#org2b4d903">2.29. <span class="todo TODO">TODO</span> [NET-W7] Proxy Chains + Tor Setup&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#orgccec6d7">2.30. <span class="todo TODO">TODO</span> [WEB-W6] HTTP Security Headers Audit Tool&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#org2426d00">2.31. <span class="todo TODO">TODO</span> [DEF-W4] Set Up Basic Honeypot (Cowrie)&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
-<li><a href="#orgb1ed490">2.32. <span class="todo TODO">TODO</span> [RE-W2] Reverse a Simple Crackme Binary&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></a></li>
-<li><a href="#org8ee6431">2.33. <span class="todo TODO">TODO</span> [AD-W1] Active Directory Concepts + Lab Setup&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span></span></a></li>
-<li><a href="#orgb78f1e9">2.34. <span class="todo TODO">TODO</span> [CLOUD-W1] AWS Free Tier — IAM Misconfig Hunt&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span></span></a></li>
-<li><a href="#org4a81cff">2.35. <span class="todo TODO">TODO</span> [SCRPT-W4] Build HTTP Header Fuzzer&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="web">web</span></span></a></li>
-<li><a href="#org6f289e3">2.36. <span class="todo TODO">TODO</span> [NET-W8] TryHackMe — Complete 2 Beginner Rooms&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#org81fd093">2.37. ══════════════════════════════════════════</a></li>
+<li><a href="#orgddd7c20">2.1. ══════════════════════════════════════════</a></li>
+<li><a href="#org0a1adc5">2.2. <span class="todo TODO">TODO</span> [NET-W1] Set Up Kali Linux VM&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#orgfbea9fa">2.3. <span class="todo TODO">TODO</span> [NET-W2] Home Network Recon with Nmap&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#org883289f">2.4. <span class="todo TODO">TODO</span> [NET-W3] Wireshark Traffic Analysis&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#orgd5ee7bb">2.5. <span class="todo TODO">TODO</span> [NET-W4] Crack a WPA2 Handshake (Own Router)&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#org4b54218">2.6. <span class="todo TODO">TODO</span> [NET-W5] Netcat Fundamentals — Shells &amp; Transfers&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#orgadac09f">2.7. <span class="todo TODO">TODO</span> [WEB-W1] SQLi &amp; XSS on DVWA&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
+<li><a href="#orgabcfa87">2.8. <span class="todo TODO">TODO</span> [WEB-W2] Burp Suite Interception Basics&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
+<li><a href="#org67507e1">2.9. <span class="todo TODO">TODO</span> [WEB-W3] Command Injection &amp; File Inclusion on DVWA&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
+<li><a href="#org9c4595c">2.10. <span class="todo TODO">TODO</span> [WEB-W4] Subdomain Enumeration &amp; Recon&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="osint">osint</span></span></a></li>
+<li><a href="#org64c6f10">2.11. <span class="todo TODO">TODO</span> [OSINT-W1] Google Dorking &amp; Shodan Recon&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></a></li>
+<li><a href="#org6091116">2.12. <span class="todo TODO">TODO</span> [OSINT-W2] Email &amp; Username OSINT&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></a></li>
+<li><a href="#orgacaf998">2.13. <span class="todo TODO">TODO</span> [OSINT-W3] DNS Enumeration&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="network">network</span></span></a></li>
+<li><a href="#orge58f336">2.14. <span class="todo TODO">TODO</span> [SCRPT-W1] Python or Go Port Scanner&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span></span></a></li>
+<li><a href="#orgad2beeb">2.15. <span class="todo TODO">TODO</span> [SCRPT-W2] Caesar Cipher → Basic Crypto in Python/go&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="crypto">crypto</span></span></a></li>
+<li><a href="#org069239e">2.16. <span class="todo TODO">TODO</span> [CRYPT-W1] Hash Cracking with Hashcat&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span></span></a></li>
+<li><a href="#org10e5f52">2.17. <span class="todo TODO">TODO</span> [CRYPT-W2] Steganography — Hide &amp; Find&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span></span></a></li>
+<li><a href="#org01cd44d">2.18. <span class="todo TODO">TODO</span> [DEF-W1] SSH Hardening + Key Auth&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
+<li><a href="#orgf1489f5">2.19. <span class="todo TODO">TODO</span> [DEF-W2] Firewall Rules with UFW/iptables&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
+<li><a href="#org3dc6e5b">2.20. <span class="todo TODO">TODO</span> [MAL-W1] Static Malware Analysis&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span></span></a></li>
+<li><a href="#org173eb3a">2.21. <span class="todo TODO">TODO</span> [MAL-W2] Analyze a Malicious PCAP&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="network">network</span></span></a></li>
+<li><a href="#org9f99cde">2.22. <span class="todo TODO">TODO</span> [RE-W1] Linux Privilege Escalation Basics&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></a></li>
+<li><a href="#orgf6fa168">2.23. <span class="todo TODO">TODO</span> [DEF-W3] GPG Encryption — Files &amp; Email&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="crypto">crypto</span></span></a></li>
+<li><a href="#org9a4df5b">2.24. <span class="todo TODO">TODO</span> [NET-W6] Set Up WireGuard VPN&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="defense">defense</span></span></a></li>
+<li><a href="#org7fd326b">2.25. <span class="todo TODO">TODO</span> [OSINT-W4] Digital Forensics — File Recovery&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></a></li>
+<li><a href="#orgf862950">2.26. <span class="todo TODO">TODO</span> [WEB-W5] JWT Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
+<li><a href="#org7a512bb">2.27. <span class="todo TODO">TODO</span> [CTF-W1] Complete 5 picoCTF Beginner Challenges&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="crypto">crypto</span>&nbsp;<span class="re">re</span></span></a></li>
+<li><a href="#org72d8323">2.28. <span class="todo TODO">TODO</span> [SCRPT-W3] Log Parser in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="defense">defense</span></span></a></li>
+<li><a href="#org94713fa">2.29. <span class="todo TODO">TODO</span> [NET-W7] Proxy Chains + Tor Setup&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#org62c12e7">2.30. <span class="todo TODO">TODO</span> [WEB-W6] HTTP Security Headers Audit Tool&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#org705b260">2.31. <span class="todo TODO">TODO</span> [DEF-W4] Set Up Basic Honeypot (Cowrie)&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
+<li><a href="#orga7a8eca">2.32. <span class="todo TODO">TODO</span> [RE-W2] Reverse a Simple Crackme Binary&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></a></li>
+<li><a href="#org6e6795a">2.33. <span class="todo TODO">TODO</span> [AD-W1] Active Directory Concepts + Lab Setup&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span></span></a></li>
+<li><a href="#orgabc5f34">2.34. <span class="todo TODO">TODO</span> [CLOUD-W1] AWS Free Tier — IAM Misconfig Hunt&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span></span></a></li>
+<li><a href="#org2450ecc">2.35. <span class="todo TODO">TODO</span> [SCRPT-W4] Build HTTP Header Fuzzer&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="web">web</span></span></a></li>
+<li><a href="#orgd5eea4b">2.36. <span class="todo TODO">TODO</span> [NET-W8] TryHackMe — Complete 2 Beginner Rooms&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#org388e99b">2.37. ══════════════════════════════════════════</a></li>
 </ul>
 </li>
-<li><a href="#org7ab9bc1">3. TIER 2 — WEEK PROJECTS (3–7 days each)</a>
+<li><a href="#org36ca876">3. TIER 2 — WEEK PROJECTS (3–7 days each)</a>
 <ul>
-<li><a href="#org5d268cd">3.1. ══════════════════════════════════════════</a>
+<li><a href="#org8dde769">3.1. ══════════════════════════════════════════</a>
 <ul>
-<li><a href="#org95786b5">3.1.1. <span class="todo TODO">TODO</span> [SCRPT-WK1] Full Go or Python Recon Framework&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="osint">osint</span></span></a></li>
-<li><a href="#orgd0ee682">3.1.2. <span class="todo TODO">TODO</span> [NET-WK1] Full Pentest: VulnHub Beginner Machine&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span>&nbsp;<span class="re">re</span></span></a></li>
-<li><a href="#orgecb4eff">3.1.3. <span class="todo TODO">TODO</span> [WEB-WK1] Complete OWASP Top 10 on WebGoat&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
-<li><a href="#orgb77b07f">3.1.4. <span class="todo TODO">TODO</span> [NET-WK2] Man-in-the-Middle Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#orgdeb25eb">3.1.5. <span class="todo TODO">TODO</span> [DEF-WK1] Set Up ELK Stack SIEM&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
-<li><a href="#org4d2c3f4">3.1.6. <span class="todo TODO">TODO</span> [DEF-WK2] Honeypot + Log Pipeline&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
-<li><a href="#org7f7e496">3.1.7. <span class="todo TODO">TODO</span> [MAL-WK1] Dynamic Malware Analysis in Sandbox&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span></span></a></li>
-<li><a href="#orga8ff92c">3.1.8. <span class="todo TODO">TODO</span> [MAL-WK2] Reverse Engineering with Ghidra&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="re">re</span></span></a></li>
-<li><a href="#org935c3ae">3.1.9. <span class="todo TODO">TODO</span> [NET-WK3] Network Pivoting Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#org139f392">3.1.10. <span class="todo TODO">TODO</span> [CRYPT-WK1] Implement Crypto Attacks in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#org5657ca1">3.1.11. <span class="todo TODO">TODO</span> [WEB-WK2] SQLi Scanner + SSRF + XXE Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#org8212730">3.1.12. <span class="todo TODO">TODO</span> [AD-WK1] Active Directory Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span></span></a></li>
-<li><a href="#orgc5177c1">3.1.13. <span class="todo TODO">TODO</span> [SCRPT-WK2] Build a C2 Beaconing Script (Lab Only)&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="malware">malware</span></span></a></li>
-<li><a href="#org2836306">3.1.14. <span class="todo TODO">TODO</span> [DEF-WK3] Set Up Suricata + Zeek IDS&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></a></li>
-<li><a href="#org89bc353">3.1.15. <span class="todo TODO">TODO</span> [WEB-WK3] Full Subdomain + Dir Recon Automation&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#org7dec79b">3.1.16. <span class="todo TODO">TODO</span> [CTF-WK1] Complete HackTheBox Starting Point (3 Machines)&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span></span></a></li>
-<li><a href="#org39913ed">3.1.17. <span class="todo TODO">TODO</span> [OSINT-WK1] OSINT Framework in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#orgc97f48b">3.1.18. <span class="todo TODO">TODO</span> [NET-WK4] Metasploit Deep Dive&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#org812eddc">3.1.19. <span class="todo TODO">TODO</span> [CLOUD-WK1] AWS Misconfig &amp; Container Security Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span></span></a></li>
-<li><a href="#org8b49627">3.1.20. <span class="todo TODO">TODO</span> [CRYPT-WK2] Build a PKI from Scratch&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="defense">defense</span></span></a></li>
-<li><a href="#org560529d">3.1.21. <span class="todo TODO">TODO</span> [MAL-WK3] YARA Rules — Write &amp; Test&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="defense">defense</span></span></a></li>
-<li><a href="#org1785c3f">3.1.22. <span class="todo TODO">TODO</span> [WEB-WK4] Android App Security Testing&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="re">re</span></span></a></li>
-<li><a href="#org5dfd6f9">3.1.23. <span class="todo TODO">TODO</span> [DEF-WK4] Incident Response Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
-<li><a href="#org1432383">3.1.24. <span class="todo TODO">TODO</span> [NET-WK5] WPA2 PMKID Attack + Evil Twin AP&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
-<li><a href="#org53c7f97">3.1.25. <span class="todo TODO">TODO</span> [SCRPT-WK3] Vulnerability Scanner in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="web">web</span></span></a></li>
-<li><a href="#orga7db4d3">3.1.26. <span class="todo TODO">TODO</span> [OSINT-WK2] Threat Intel Aggregator&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="defense">defense</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#orgf68e9c1">3.1.27. <span class="todo TODO">TODO</span> [RE-WK1] Buffer Overflow 101&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></a></li>
-<li><a href="#org163a283">3.1.28. <span class="todo TODO">TODO</span> [WEB-WK5] Build a Vulnerable Web App (for CTF)&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#org4b8b07f">3.1.29. <span class="todo TODO">TODO</span> [DEF-WK5] Zero Trust Network Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></a></li>
-<li><a href="#orgf0fe357">3.1.30. <span class="todo TODO">TODO</span> [NET-WK6] Analyze a Real-World CVE + Write PoC&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#org98258ba">3.1.31. <span class="todo TODO">TODO</span> [CLOUD-WK2] Serverless + API Security Testing&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span>&nbsp;<span class="web">web</span></span></a></li>
+<li><a href="#orgbd424ca">3.1.1. <span class="todo TODO">TODO</span> [SCRPT-WK1] Full Go or Python Recon Framework&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="osint">osint</span></span></a></li>
+<li><a href="#org59cacbd">3.1.2. <span class="todo TODO">TODO</span> [NET-WK1] Full Pentest: VulnHub Beginner Machine&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span>&nbsp;<span class="re">re</span></span></a></li>
+<li><a href="#org5dfff1e">3.1.3. <span class="todo TODO">TODO</span> [WEB-WK1] Complete OWASP Top 10 on WebGoat&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></a></li>
+<li><a href="#org5b2fe9c">3.1.4. <span class="todo TODO">TODO</span> [NET-WK2] Man-in-the-Middle Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#orgb9f8539">3.1.5. <span class="todo TODO">TODO</span> [DEF-WK1] Set Up ELK Stack SIEM&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
+<li><a href="#orgf49e07d">3.1.6. <span class="todo TODO">TODO</span> [DEF-WK2] Honeypot + Log Pipeline&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
+<li><a href="#org7365d8e">3.1.7. <span class="todo TODO">TODO</span> [MAL-WK1] Dynamic Malware Analysis in Sandbox&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span></span></a></li>
+<li><a href="#org3613e62">3.1.8. <span class="todo TODO">TODO</span> [MAL-WK2] Reverse Engineering with Ghidra&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="re">re</span></span></a></li>
+<li><a href="#org378200f">3.1.9. <span class="todo TODO">TODO</span> [NET-WK3] Network Pivoting Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#org632d615">3.1.10. <span class="todo TODO">TODO</span> [CRYPT-WK1] Implement Crypto Attacks in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#org3f1b7eb">3.1.11. <span class="todo TODO">TODO</span> [WEB-WK2] SQLi Scanner + SSRF + XXE Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#org989776c">3.1.12. <span class="todo TODO">TODO</span> [AD-WK1] Active Directory Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span></span></a></li>
+<li><a href="#org5631a9b">3.1.13. <span class="todo TODO">TODO</span> [SCRPT-WK2] Build a C2 Beaconing Script (Lab Only)&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="malware">malware</span></span></a></li>
+<li><a href="#orgcffec49">3.1.14. <span class="todo TODO">TODO</span> [DEF-WK3] Set Up Suricata + Zeek IDS&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></a></li>
+<li><a href="#org8f20da8">3.1.15. <span class="todo TODO">TODO</span> [WEB-WK3] Full Subdomain + Dir Recon Automation&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#orgd78ae78">3.1.16. <span class="todo TODO">TODO</span> [CTF-WK1] Complete HackTheBox Starting Point (3 Machines)&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span></span></a></li>
+<li><a href="#org2a8a4de">3.1.17. <span class="todo TODO">TODO</span> [OSINT-WK1] OSINT Framework in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#org2029000">3.1.18. <span class="todo TODO">TODO</span> [NET-WK4] Metasploit Deep Dive&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#orgf1ebdb6">3.1.19. <span class="todo TODO">TODO</span> [CLOUD-WK1] AWS Misconfig &amp; Container Security Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span></span></a></li>
+<li><a href="#org69b14d8">3.1.20. <span class="todo TODO">TODO</span> [CRYPT-WK2] Build a PKI from Scratch&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="defense">defense</span></span></a></li>
+<li><a href="#org85ee41b">3.1.21. <span class="todo TODO">TODO</span> [MAL-WK3] YARA Rules — Write &amp; Test&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="defense">defense</span></span></a></li>
+<li><a href="#orgdc1f519">3.1.22. <span class="todo TODO">TODO</span> [WEB-WK4] Android App Security Testing&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="re">re</span></span></a></li>
+<li><a href="#org91544e1">3.1.23. <span class="todo TODO">TODO</span> [DEF-WK4] Incident Response Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></a></li>
+<li><a href="#org929e933">3.1.24. <span class="todo TODO">TODO</span> [NET-WK5] WPA2 PMKID Attack + Evil Twin AP&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></a></li>
+<li><a href="#org1541eaa">3.1.25. <span class="todo TODO">TODO</span> [SCRPT-WK3] Vulnerability Scanner in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="web">web</span></span></a></li>
+<li><a href="#orgccec7dd">3.1.26. <span class="todo TODO">TODO</span> [OSINT-WK2] Threat Intel Aggregator&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="defense">defense</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#org499f803">3.1.27. <span class="todo TODO">TODO</span> [RE-WK1] Buffer Overflow 101&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></a></li>
+<li><a href="#org5721f69">3.1.28. <span class="todo TODO">TODO</span> [WEB-WK5] Build a Vulnerable Web App (for CTF)&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#org03d0c31">3.1.29. <span class="todo TODO">TODO</span> [DEF-WK5] Zero Trust Network Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></a></li>
+<li><a href="#orga4f2240">3.1.30. <span class="todo TODO">TODO</span> [NET-WK6] Analyze a Real-World CVE + Write PoC&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#orgf9b5e84">3.1.31. <span class="todo TODO">TODO</span> [CLOUD-WK2] Serverless + API Security Testing&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span>&nbsp;<span class="web">web</span></span></a></li>
 </ul>
 </li>
-<li><a href="#orgb727b9b">3.2. ══════════════════════════════════════════</a></li>
+<li><a href="#org71eb2ac">3.2. ══════════════════════════════════════════</a></li>
 </ul>
 </li>
-<li><a href="#org932e2fb">4. TIER 3 — MONTH PROJECTS (3–4 weeks each)</a>
+<li><a href="#orgea4a08d">4. TIER 3 — MONTH PROJECTS (3–4 weeks each)</a>
 <ul>
-<li><a href="#org46952da">4.1. ══════════════════════════════════════════</a>
+<li><a href="#org124e9c1">4.1. ══════════════════════════════════════════</a>
 <ul>
-<li><a href="#org784d1f3">4.1.1. <span class="todo TODO">TODO</span> [DEF-MO1] Build a Full Home SOC&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></a></li>
-<li><a href="#orge46852e">4.1.2. <span class="todo TODO">TODO</span> [NET-MO1] OSCP-Style Multi-Machine Lab + Report&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span>&nbsp;<span class="re">re</span></span></a></li>
-<li><a href="#orge42fb70">4.1.3. <span class="todo TODO">TODO</span> [WEB-MO1] Full Web App Pentest Automation Suite&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#orga127a50">4.1.4. <span class="todo TODO">TODO</span> [MAL-MO1] Full Malware Analysis Report on Real Sample&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="re">re</span></span></a></li>
-<li><a href="#org18b147c">4.1.5. <span class="todo TODO">TODO</span> [AD-MO1] Active Directory Full Attack + Defense Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span>&nbsp;<span class="network">network</span>&nbsp;<span class="defense">defense</span></span></a></li>
-<li><a href="#org326e5de">4.1.6. <span class="todo TODO">TODO</span> [OSINT-MO1] Automated OSINT Platform&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#org878c1dc">4.1.7. <span class="todo TODO">TODO</span> [CRYPT-MO1] Cryptography Attack Suite + PKI System&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
-<li><a href="#org3739566">4.1.8. <span class="todo TODO">TODO</span> [CLOUD-MO1] Cloud Security Audit + Hardening&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span>&nbsp;<span class="defense">defense</span></span></a></li>
-<li><a href="#org2e86605">4.1.9. <span class="todo TODO">TODO</span> [SCRPT-MO1] Full Pentest Automation Suite (CLI Tool)&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="web">web</span></span></a></li>
-<li><a href="#orgb486c0f">4.1.10. <span class="todo TODO">TODO</span> [CTF-MO1] Host a Public CTF Competition&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="network">network</span>&nbsp;<span class="crypto">crypto</span>&nbsp;<span class="re">re</span></span></a></li>
+<li><a href="#org13ae1f4">4.1.1. <span class="todo TODO">TODO</span> [DEF-MO1] Build a Full Home SOC&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></a></li>
+<li><a href="#orge73e3d2">4.1.2. <span class="todo TODO">TODO</span> [NET-MO1] OSCP-Style Multi-Machine Lab + Report&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span>&nbsp;<span class="re">re</span></span></a></li>
+<li><a href="#org158a7d5">4.1.3. <span class="todo TODO">TODO</span> [WEB-MO1] Full Web App Pentest Automation Suite&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#orge4b7500">4.1.4. <span class="todo TODO">TODO</span> [MAL-MO1] Full Malware Analysis Report on Real Sample&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="re">re</span></span></a></li>
+<li><a href="#orgdf5cb26">4.1.5. <span class="todo TODO">TODO</span> [AD-MO1] Active Directory Full Attack + Defense Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span>&nbsp;<span class="network">network</span>&nbsp;<span class="defense">defense</span></span></a></li>
+<li><a href="#org4360a95">4.1.6. <span class="todo TODO">TODO</span> [OSINT-MO1] Automated OSINT Platform&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#org6a4d5d2">4.1.7. <span class="todo TODO">TODO</span> [CRYPT-MO1] Cryptography Attack Suite + PKI System&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="scripting">scripting</span></span></a></li>
+<li><a href="#org4abe879">4.1.8. <span class="todo TODO">TODO</span> [CLOUD-MO1] Cloud Security Audit + Hardening&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span>&nbsp;<span class="defense">defense</span></span></a></li>
+<li><a href="#org45af24a">4.1.9. <span class="todo TODO">TODO</span> [SCRPT-MO1] Full Pentest Automation Suite (CLI Tool)&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="web">web</span></span></a></li>
+<li><a href="#org75b0924">4.1.10. <span class="todo TODO">TODO</span> [CTF-MO1] Host a Public CTF Competition&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="network">network</span>&nbsp;<span class="crypto">crypto</span>&nbsp;<span class="re">re</span></span></a></li>
 </ul>
 </li>
-<li><a href="#orge2f02fa">4.2. ══════════════════════════════════════════</a></li>
+<li><a href="#orgc82e14e">4.2. ══════════════════════════════════════════</a></li>
 </ul>
 </li>
-<li><a href="#org501a00e">5. CHAIN COMBO MAPS — SUGGESTED PATHS</a>
+<li><a href="#orgb805300">5. CHAIN COMBO MAPS — SUGGESTED PATHS</a>
 <ul>
-<li><a href="#org220cc79">5.1. ══════════════════════════════════════════</a>
+<li><a href="#orge4e208b">5.1. ══════════════════════════════════════════</a>
 <ul>
-<li><a href="#org5b4727e">5.1.1. PATH A: Network Pentester (Offensive)</a></li>
-<li><a href="#org0cc9dab">5.1.2. PATH B: Web/Bug Bounty Hunter</a></li>
-<li><a href="#orgc84e620">5.1.3. PATH C: Blue Team / SOC Analyst</a></li>
-<li><a href="#org2575bdb">5.1.4. PATH D: Malware Analyst / Threat Intel</a></li>
-<li><a href="#org0bcda22">5.1.5. PATH E: Security Engineer / Tool Builder</a></li>
+<li><a href="#org3d9ae91">5.1.1. PATH A: Network Pentester (Offensive)</a></li>
+<li><a href="#org615273f">5.1.2. PATH B: Web/Bug Bounty Hunter</a></li>
+<li><a href="#orge9cd84d">5.1.3. PATH C: Blue Team / SOC Analyst</a></li>
+<li><a href="#org62940e5">5.1.4. PATH D: Malware Analyst / Threat Intel</a></li>
+<li><a href="#org40c8235">5.1.5. PATH E: Security Engineer / Tool Builder</a></li>
 </ul>
 </li>
-<li><a href="#org7011380">5.2. ══════════════════════════════</a></li>
+<li><a href="#org37ac76b">5.2. ══════════════════════════════</a></li>
 </ul>
 </li>
-<li><a href="#orgceaa547">6. RESOURCES</a>
+<li><a href="#org415621f">6. RESOURCES</a>
 <ul>
-<li><a href="#orge8e3121">6.1. ══════════════════════════════</a>
+<li><a href="#org47c3de5">6.1. ══════════════════════════════</a>
 <ul>
-<li><a href="#org222435d">6.1.1. Platforms And Websites</a></li>
-<li><a href="#org191c2bd">6.1.2. Essential Tools</a></li>
-<li><a href="#orgb78ded6">6.1.3. Free Certifications to Stack</a></li>
-<li><a href="#org8ae4dc9">6.1.4. Time Budget Suggestion</a></li>
+<li><a href="#org4e885e4">6.1.1. Platforms And Websites</a></li>
+<li><a href="#org1ff1a7a">6.1.2. Essential Tools</a></li>
+<li><a href="#orgbc3fbfc">6.1.3. Free Certifications to Stack</a></li>
+<li><a href="#org94b5e1f">6.1.4. Time Budget Suggestion</a></li>
 </ul>
 </li>
 </ul>
@@ -359,8 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 </div>
 </div>
-<div id="outline-container-org3ca4917" class="outline-2">
-<h2 id="org3ca4917"><span class="section-number-2">1.</span> CHAINS KEY</h2>
+<div id="outline-container-org9fa0f19" class="outline-2">
+<h2 id="org9fa0f19"><span class="section-number-2">1.</span> CHAINS KEY</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Projects grouped in 8 chains. Chain projects stack — weekend → week → month.
@@ -435,20 +250,20 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </tbody>
 </table>
 </div>
-<div id="outline-container-orga90ab8d" class="outline-3">
-<h3 id="orga90ab8d"><span class="section-number-3">1.1.</span> ══════════════════════════════════════════</h3>
+<div id="outline-container-org64c9578" class="outline-3">
+<h3 id="org64c9578"><span class="section-number-3">1.1.</span> ══════════════════════════════════════════</h3>
 </div>
 </div>
-<div id="outline-container-orgcead959" class="outline-2">
-<h2 id="orgcead959"><span class="section-number-2">2.</span> TIER 1 — WEEKEND PROJECTS (1–2 days each)</h2>
+<div id="outline-container-orga5784f7" class="outline-2">
+<h2 id="orga5784f7"><span class="section-number-2">2.</span> TIER 1 — WEEKEND PROJECTS (1–2 days each)</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgdffb611" class="outline-3">
-<h3 id="orgdffb611"><span class="section-number-3">2.1.</span> ══════════════════════════════════════════</h3>
+<div id="outline-container-orgddd7c20" class="outline-3">
+<h3 id="orgddd7c20"><span class="section-number-3">2.1.</span> ══════════════════════════════════════════</h3>
 </div>
 
-<div id="outline-container-org50e8987" class="outline-3">
-<h3 id="org50e8987"><span class="section-number-3">2.2.</span> <span class="todo TODO">TODO</span> [NET-W1] Set Up Kali Linux VM&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
+<div id="outline-container-org0a1adc5" class="outline-3">
+<h3 id="org0a1adc5"><span class="section-number-3">2.2.</span> <span class="todo TODO">TODO</span> [NET-W1] Set Up Kali Linux VM&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
 <div class="outline-text-3" id="text-2-2">
 <ul class="org-ul">
 <li>Install VirtualBox or VMware</li>
@@ -461,8 +276,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd3d8e8c" class="outline-3">
-<h3 id="orgd3d8e8c"><span class="section-number-3">2.3.</span> <span class="todo TODO">TODO</span> [NET-W2] Home Network Recon with Nmap&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
+<div id="outline-container-orgfbea9fa" class="outline-3">
+<h3 id="orgfbea9fa"><span class="section-number-3">2.3.</span> <span class="todo TODO">TODO</span> [NET-W2] Home Network Recon with Nmap&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
 <div class="outline-text-3" id="text-2-3">
 <ul class="org-ul">
 <li>Scan local subnet: <code>nmap -sn 192.168.x.0/24</code></li>
@@ -475,8 +290,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org9750034" class="outline-3">
-<h3 id="org9750034"><span class="section-number-3">2.4.</span> <span class="todo TODO">TODO</span> [NET-W3] Wireshark Traffic Analysis&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
+<div id="outline-container-org883289f" class="outline-3">
+<h3 id="org883289f"><span class="section-number-3">2.4.</span> <span class="todo TODO">TODO</span> [NET-W3] Wireshark Traffic Analysis&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
 <div class="outline-text-3" id="text-2-4">
 <ul class="org-ul">
 <li>Capture live traffic on home net</li>
@@ -489,8 +304,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb771ada" class="outline-3">
-<h3 id="orgb771ada"><span class="section-number-3">2.5.</span> <span class="todo TODO">TODO</span> [NET-W4] Crack a WPA2 Handshake (Own Router)&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
+<div id="outline-container-orgd5ee7bb" class="outline-3">
+<h3 id="orgd5ee7bb"><span class="section-number-3">2.5.</span> <span class="todo TODO">TODO</span> [NET-W4] Crack a WPA2 Handshake (Own Router)&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
 <div class="outline-text-3" id="text-2-5">
 <ul class="org-ul">
 <li>Use monitor mode + airodump-ng to capture 4-way handshake</li>
@@ -503,8 +318,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf27b01c" class="outline-3">
-<h3 id="orgf27b01c"><span class="section-number-3">2.6.</span> <span class="todo TODO">TODO</span> [NET-W5] Netcat Fundamentals — Shells &amp; Transfers&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
+<div id="outline-container-org4b54218" class="outline-3">
+<h3 id="org4b54218"><span class="section-number-3">2.6.</span> <span class="todo TODO">TODO</span> [NET-W5] Netcat Fundamentals — Shells &amp; Transfers&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
 <div class="outline-text-3" id="text-2-6">
 <ul class="org-ul">
 <li>Open listeners, connect clients</li>
@@ -517,8 +332,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org96d9682" class="outline-3">
-<h3 id="org96d9682"><span class="section-number-3">2.7.</span> <span class="todo TODO">TODO</span> [WEB-W1] SQLi &amp; XSS on DVWA&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h3>
+<div id="outline-container-orgadac09f" class="outline-3">
+<h3 id="orgadac09f"><span class="section-number-3">2.7.</span> <span class="todo TODO">TODO</span> [WEB-W1] SQLi &amp; XSS on DVWA&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h3>
 <div class="outline-text-3" id="text-2-7">
 <ul class="org-ul">
 <li>Install DVWA (Docker or XAMPP)</li>
@@ -531,8 +346,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org4d459b0" class="outline-3">
-<h3 id="org4d459b0"><span class="section-number-3">2.8.</span> <span class="todo TODO">TODO</span> [WEB-W2] Burp Suite Interception Basics&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h3>
+<div id="outline-container-orgabcfa87" class="outline-3">
+<h3 id="orgabcfa87"><span class="section-number-3">2.8.</span> <span class="todo TODO">TODO</span> [WEB-W2] Burp Suite Interception Basics&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h3>
 <div class="outline-text-3" id="text-2-8">
 <ul class="org-ul">
 <li>Set up browser proxy through Burp</li>
@@ -545,8 +360,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org84dc287" class="outline-3">
-<h3 id="org84dc287"><span class="section-number-3">2.9.</span> <span class="todo TODO">TODO</span> [WEB-W3] Command Injection &amp; File Inclusion on DVWA&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h3>
+<div id="outline-container-org67507e1" class="outline-3">
+<h3 id="org67507e1"><span class="section-number-3">2.9.</span> <span class="todo TODO">TODO</span> [WEB-W3] Command Injection &amp; File Inclusion on DVWA&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h3>
 <div class="outline-text-3" id="text-2-9">
 <ul class="org-ul">
 <li>Command injection: OS commands through web input</li>
@@ -556,8 +371,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org07fa206" class="outline-3">
-<h3 id="org07fa206"><span class="section-number-3">2.10.</span> <span class="todo TODO">TODO</span> [WEB-W4] Subdomain Enumeration &amp; Recon&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="osint">osint</span></span></h3>
+<div id="outline-container-org9c4595c" class="outline-3">
+<h3 id="org9c4595c"><span class="section-number-3">2.10.</span> <span class="todo TODO">TODO</span> [WEB-W4] Subdomain Enumeration &amp; Recon&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="osint">osint</span></span></h3>
 <div class="outline-text-3" id="text-2-10">
 <ul class="org-ul">
 <li>Use subfinder, amass on a target (HackerOne public programs)</li>
@@ -567,8 +382,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgff6ceef" class="outline-3">
-<h3 id="orgff6ceef"><span class="section-number-3">2.11.</span> <span class="todo TODO">TODO</span> [OSINT-W1] Google Dorking &amp; Shodan Recon&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></h3>
+<div id="outline-container-org64c6f10" class="outline-3">
+<h3 id="org64c6f10"><span class="section-number-3">2.11.</span> <span class="todo TODO">TODO</span> [OSINT-W1] Google Dorking &amp; Shodan Recon&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></h3>
 <div class="outline-text-3" id="text-2-11">
 <ul class="org-ul">
 <li>Learn 10 key Google dork operators</li>
@@ -578,8 +393,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org9b759dd" class="outline-3">
-<h3 id="org9b759dd"><span class="section-number-3">2.12.</span> <span class="todo TODO">TODO</span> [OSINT-W2] Email &amp; Username OSINT&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></h3>
+<div id="outline-container-org6091116" class="outline-3">
+<h3 id="org6091116"><span class="section-number-3">2.12.</span> <span class="todo TODO">TODO</span> [OSINT-W2] Email &amp; Username OSINT&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></h3>
 <div class="outline-text-3" id="text-2-12">
 <ul class="org-ul">
 <li>theHarvester: email harvest from domain</li>
@@ -589,8 +404,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orge27925e" class="outline-3">
-<h3 id="orge27925e"><span class="section-number-3">2.13.</span> <span class="todo TODO">TODO</span> [OSINT-W3] DNS Enumeration&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="network">network</span></span></h3>
+<div id="outline-container-orgacaf998" class="outline-3">
+<h3 id="orgacaf998"><span class="section-number-3">2.13.</span> <span class="todo TODO">TODO</span> [OSINT-W3] DNS Enumeration&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="network">network</span></span></h3>
 <div class="outline-text-3" id="text-2-13">
 <ul class="org-ul">
 <li>dnsrecon, dnsenum on practice domains</li>
@@ -600,8 +415,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org3fff843" class="outline-3">
-<h3 id="org3fff843"><span class="section-number-3">2.14.</span> <span class="todo TODO">TODO</span> [SCRPT-W1] Python or Go Port Scanner&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span></span></h3>
+<div id="outline-container-orge58f336" class="outline-3">
+<h3 id="orge58f336"><span class="section-number-3">2.14.</span> <span class="todo TODO">TODO</span> [SCRPT-W1] Python or Go Port Scanner&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span></span></h3>
 <div class="outline-text-3" id="text-2-14">
 <ul class="org-ul">
 <li>Socket-based TCP port scanner</li>
@@ -614,8 +429,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org880fdc1" class="outline-3">
-<h3 id="org880fdc1"><span class="section-number-3">2.15.</span> <span class="todo TODO">TODO</span> [SCRPT-W2] Caesar Cipher → Basic Crypto in Python/go&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="crypto">crypto</span></span></h3>
+<div id="outline-container-orgad2beeb" class="outline-3">
+<h3 id="orgad2beeb"><span class="section-number-3">2.15.</span> <span class="todo TODO">TODO</span> [SCRPT-W2] Caesar Cipher → Basic Crypto in Python/go&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="crypto">crypto</span></span></h3>
 <div class="outline-text-3" id="text-2-15">
 <ul class="org-ul">
 <li>Implement Caesar, Vigenere, XOR cipher</li>
@@ -625,8 +440,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org41715e0" class="outline-3">
-<h3 id="org41715e0"><span class="section-number-3">2.16.</span> <span class="todo TODO">TODO</span> [CRYPT-W1] Hash Cracking with Hashcat&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span></span></h3>
+<div id="outline-container-org069239e" class="outline-3">
+<h3 id="org069239e"><span class="section-number-3">2.16.</span> <span class="todo TODO">TODO</span> [CRYPT-W1] Hash Cracking with Hashcat&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span></span></h3>
 <div class="outline-text-3" id="text-2-16">
 <ul class="org-ul">
 <li>Identify hash types (hash-identifier, hashid)</li>
@@ -636,8 +451,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org63ec02a" class="outline-3">
-<h3 id="org63ec02a"><span class="section-number-3">2.17.</span> <span class="todo TODO">TODO</span> [CRYPT-W2] Steganography — Hide &amp; Find&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span></span></h3>
+<div id="outline-container-org10e5f52" class="outline-3">
+<h3 id="org10e5f52"><span class="section-number-3">2.17.</span> <span class="todo TODO">TODO</span> [CRYPT-W2] Steganography — Hide &amp; Find&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span></span></h3>
 <div class="outline-text-3" id="text-2-17">
 <ul class="org-ul">
 <li>Hide text in image: steghide, LSB</li>
@@ -647,8 +462,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org4072c9d" class="outline-3">
-<h3 id="org4072c9d"><span class="section-number-3">2.18.</span> <span class="todo TODO">TODO</span> [DEF-W1] SSH Hardening + Key Auth&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h3>
+<div id="outline-container-org01cd44d" class="outline-3">
+<h3 id="org01cd44d"><span class="section-number-3">2.18.</span> <span class="todo TODO">TODO</span> [DEF-W1] SSH Hardening + Key Auth&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h3>
 <div class="outline-text-3" id="text-2-18">
 <ul class="org-ul">
 <li>Disable password auth, enable key-only</li>
@@ -658,8 +473,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org1b0e0e4" class="outline-3">
-<h3 id="org1b0e0e4"><span class="section-number-3">2.19.</span> <span class="todo TODO">TODO</span> [DEF-W2] Firewall Rules with UFW/iptables&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h3>
+<div id="outline-container-orgf1489f5" class="outline-3">
+<h3 id="orgf1489f5"><span class="section-number-3">2.19.</span> <span class="todo TODO">TODO</span> [DEF-W2] Firewall Rules with UFW/iptables&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h3>
 <div class="outline-text-3" id="text-2-19">
 <ul class="org-ul">
 <li>Default deny inbound policy</li>
@@ -669,8 +484,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org5ea482c" class="outline-3">
-<h3 id="org5ea482c"><span class="section-number-3">2.20.</span> <span class="todo TODO">TODO</span> [MAL-W1] Static Malware Analysis&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span></span></h3>
+<div id="outline-container-org3dc6e5b" class="outline-3">
+<h3 id="org3dc6e5b"><span class="section-number-3">2.20.</span> <span class="todo TODO">TODO</span> [MAL-W1] Static Malware Analysis&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span></span></h3>
 <div class="outline-text-3" id="text-2-20">
 <ul class="org-ul">
 <li>strings, file, xxd on a safe malware sample (MalwareBazaar)</li>
@@ -680,8 +495,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org4160ccc" class="outline-3">
-<h3 id="org4160ccc"><span class="section-number-3">2.21.</span> <span class="todo TODO">TODO</span> [MAL-W2] Analyze a Malicious PCAP&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="network">network</span></span></h3>
+<div id="outline-container-org173eb3a" class="outline-3">
+<h3 id="org173eb3a"><span class="section-number-3">2.21.</span> <span class="todo TODO">TODO</span> [MAL-W2] Analyze a Malicious PCAP&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="network">network</span></span></h3>
 <div class="outline-text-3" id="text-2-21">
 <ul class="org-ul">
 <li>Download malware traffic pcap (malware-traffic-analysis.net)</li>
@@ -691,8 +506,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org43e7e0f" class="outline-3">
-<h3 id="org43e7e0f"><span class="section-number-3">2.22.</span> <span class="todo TODO">TODO</span> [RE-W1] Linux Privilege Escalation Basics&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></h3>
+<div id="outline-container-org9f99cde" class="outline-3">
+<h3 id="org9f99cde"><span class="section-number-3">2.22.</span> <span class="todo TODO">TODO</span> [RE-W1] Linux Privilege Escalation Basics&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></h3>
 <div class="outline-text-3" id="text-2-22">
 <ul class="org-ul">
 <li>GTFOBins: SUID binary abuse</li>
@@ -702,8 +517,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org3ef184b" class="outline-3">
-<h3 id="org3ef184b"><span class="section-number-3">2.23.</span> <span class="todo TODO">TODO</span> [DEF-W3] GPG Encryption — Files &amp; Email&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="crypto">crypto</span></span></h3>
+<div id="outline-container-orgf6fa168" class="outline-3">
+<h3 id="orgf6fa168"><span class="section-number-3">2.23.</span> <span class="todo TODO">TODO</span> [DEF-W3] GPG Encryption — Files &amp; Email&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="crypto">crypto</span></span></h3>
 <div class="outline-text-3" id="text-2-23">
 <ul class="org-ul">
 <li>Generate GPG keypair</li>
@@ -713,8 +528,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbafc271" class="outline-3">
-<h3 id="orgbafc271"><span class="section-number-3">2.24.</span> <span class="todo TODO">TODO</span> [NET-W6] Set Up WireGuard VPN&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="defense">defense</span></span></h3>
+<div id="outline-container-org9a4df5b" class="outline-3">
+<h3 id="org9a4df5b"><span class="section-number-3">2.24.</span> <span class="todo TODO">TODO</span> [NET-W6] Set Up WireGuard VPN&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="defense">defense</span></span></h3>
 <div class="outline-text-3" id="text-2-24">
 <ul class="org-ul">
 <li>Install WireGuard on a VPS or local VM</li>
@@ -724,8 +539,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd689412" class="outline-3">
-<h3 id="orgd689412"><span class="section-number-3">2.25.</span> <span class="todo TODO">TODO</span> [OSINT-W4] Digital Forensics — File Recovery&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></h3>
+<div id="outline-container-org7fd326b" class="outline-3">
+<h3 id="org7fd326b"><span class="section-number-3">2.25.</span> <span class="todo TODO">TODO</span> [OSINT-W4] Digital Forensics — File Recovery&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span></span></h3>
 <div class="outline-text-3" id="text-2-25">
 <ul class="org-ul">
 <li>Create a disk image with dd</li>
@@ -735,8 +550,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org0aa273a" class="outline-3">
-<h3 id="org0aa273a"><span class="section-number-3">2.26.</span> <span class="todo TODO">TODO</span> [WEB-W5] JWT Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h3>
+<div id="outline-container-orgf862950" class="outline-3">
+<h3 id="orgf862950"><span class="section-number-3">2.26.</span> <span class="todo TODO">TODO</span> [WEB-W5] JWT Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h3>
 <div class="outline-text-3" id="text-2-26">
 <ul class="org-ul">
 <li>Decode JWT (jwt.io)</li>
@@ -746,8 +561,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org2ba0fa1" class="outline-3">
-<h3 id="org2ba0fa1"><span class="section-number-3">2.27.</span> <span class="todo TODO">TODO</span> [CTF-W1] Complete 5 picoCTF Beginner Challenges&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="crypto">crypto</span>&nbsp;<span class="re">re</span></span></h3>
+<div id="outline-container-org7a512bb" class="outline-3">
+<h3 id="org7a512bb"><span class="section-number-3">2.27.</span> <span class="todo TODO">TODO</span> [CTF-W1] Complete 5 picoCTF Beginner Challenges&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="crypto">crypto</span>&nbsp;<span class="re">re</span></span></h3>
 <div class="outline-text-3" id="text-2-27">
 <ul class="org-ul">
 <li>Pick challenges across: crypto, forensics, web, general skills</li>
@@ -757,8 +572,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfb7c58e" class="outline-3">
-<h3 id="orgfb7c58e"><span class="section-number-3">2.28.</span> <span class="todo TODO">TODO</span> [SCRPT-W3] Log Parser in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="defense">defense</span></span></h3>
+<div id="outline-container-org72d8323" class="outline-3">
+<h3 id="org72d8323"><span class="section-number-3">2.28.</span> <span class="todo TODO">TODO</span> [SCRPT-W3] Log Parser in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="defense">defense</span></span></h3>
 <div class="outline-text-3" id="text-2-28">
 <ul class="org-ul">
 <li>Parse /var/log/auth.log for failed logins</li>
@@ -768,8 +583,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org2b4d903" class="outline-3">
-<h3 id="org2b4d903"><span class="section-number-3">2.29.</span> <span class="todo TODO">TODO</span> [NET-W7] Proxy Chains + Tor Setup&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
+<div id="outline-container-org94713fa" class="outline-3">
+<h3 id="org94713fa"><span class="section-number-3">2.29.</span> <span class="todo TODO">TODO</span> [NET-W7] Proxy Chains + Tor Setup&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
 <div class="outline-text-3" id="text-2-29">
 <ul class="org-ul">
 <li>Install tor + proxychains</li>
@@ -779,8 +594,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgccec6d7" class="outline-3">
-<h3 id="orgccec6d7"><span class="section-number-3">2.30.</span> <span class="todo TODO">TODO</span> [WEB-W6] HTTP Security Headers Audit Tool&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></h3>
+<div id="outline-container-org62c12e7" class="outline-3">
+<h3 id="org62c12e7"><span class="section-number-3">2.30.</span> <span class="todo TODO">TODO</span> [WEB-W6] HTTP Security Headers Audit Tool&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></h3>
 <div class="outline-text-3" id="text-2-30">
 <ul class="org-ul">
 <li>Python script: fetch headers from any URL</li>
@@ -790,8 +605,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org2426d00" class="outline-3">
-<h3 id="org2426d00"><span class="section-number-3">2.31.</span> <span class="todo TODO">TODO</span> [DEF-W4] Set Up Basic Honeypot (Cowrie)&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h3>
+<div id="outline-container-org705b260" class="outline-3">
+<h3 id="org705b260"><span class="section-number-3">2.31.</span> <span class="todo TODO">TODO</span> [DEF-W4] Set Up Basic Honeypot (Cowrie)&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h3>
 <div class="outline-text-3" id="text-2-31">
 <ul class="org-ul">
 <li>Install Cowrie SSH honeypot</li>
@@ -801,8 +616,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb1ed490" class="outline-3">
-<h3 id="orgb1ed490"><span class="section-number-3">2.32.</span> <span class="todo TODO">TODO</span> [RE-W2] Reverse a Simple Crackme Binary&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></h3>
+<div id="outline-container-orga7a8eca" class="outline-3">
+<h3 id="orga7a8eca"><span class="section-number-3">2.32.</span> <span class="todo TODO">TODO</span> [RE-W2] Reverse a Simple Crackme Binary&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></h3>
 <div class="outline-text-3" id="text-2-32">
 <ul class="org-ul">
 <li>Download crackme from crackmes.one (easy level)</li>
@@ -812,8 +627,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org8ee6431" class="outline-3">
-<h3 id="org8ee6431"><span class="section-number-3">2.33.</span> <span class="todo TODO">TODO</span> [AD-W1] Active Directory Concepts + Lab Setup&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span></span></h3>
+<div id="outline-container-org6e6795a" class="outline-3">
+<h3 id="org6e6795a"><span class="section-number-3">2.33.</span> <span class="todo TODO">TODO</span> [AD-W1] Active Directory Concepts + Lab Setup&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span></span></h3>
 <div class="outline-text-3" id="text-2-33">
 <ul class="org-ul">
 <li>Install Windows Server eval VM</li>
@@ -823,8 +638,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb78f1e9" class="outline-3">
-<h3 id="orgb78f1e9"><span class="section-number-3">2.34.</span> <span class="todo TODO">TODO</span> [CLOUD-W1] AWS Free Tier — IAM Misconfig Hunt&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span></span></h3>
+<div id="outline-container-orgabc5f34" class="outline-3">
+<h3 id="orgabc5f34"><span class="section-number-3">2.34.</span> <span class="todo TODO">TODO</span> [CLOUD-W1] AWS Free Tier — IAM Misconfig Hunt&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span></span></h3>
 <div class="outline-text-3" id="text-2-34">
 <ul class="org-ul">
 <li>Create AWS free tier account</li>
@@ -834,8 +649,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org4a81cff" class="outline-3">
-<h3 id="org4a81cff"><span class="section-number-3">2.35.</span> <span class="todo TODO">TODO</span> [SCRPT-W4] Build HTTP Header Fuzzer&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="web">web</span></span></h3>
+<div id="outline-container-org2450ecc" class="outline-3">
+<h3 id="org2450ecc"><span class="section-number-3">2.35.</span> <span class="todo TODO">TODO</span> [SCRPT-W4] Build HTTP Header Fuzzer&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="web">web</span></span></h3>
 <div class="outline-text-3" id="text-2-35">
 <ul class="org-ul">
 <li>Python requests — iterate custom headers</li>
@@ -845,8 +660,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org6f289e3" class="outline-3">
-<h3 id="org6f289e3"><span class="section-number-3">2.36.</span> <span class="todo TODO">TODO</span> [NET-W8] TryHackMe — Complete 2 Beginner Rooms&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
+<div id="outline-container-orgd5eea4b" class="outline-3">
+<h3 id="orgd5eea4b"><span class="section-number-3">2.36.</span> <span class="todo TODO">TODO</span> [NET-W8] TryHackMe — Complete 2 Beginner Rooms&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h3>
 <div class="outline-text-3" id="text-2-36">
 <ul class="org-ul">
 <li>Recommended: &ldquo;Basic Pentesting&rdquo;, &ldquo;Startup&rdquo;</li>
@@ -856,20 +671,20 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org81fd093" class="outline-3">
-<h3 id="org81fd093"><span class="section-number-3">2.37.</span> ══════════════════════════════════════════</h3>
+<div id="outline-container-org388e99b" class="outline-3">
+<h3 id="org388e99b"><span class="section-number-3">2.37.</span> ══════════════════════════════════════════</h3>
 </div>
 </div>
-<div id="outline-container-org7ab9bc1" class="outline-2">
-<h2 id="org7ab9bc1"><span class="section-number-2">3.</span> TIER 2 — WEEK PROJECTS (3–7 days each)</h2>
+<div id="outline-container-org36ca876" class="outline-2">
+<h2 id="org36ca876"><span class="section-number-2">3.</span> TIER 2 — WEEK PROJECTS (3–7 days each)</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org5d268cd" class="outline-3">
-<h3 id="org5d268cd"><span class="section-number-3">3.1.</span> ══════════════════════════════════════════</h3>
+<div id="outline-container-org8dde769" class="outline-3">
+<h3 id="org8dde769"><span class="section-number-3">3.1.</span> ══════════════════════════════════════════</h3>
 <div class="outline-text-3" id="text-3-1">
 </div>
-<div id="outline-container-org95786b5" class="outline-4">
-<h4 id="org95786b5"><span class="section-number-4">3.1.1.</span> <span class="todo TODO">TODO</span> [SCRPT-WK1] Full Go or Python Recon Framework&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="osint">osint</span></span></h4>
+<div id="outline-container-orgbd424ca" class="outline-4">
+<h4 id="orgbd424ca"><span class="section-number-4">3.1.1.</span> <span class="todo TODO">TODO</span> [SCRPT-WK1] Full Go or Python Recon Framework&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="osint">osint</span></span></h4>
 <div class="outline-text-4" id="text-3-1-1">
 <ul class="org-ul">
 <li>Combine: port scanner + subdomain enum + DNS recon + header check</li>
@@ -882,8 +697,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd0ee682" class="outline-4">
-<h4 id="orgd0ee682"><span class="section-number-4">3.1.2.</span> <span class="todo TODO">TODO</span> [NET-WK1] Full Pentest: VulnHub Beginner Machine&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span>&nbsp;<span class="re">re</span></span></h4>
+<div id="outline-container-org59cacbd" class="outline-4">
+<h4 id="org59cacbd"><span class="section-number-4">3.1.2.</span> <span class="todo TODO">TODO</span> [NET-WK1] Full Pentest: VulnHub Beginner Machine&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span>&nbsp;<span class="re">re</span></span></h4>
 <div class="outline-text-4" id="text-3-1-2">
 <ul class="org-ul">
 <li>Download: Mr-Robot, Kioptrix, or Basic Pentesting 1</li>
@@ -896,8 +711,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orgecb4eff" class="outline-4">
-<h4 id="orgecb4eff"><span class="section-number-4">3.1.3.</span> <span class="todo TODO">TODO</span> [WEB-WK1] Complete OWASP Top 10 on WebGoat&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h4>
+<div id="outline-container-org5dfff1e" class="outline-4">
+<h4 id="org5dfff1e"><span class="section-number-4">3.1.3.</span> <span class="todo TODO">TODO</span> [WEB-WK1] Complete OWASP Top 10 on WebGoat&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span></span></h4>
 <div class="outline-text-4" id="text-3-1-3">
 <ul class="org-ul">
 <li>Install WebGoat (Java or Docker)</li>
@@ -910,8 +725,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb77b07f" class="outline-4">
-<h4 id="orgb77b07f"><span class="section-number-4">3.1.4.</span> <span class="todo TODO">TODO</span> [NET-WK2] Man-in-the-Middle Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h4>
+<div id="outline-container-org5b2fe9c" class="outline-4">
+<h4 id="org5b2fe9c"><span class="section-number-4">3.1.4.</span> <span class="todo TODO">TODO</span> [NET-WK2] Man-in-the-Middle Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h4>
 <div class="outline-text-4" id="text-3-1-4">
 <ul class="org-ul">
 <li>ARP spoofing: arpspoof + Wireshark in isolated VM lab</li>
@@ -921,8 +736,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgdeb25eb" class="outline-4">
-<h4 id="orgdeb25eb"><span class="section-number-4">3.1.5.</span> <span class="todo TODO">TODO</span> [DEF-WK1] Set Up ELK Stack SIEM&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h4>
+<div id="outline-container-orgb9f8539" class="outline-4">
+<h4 id="orgb9f8539"><span class="section-number-4">3.1.5.</span> <span class="todo TODO">TODO</span> [DEF-WK1] Set Up ELK Stack SIEM&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h4>
 <div class="outline-text-4" id="text-3-1-5">
 <ul class="org-ul">
 <li>Install Elasticsearch + Logstash + Kibana (Docker)</li>
@@ -935,8 +750,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org4d2c3f4" class="outline-4">
-<h4 id="org4d2c3f4"><span class="section-number-4">3.1.6.</span> <span class="todo TODO">TODO</span> [DEF-WK2] Honeypot + Log Pipeline&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h4>
+<div id="outline-container-orgf49e07d" class="outline-4">
+<h4 id="orgf49e07d"><span class="section-number-4">3.1.6.</span> <span class="todo TODO">TODO</span> [DEF-WK2] Honeypot + Log Pipeline&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h4>
 <div class="outline-text-4" id="text-3-1-6">
 <ul class="org-ul">
 <li>Ship Cowrie logs into ELK</li>
@@ -946,8 +761,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org7f7e496" class="outline-4">
-<h4 id="org7f7e496"><span class="section-number-4">3.1.7.</span> <span class="todo TODO">TODO</span> [MAL-WK1] Dynamic Malware Analysis in Sandbox&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span></span></h4>
+<div id="outline-container-org7365d8e" class="outline-4">
+<h4 id="org7365d8e"><span class="section-number-4">3.1.7.</span> <span class="todo TODO">TODO</span> [MAL-WK1] Dynamic Malware Analysis in Sandbox&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span></span></h4>
 <div class="outline-text-4" id="text-3-1-7">
 <ul class="org-ul">
 <li>Set up FlareVM or REMnux</li>
@@ -957,8 +772,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orga8ff92c" class="outline-4">
-<h4 id="orga8ff92c"><span class="section-number-4">3.1.8.</span> <span class="todo TODO">TODO</span> [MAL-WK2] Reverse Engineering with Ghidra&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="re">re</span></span></h4>
+<div id="outline-container-org3613e62" class="outline-4">
+<h4 id="org3613e62"><span class="section-number-4">3.1.8.</span> <span class="todo TODO">TODO</span> [MAL-WK2] Reverse Engineering with Ghidra&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="re">re</span></span></h4>
 <div class="outline-text-4" id="text-3-1-8">
 <ul class="org-ul">
 <li>Install Ghidra</li>
@@ -969,8 +784,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org935c3ae" class="outline-4">
-<h4 id="org935c3ae"><span class="section-number-4">3.1.9.</span> <span class="todo TODO">TODO</span> [NET-WK3] Network Pivoting Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h4>
+<div id="outline-container-org378200f" class="outline-4">
+<h4 id="org378200f"><span class="section-number-4">3.1.9.</span> <span class="todo TODO">TODO</span> [NET-WK3] Network Pivoting Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h4>
 <div class="outline-text-4" id="text-3-1-9">
 <ul class="org-ul">
 <li>3-VM lab: attacker | pivot | inner target</li>
@@ -983,8 +798,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org139f392" class="outline-4">
-<h4 id="org139f392"><span class="section-number-4">3.1.10.</span> <span class="todo TODO">TODO</span> [CRYPT-WK1] Implement Crypto Attacks in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-org632d615" class="outline-4">
+<h4 id="org632d615"><span class="section-number-4">3.1.10.</span> <span class="todo TODO">TODO</span> [CRYPT-WK1] Implement Crypto Attacks in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-3-1-10">
 <ul class="org-ul">
 <li>Padding oracle attack (against vulnerable Flask app you write)</li>
@@ -994,8 +809,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org5657ca1" class="outline-4">
-<h4 id="org5657ca1"><span class="section-number-4">3.1.11.</span> <span class="todo TODO">TODO</span> [WEB-WK2] SQLi Scanner + SSRF + XXE Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-org3f1b7eb" class="outline-4">
+<h4 id="org3f1b7eb"><span class="section-number-4">3.1.11.</span> <span class="todo TODO">TODO</span> [WEB-WK2] SQLi Scanner + SSRF + XXE Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-3-1-11">
 <ul class="org-ul">
 <li>Write Python SQLi error-based scanner</li>
@@ -1005,8 +820,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org8212730" class="outline-4">
-<h4 id="org8212730"><span class="section-number-4">3.1.12.</span> <span class="todo TODO">TODO</span> [AD-WK1] Active Directory Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span></span></h4>
+<div id="outline-container-org989776c" class="outline-4">
+<h4 id="org989776c"><span class="section-number-4">3.1.12.</span> <span class="todo TODO">TODO</span> [AD-WK1] Active Directory Attack Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span></span></h4>
 <div class="outline-text-4" id="text-3-1-12">
 <ul class="org-ul">
 <li>AS-REP Roasting (GetNPUsers.py)</li>
@@ -1019,8 +834,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc5177c1" class="outline-4">
-<h4 id="orgc5177c1"><span class="section-number-4">3.1.13.</span> <span class="todo TODO">TODO</span> [SCRPT-WK2] Build a C2 Beaconing Script (Lab Only)&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="malware">malware</span></span></h4>
+<div id="outline-container-org5631a9b" class="outline-4">
+<h4 id="org5631a9b"><span class="section-number-4">3.1.13.</span> <span class="todo TODO">TODO</span> [SCRPT-WK2] Build a C2 Beaconing Script (Lab Only)&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="malware">malware</span></span></h4>
 <div class="outline-text-4" id="text-3-1-13">
 <ul class="org-ul">
 <li>Python agent: beacon home every N seconds</li>
@@ -1033,8 +848,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org2836306" class="outline-4">
-<h4 id="org2836306"><span class="section-number-4">3.1.14.</span> <span class="todo TODO">TODO</span> [DEF-WK3] Set Up Suricata + Zeek IDS&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></h4>
+<div id="outline-container-orgcffec49" class="outline-4">
+<h4 id="orgcffec49"><span class="section-number-4">3.1.14.</span> <span class="todo TODO">TODO</span> [DEF-WK3] Set Up Suricata + Zeek IDS&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></h4>
 <div class="outline-text-4" id="text-3-1-14">
 <ul class="org-ul">
 <li>Install Suricata, load ET Open rules</li>
@@ -1044,8 +859,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org89bc353" class="outline-4">
-<h4 id="org89bc353"><span class="section-number-4">3.1.15.</span> <span class="todo TODO">TODO</span> [WEB-WK3] Full Subdomain + Dir Recon Automation&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-org8f20da8" class="outline-4">
+<h4 id="org8f20da8"><span class="section-number-4">3.1.15.</span> <span class="todo TODO">TODO</span> [WEB-WK3] Full Subdomain + Dir Recon Automation&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-3-1-15">
 <ul class="org-ul">
 <li>Chain: subfinder → httpx → ffuf → nuclei</li>
@@ -1055,8 +870,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org7dec79b" class="outline-4">
-<h4 id="org7dec79b"><span class="section-number-4">3.1.16.</span> <span class="todo TODO">TODO</span> [CTF-WK1] Complete HackTheBox Starting Point (3 Machines)&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span></span></h4>
+<div id="outline-container-orgd78ae78" class="outline-4">
+<h4 id="orgd78ae78"><span class="section-number-4">3.1.16.</span> <span class="todo TODO">TODO</span> [CTF-WK1] Complete HackTheBox Starting Point (3 Machines)&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span></span></h4>
 <div class="outline-text-4" id="text-3-1-16">
 <ul class="org-ul">
 <li>Tier 0–1 Starting Point machines</li>
@@ -1066,8 +881,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org39913ed" class="outline-4">
-<h4 id="org39913ed"><span class="section-number-4">3.1.17.</span> <span class="todo TODO">TODO</span> [OSINT-WK1] OSINT Framework in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-org2a8a4de" class="outline-4">
+<h4 id="org2a8a4de"><span class="section-number-4">3.1.17.</span> <span class="todo TODO">TODO</span> [OSINT-WK1] OSINT Framework in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-3-1-17">
 <ul class="org-ul">
 <li>Inputs: email, username, domain, IP</li>
@@ -1077,8 +892,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc97f48b" class="outline-4">
-<h4 id="orgc97f48b"><span class="section-number-4">3.1.18.</span> <span class="todo TODO">TODO</span> [NET-WK4] Metasploit Deep Dive&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h4>
+<div id="outline-container-org2029000" class="outline-4">
+<h4 id="org2029000"><span class="section-number-4">3.1.18.</span> <span class="todo TODO">TODO</span> [NET-WK4] Metasploit Deep Dive&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h4>
 <div class="outline-text-4" id="text-3-1-18">
 <ul class="org-ul">
 <li>Exploit VulnHub machine fully through Metasploit</li>
@@ -1088,8 +903,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org812eddc" class="outline-4">
-<h4 id="org812eddc"><span class="section-number-4">3.1.19.</span> <span class="todo TODO">TODO</span> [CLOUD-WK1] AWS Misconfig &amp; Container Security Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span></span></h4>
+<div id="outline-container-orgf1ebdb6" class="outline-4">
+<h4 id="orgf1ebdb6"><span class="section-number-4">3.1.19.</span> <span class="todo TODO">TODO</span> [CLOUD-WK1] AWS Misconfig &amp; Container Security Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span></span></h4>
 <div class="outline-text-4" id="text-3-1-19">
 <ul class="org-ul">
 <li>Deploy intentionally vulnerable app (Damn Vulnerable Cloud App)</li>
@@ -1099,8 +914,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org8b49627" class="outline-4">
-<h4 id="org8b49627"><span class="section-number-4">3.1.20.</span> <span class="todo TODO">TODO</span> [CRYPT-WK2] Build a PKI from Scratch&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="defense">defense</span></span></h4>
+<div id="outline-container-org69b14d8" class="outline-4">
+<h4 id="org69b14d8"><span class="section-number-4">3.1.20.</span> <span class="todo TODO">TODO</span> [CRYPT-WK2] Build a PKI from Scratch&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="defense">defense</span></span></h4>
 <div class="outline-text-4" id="text-3-1-20">
 <ul class="org-ul">
 <li>Create root CA with openssl</li>
@@ -1110,8 +925,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org560529d" class="outline-4">
-<h4 id="org560529d"><span class="section-number-4">3.1.21.</span> <span class="todo TODO">TODO</span> [MAL-WK3] YARA Rules — Write &amp; Test&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="defense">defense</span></span></h4>
+<div id="outline-container-org85ee41b" class="outline-4">
+<h4 id="org85ee41b"><span class="section-number-4">3.1.21.</span> <span class="todo TODO">TODO</span> [MAL-WK3] YARA Rules — Write &amp; Test&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="defense">defense</span></span></h4>
 <div class="outline-text-4" id="text-3-1-21">
 <ul class="org-ul">
 <li>Learn YARA syntax</li>
@@ -1121,8 +936,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org1785c3f" class="outline-4">
-<h4 id="org1785c3f"><span class="section-number-4">3.1.22.</span> <span class="todo TODO">TODO</span> [WEB-WK4] Android App Security Testing&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="re">re</span></span></h4>
+<div id="outline-container-orgdc1f519" class="outline-4">
+<h4 id="orgdc1f519"><span class="section-number-4">3.1.22.</span> <span class="todo TODO">TODO</span> [WEB-WK4] Android App Security Testing&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="re">re</span></span></h4>
 <div class="outline-text-4" id="text-3-1-22">
 <ul class="org-ul">
 <li>Decompile APK: jadx, apktool</li>
@@ -1132,8 +947,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org5dfd6f9" class="outline-4">
-<h4 id="org5dfd6f9"><span class="section-number-4">3.1.23.</span> <span class="todo TODO">TODO</span> [DEF-WK4] Incident Response Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h4>
+<div id="outline-container-org91544e1" class="outline-4">
+<h4 id="org91544e1"><span class="section-number-4">3.1.23.</span> <span class="todo TODO">TODO</span> [DEF-WK4] Incident Response Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span></span></h4>
 <div class="outline-text-4" id="text-3-1-23">
 <ul class="org-ul">
 <li>Simulate: attacker compromises web server VM</li>
@@ -1143,8 +958,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org1432383" class="outline-4">
-<h4 id="org1432383"><span class="section-number-4">3.1.24.</span> <span class="todo TODO">TODO</span> [NET-WK5] WPA2 PMKID Attack + Evil Twin AP&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h4>
+<div id="outline-container-org929e933" class="outline-4">
+<h4 id="org929e933"><span class="section-number-4">3.1.24.</span> <span class="todo TODO">TODO</span> [NET-WK5] WPA2 PMKID Attack + Evil Twin AP&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span></span></h4>
 <div class="outline-text-4" id="text-3-1-24">
 <ul class="org-ul">
 <li>PMKID attack with hcxdumptool (no client needed)</li>
@@ -1157,8 +972,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org53c7f97" class="outline-4">
-<h4 id="org53c7f97"><span class="section-number-4">3.1.25.</span> <span class="todo TODO">TODO</span> [SCRPT-WK3] Vulnerability Scanner in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="web">web</span></span></h4>
+<div id="outline-container-org1541eaa" class="outline-4">
+<h4 id="org1541eaa"><span class="section-number-4">3.1.25.</span> <span class="todo TODO">TODO</span> [SCRPT-WK3] Vulnerability Scanner in Python&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="web">web</span></span></h4>
 <div class="outline-text-4" id="text-3-1-25">
 <ul class="org-ul">
 <li>Port scan → service detect → CVE lookup (NVD API)</li>
@@ -1168,8 +983,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orga7db4d3" class="outline-4">
-<h4 id="orga7db4d3"><span class="section-number-4">3.1.26.</span> <span class="todo TODO">TODO</span> [OSINT-WK2] Threat Intel Aggregator&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="defense">defense</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-orgccec7dd" class="outline-4">
+<h4 id="orgccec7dd"><span class="section-number-4">3.1.26.</span> <span class="todo TODO">TODO</span> [OSINT-WK2] Threat Intel Aggregator&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="defense">defense</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-3-1-26">
 <ul class="org-ul">
 <li>Pull from: AlienVault OTX, AbuseIPDB, VirusTotal API</li>
@@ -1179,8 +994,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf68e9c1" class="outline-4">
-<h4 id="orgf68e9c1"><span class="section-number-4">3.1.27.</span> <span class="todo TODO">TODO</span> [RE-WK1] Buffer Overflow 101&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></h4>
+<div id="outline-container-org499f803" class="outline-4">
+<h4 id="org499f803"><span class="section-number-4">3.1.27.</span> <span class="todo TODO">TODO</span> [RE-WK1] Buffer Overflow 101&nbsp;&nbsp;&nbsp<span class="tag"><span class="re">re</span></span></h4>
 <div class="outline-text-4" id="text-3-1-27">
 <ul class="org-ul">
 <li>Compile vulnerable C program (strcpy, no canary)</li>
@@ -1190,8 +1005,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org163a283" class="outline-4">
-<h4 id="org163a283"><span class="section-number-4">3.1.28.</span> <span class="todo TODO">TODO</span> [WEB-WK5] Build a Vulnerable Web App (for CTF)&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-org5721f69" class="outline-4">
+<h4 id="org5721f69"><span class="section-number-4">3.1.28.</span> <span class="todo TODO">TODO</span> [WEB-WK5] Build a Vulnerable Web App (for CTF)&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-3-1-28">
 <ul class="org-ul">
 <li>Flask app with intentional vulns: SQLi, XSS, IDOR, path traversal</li>
@@ -1203,8 +1018,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org4b8b07f" class="outline-4">
-<h4 id="org4b8b07f"><span class="section-number-4">3.1.29.</span> <span class="todo TODO">TODO</span> [DEF-WK5] Zero Trust Network Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></h4>
+<div id="outline-container-org03d0c31" class="outline-4">
+<h4 id="org03d0c31"><span class="section-number-4">3.1.29.</span> <span class="todo TODO">TODO</span> [DEF-WK5] Zero Trust Network Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></h4>
 <div class="outline-text-4" id="text-3-1-29">
 <ul class="org-ul">
 <li>Segment home lab into trust zones</li>
@@ -1214,8 +1029,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf0fe357" class="outline-4">
-<h4 id="orgf0fe357"><span class="section-number-4">3.1.30.</span> <span class="todo TODO">TODO</span> [NET-WK6] Analyze a Real-World CVE + Write PoC&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-orga4f2240" class="outline-4">
+<h4 id="orga4f2240"><span class="section-number-4">3.1.30.</span> <span class="todo TODO">TODO</span> [NET-WK6] Analyze a Real-World CVE + Write PoC&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-3-1-30">
 <ul class="org-ul">
 <li>Pick recent CVE (Log4Shell, ProxyLogon class)</li>
@@ -1226,8 +1041,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </ul>
 </div>
 </div>
-<div id="outline-container-org98258ba" class="outline-4">
-<h4 id="org98258ba"><span class="section-number-4">3.1.31.</span> <span class="todo TODO">TODO</span> [CLOUD-WK2] Serverless + API Security Testing&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span>&nbsp;<span class="web">web</span></span></h4>
+<div id="outline-container-orgf9b5e84" class="outline-4">
+<h4 id="orgf9b5e84"><span class="section-number-4">3.1.31.</span> <span class="todo TODO">TODO</span> [CLOUD-WK2] Serverless + API Security Testing&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span>&nbsp;<span class="web">web</span></span></h4>
 <div class="outline-text-4" id="text-3-1-31">
 <ul class="org-ul">
 <li>Deploy Lambda function with IDOR vuln</li>
@@ -1238,20 +1053,20 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </div>
 </div>
 </div>
-<div id="outline-container-orgb727b9b" class="outline-3">
-<h3 id="orgb727b9b"><span class="section-number-3">3.2.</span> ══════════════════════════════════════════</h3>
+<div id="outline-container-org71eb2ac" class="outline-3">
+<h3 id="org71eb2ac"><span class="section-number-3">3.2.</span> ══════════════════════════════════════════</h3>
 </div>
 </div>
-<div id="outline-container-org932e2fb" class="outline-2">
-<h2 id="org932e2fb"><span class="section-number-2">4.</span> TIER 3 — MONTH PROJECTS (3–4 weeks each)</h2>
+<div id="outline-container-orgea4a08d" class="outline-2">
+<h2 id="orgea4a08d"><span class="section-number-2">4.</span> TIER 3 — MONTH PROJECTS (3–4 weeks each)</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org46952da" class="outline-3">
-<h3 id="org46952da"><span class="section-number-3">4.1.</span> ══════════════════════════════════════════</h3>
+<div id="outline-container-org124e9c1" class="outline-3">
+<h3 id="org124e9c1"><span class="section-number-3">4.1.</span> ══════════════════════════════════════════</h3>
 <div class="outline-text-3" id="text-4-1">
 </div>
-<div id="outline-container-org784d1f3" class="outline-4">
-<h4 id="org784d1f3"><span class="section-number-4">4.1.1.</span> <span class="todo TODO">TODO</span> [DEF-MO1] Build a Full Home SOC&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></h4>
+<div id="outline-container-org13ae1f4" class="outline-4">
+<h4 id="org13ae1f4"><span class="section-number-4">4.1.1.</span> <span class="todo TODO">TODO</span> [DEF-MO1] Build a Full Home SOC&nbsp;&nbsp;&nbsp<span class="tag"><span class="defense">defense</span>&nbsp;<span class="network">network</span></span></h4>
 <div class="outline-text-4" id="text-4-1-1">
 <ul class="org-ul">
 <li>ELK Stack SIEM with real dashboards</li>
@@ -1266,8 +1081,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orge46852e" class="outline-4">
-<h4 id="orge46852e"><span class="section-number-4">4.1.2.</span> <span class="todo TODO">TODO</span> [NET-MO1] OSCP-Style Multi-Machine Lab + Report&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span>&nbsp;<span class="re">re</span></span></h4>
+<div id="outline-container-orge73e3d2" class="outline-4">
+<h4 id="orge73e3d2"><span class="section-number-4">4.1.2.</span> <span class="todo TODO">TODO</span> [NET-MO1] OSCP-Style Multi-Machine Lab + Report&nbsp;&nbsp;&nbsp<span class="tag"><span class="network">network</span>&nbsp;<span class="web">web</span>&nbsp;<span class="re">re</span></span></h4>
 <div class="outline-text-4" id="text-4-1-2">
 <ul class="org-ul">
 <li>Set up 5+ VulnHub/HackTheBox machines in lab</li>
@@ -1281,8 +1096,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orge42fb70" class="outline-4">
-<h4 id="orge42fb70"><span class="section-number-4">4.1.3.</span> <span class="todo TODO">TODO</span> [WEB-MO1] Full Web App Pentest Automation Suite&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-org158a7d5" class="outline-4">
+<h4 id="org158a7d5"><span class="section-number-4">4.1.3.</span> <span class="todo TODO">TODO</span> [WEB-MO1] Full Web App Pentest Automation Suite&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-4-1-3">
 <ul class="org-ul">
 <li>Chain: subfinder → httpx → nuclei → custom SQLi/XSS scanner</li>
@@ -1296,8 +1111,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orga127a50" class="outline-4">
-<h4 id="orga127a50"><span class="section-number-4">4.1.4.</span> <span class="todo TODO">TODO</span> [MAL-MO1] Full Malware Analysis Report on Real Sample&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="re">re</span></span></h4>
+<div id="outline-container-orge4b7500" class="outline-4">
+<h4 id="orge4b7500"><span class="section-number-4">4.1.4.</span> <span class="todo TODO">TODO</span> [MAL-MO1] Full Malware Analysis Report on Real Sample&nbsp;&nbsp;&nbsp<span class="tag"><span class="malware">malware</span>&nbsp;<span class="re">re</span></span></h4>
 <div class="outline-text-4" id="text-4-1-4">
 <ul class="org-ul">
 <li>Pick a notable open malware sample (emotet, njRAT)</li>
@@ -1312,8 +1127,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org18b147c" class="outline-4">
-<h4 id="org18b147c"><span class="section-number-4">4.1.5.</span> <span class="todo TODO">TODO</span> [AD-MO1] Active Directory Full Attack + Defense Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span>&nbsp;<span class="network">network</span>&nbsp;<span class="defense">defense</span></span></h4>
+<div id="outline-container-orgdf5cb26" class="outline-4">
+<h4 id="orgdf5cb26"><span class="section-number-4">4.1.5.</span> <span class="todo TODO">TODO</span> [AD-MO1] Active Directory Full Attack + Defense Lab&nbsp;&nbsp;&nbsp<span class="tag"><span class="ad">ad</span>&nbsp;<span class="network">network</span>&nbsp;<span class="defense">defense</span></span></h4>
 <div class="outline-text-4" id="text-4-1-5">
 <ul class="org-ul">
 <li>Red: full AD attack chain (recon → foothold → lateral → DA)</li>
@@ -1327,8 +1142,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org326e5de" class="outline-4">
-<h4 id="org326e5de"><span class="section-number-4">4.1.6.</span> <span class="todo TODO">TODO</span> [OSINT-MO1] Automated OSINT Platform&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-org4360a95" class="outline-4">
+<h4 id="org4360a95"><span class="section-number-4">4.1.6.</span> <span class="todo TODO">TODO</span> [OSINT-MO1] Automated OSINT Platform&nbsp;&nbsp;&nbsp<span class="tag"><span class="osint">osint</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-4-1-6">
 <ul class="org-ul">
 <li>Web UI (Flask/FastAPI + React) for OSINT investigations</li>
@@ -1342,8 +1157,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org878c1dc" class="outline-4">
-<h4 id="org878c1dc"><span class="section-number-4">4.1.7.</span> <span class="todo TODO">TODO</span> [CRYPT-MO1] Cryptography Attack Suite + PKI System&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="scripting">scripting</span></span></h4>
+<div id="outline-container-org6a4d5d2" class="outline-4">
+<h4 id="org6a4d5d2"><span class="section-number-4">4.1.7.</span> <span class="todo TODO">TODO</span> [CRYPT-MO1] Cryptography Attack Suite + PKI System&nbsp;&nbsp;&nbsp<span class="tag"><span class="crypto">crypto</span>&nbsp;<span class="scripting">scripting</span></span></h4>
 <div class="outline-text-4" id="text-4-1-7">
 <ul class="org-ul">
 <li>Full PKI: root CA → intermediate → end-entity certs</li>
@@ -1356,8 +1171,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org3739566" class="outline-4">
-<h4 id="org3739566"><span class="section-number-4">4.1.8.</span> <span class="todo TODO">TODO</span> [CLOUD-MO1] Cloud Security Audit + Hardening&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span>&nbsp;<span class="defense">defense</span></span></h4>
+<div id="outline-container-org4abe879" class="outline-4">
+<h4 id="org4abe879"><span class="section-number-4">4.1.8.</span> <span class="todo TODO">TODO</span> [CLOUD-MO1] Cloud Security Audit + Hardening&nbsp;&nbsp;&nbsp<span class="tag"><span class="cloud">cloud</span>&nbsp;<span class="defense">defense</span></span></h4>
 <div class="outline-text-4" id="text-4-1-8">
 <ul class="org-ul">
 <li>Full AWS audit: IAM, S3, EC2, Lambda, RDS</li>
@@ -1371,8 +1186,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-org2e86605" class="outline-4">
-<h4 id="org2e86605"><span class="section-number-4">4.1.9.</span> <span class="todo TODO">TODO</span> [SCRPT-MO1] Full Pentest Automation Suite (CLI Tool)&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="web">web</span></span></h4>
+<div id="outline-container-org45af24a" class="outline-4">
+<h4 id="org45af24a"><span class="section-number-4">4.1.9.</span> <span class="todo TODO">TODO</span> [SCRPT-MO1] Full Pentest Automation Suite (CLI Tool)&nbsp;&nbsp;&nbsp<span class="tag"><span class="scripting">scripting</span>&nbsp;<span class="network">network</span>&nbsp;<span class="web">web</span></span></h4>
 <div class="outline-text-4" id="text-4-1-9">
 <ul class="org-ul">
 <li>Modules: recon, web scan, vuln check, exploit assist, report gen</li>
@@ -1386,8 +1201,8 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb486c0f" class="outline-4">
-<h4 id="orgb486c0f"><span class="section-number-4">4.1.10.</span> <span class="todo TODO">TODO</span> [CTF-MO1] Host a Public CTF Competition&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="network">network</span>&nbsp;<span class="crypto">crypto</span>&nbsp;<span class="re">re</span></span></h4>
+<div id="outline-container-org75b0924" class="outline-4">
+<h4 id="org75b0924"><span class="section-number-4">4.1.10.</span> <span class="todo TODO">TODO</span> [CTF-MO1] Host a Public CTF Competition&nbsp;&nbsp;&nbsp<span class="tag"><span class="web">web</span>&nbsp;<span class="network">network</span>&nbsp;<span class="crypto">crypto</span>&nbsp;<span class="re">re</span></span></h4>
 <div class="outline-text-4" id="text-4-1-10">
 <ul class="org-ul">
 <li>Design 15–20 challenges across categories</li>
@@ -1402,20 +1217,20 @@ Finish weekend before week. Finish week before month. Cross-chain combos noted.
 </div>
 </div>
 </div>
-<div id="outline-container-orge2f02fa" class="outline-3">
-<h3 id="orge2f02fa"><span class="section-number-3">4.2.</span> ══════════════════════════════════════════</h3>
+<div id="outline-container-orgc82e14e" class="outline-3">
+<h3 id="orgc82e14e"><span class="section-number-3">4.2.</span> ══════════════════════════════════════════</h3>
 </div>
 </div>
-<div id="outline-container-org501a00e" class="outline-2">
-<h2 id="org501a00e"><span class="section-number-2">5.</span> CHAIN COMBO MAPS — SUGGESTED PATHS</h2>
+<div id="outline-container-orgb805300" class="outline-2">
+<h2 id="orgb805300"><span class="section-number-2">5.</span> CHAIN COMBO MAPS — SUGGESTED PATHS</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org220cc79" class="outline-3">
-<h3 id="org220cc79"><span class="section-number-3">5.1.</span> ══════════════════════════════════════════</h3>
+<div id="outline-container-orge4e208b" class="outline-3">
+<h3 id="orge4e208b"><span class="section-number-3">5.1.</span> ══════════════════════════════════════════</h3>
 <div class="outline-text-3" id="text-5-1">
 </div>
-<div id="outline-container-org5b4727e" class="outline-4">
-<h4 id="org5b4727e"><span class="section-number-4">5.1.1.</span> PATH A: Network Pentester (Offensive)</h4>
+<div id="outline-container-org3d9ae91" class="outline-4">
+<h4 id="org3d9ae91"><span class="section-number-4">5.1.1.</span> PATH A: Network Pentester (Offensive)</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <p>
 Weekend → Week → Month
@@ -1425,8 +1240,8 @@ NET-MO1 (OSCP-style lab)
 </p>
 </div>
 </div>
-<div id="outline-container-org0cc9dab" class="outline-4">
-<h4 id="org0cc9dab"><span class="section-number-4">5.1.2.</span> PATH B: Web/Bug Bounty Hunter</h4>
+<div id="outline-container-org615273f" class="outline-4">
+<h4 id="org615273f"><span class="section-number-4">5.1.2.</span> PATH B: Web/Bug Bounty Hunter</h4>
 <div class="outline-text-4" id="text-5-1-2">
 <p>
 Weekend → Week → Month
@@ -1436,8 +1251,8 @@ WEB-MO1 (pentest suite + bounty submission)
 </p>
 </div>
 </div>
-<div id="outline-container-orgc84e620" class="outline-4">
-<h4 id="orgc84e620"><span class="section-number-4">5.1.3.</span> PATH C: Blue Team / SOC Analyst</h4>
+<div id="outline-container-orge9cd84d" class="outline-4">
+<h4 id="orge9cd84d"><span class="section-number-4">5.1.3.</span> PATH C: Blue Team / SOC Analyst</h4>
 <div class="outline-text-4" id="text-5-1-3">
 <p>
 Weekend → Week → Month
@@ -1447,8 +1262,8 @@ DEF-MO1 (home SOC) → AD-MO1 (AD defense)
 </p>
 </div>
 </div>
-<div id="outline-container-org2575bdb" class="outline-4">
-<h4 id="org2575bdb"><span class="section-number-4">5.1.4.</span> PATH D: Malware Analyst / Threat Intel</h4>
+<div id="outline-container-org62940e5" class="outline-4">
+<h4 id="org62940e5"><span class="section-number-4">5.1.4.</span> PATH D: Malware Analyst / Threat Intel</h4>
 <div class="outline-text-4" id="text-5-1-4">
 <p>
 Weekend → Week → Month
@@ -1458,8 +1273,8 @@ MAL-MO1 (full malware analysis report)
 </p>
 </div>
 </div>
-<div id="outline-container-org0bcda22" class="outline-4">
-<h4 id="org0bcda22"><span class="section-number-4">5.1.5.</span> PATH E: Security Engineer / Tool Builder</h4>
+<div id="outline-container-org40c8235" class="outline-4">
+<h4 id="org40c8235"><span class="section-number-4">5.1.5.</span> PATH E: Security Engineer / Tool Builder</h4>
 <div class="outline-text-4" id="text-5-1-5">
 <p>
 Weekend → Week → Month
@@ -1470,20 +1285,20 @@ SCRPT-MO1 (pentest suite)
 </div>
 </div>
 </div>
-<div id="outline-container-org7011380" class="outline-3">
-<h3 id="org7011380"><span class="section-number-3">5.2.</span> ══════════════════════════════</h3>
+<div id="outline-container-org37ac76b" class="outline-3">
+<h3 id="org37ac76b"><span class="section-number-3">5.2.</span> ══════════════════════════════</h3>
 </div>
 </div>
-<div id="outline-container-orgceaa547" class="outline-2">
-<h2 id="orgceaa547"><span class="section-number-2">6.</span> RESOURCES</h2>
+<div id="outline-container-org415621f" class="outline-2">
+<h2 id="org415621f"><span class="section-number-2">6.</span> RESOURCES</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-orge8e3121" class="outline-3">
-<h3 id="orge8e3121"><span class="section-number-3">6.1.</span> ══════════════════════════════</h3>
+<div id="outline-container-org47c3de5" class="outline-3">
+<h3 id="org47c3de5"><span class="section-number-3">6.1.</span> ══════════════════════════════</h3>
 <div class="outline-text-3" id="text-6-1">
 </div>
-<div id="outline-container-org222435d" class="outline-4">
-<h4 id="org222435d"><span class="section-number-4">6.1.1.</span> Platforms And Websites</h4>
+<div id="outline-container-org4e885e4" class="outline-4">
+<h4 id="org4e885e4"><span class="section-number-4">6.1.1.</span> Platforms And Websites</h4>
 <div class="outline-text-4" id="text-6-1-1">
 <ul class="org-ul">
 <li>TryHackMe: <a href="https://tryhackme.com">https://tryhackme.com</a> (beginner friendly)</li>
@@ -1496,8 +1311,8 @@ SCRPT-MO1 (pentest suite)
 </ul>
 </div>
 </div>
-<div id="outline-container-org191c2bd" class="outline-4">
-<h4 id="org191c2bd"><span class="section-number-4">6.1.2.</span> Essential Tools</h4>
+<div id="outline-container-org1ff1a7a" class="outline-4">
+<h4 id="org1ff1a7a"><span class="section-number-4">6.1.2.</span> Essential Tools</h4>
 <div class="outline-text-4" id="text-6-1-2">
 <ul class="org-ul">
 <li>Kali Linux / ParrotOS</li>
@@ -1511,8 +1326,8 @@ SCRPT-MO1 (pentest suite)
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb78ded6" class="outline-4">
-<h4 id="orgb78ded6"><span class="section-number-4">6.1.3.</span> Free Certifications to Stack</h4>
+<div id="outline-container-orgbc3fbfc" class="outline-4">
+<h4 id="orgbc3fbfc"><span class="section-number-4">6.1.3.</span> Free Certifications to Stack</h4>
 <div class="outline-text-4" id="text-6-1-3">
 <ul class="org-ul">
 <li>Google Cybersecurity Certificate (Coursera)</li>
@@ -1522,10 +1337,10 @@ SCRPT-MO1 (pentest suite)
 </ul>
 </div>
 </div>
-<div id="outline-container-org8ae4dc9" class="outline-4">
-<h4 id="org8ae4dc9"><span class="section-number-4">6.1.4.</span> Time Budget Suggestion</h4>
+<div id="outline-container-org94b5e1f" class="outline-4">
+<h4 id="org94b5e1f"><span class="section-number-4">6.1.4.</span> Time Budget Suggestion</h4>
 <div class="outline-text-4" id="text-6-1-4">
-<pre class="example" id="orgd6e43f4">
+<pre class="example" id="org3fa6915">
    Month 1-2:  All Weekend projects (pick 2/weekend)
    Month 3-4:  Week projects (1 per week)
    Month 5-8:  Month projects (1 per month)
@@ -1539,7 +1354,7 @@ SCRPT-MO1 (pentest suite)
 <div id="postamble" class="status">
 <p class="date">Date: 2026-05-08 Fri 17:23</p>
 <p class="author">Author: Connal McInnis</p>
-<p class="date">Created: 2026-05-09 Sat 15:15</p>
+<p class="date">Created: 2026-05-17 Sun 17:30</p>
 </div>
 </body>
 </html>

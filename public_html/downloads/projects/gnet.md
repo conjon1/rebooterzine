@@ -1,0 +1,500 @@
+- [The Situation](#org9ffe161)
+- [What It Does](#orgcc01680)
+- [The Config Variables](#org74367a5)
+- [Interface Detection](#orgb06a2c0)
+- [The SSH Tunnel](#org76e71ac)
+- [redsocks](#org62385cc)
+- [iptables](#org13b3eb8)
+  - [Teardown](#org30d496a)
+- [dnscrypt-proxy](#org91c82df)
+  - [The DNS Clobber Problem](#org7ddd3cc)
+- [IPv6](#orgd20beb7)
+- [The gnet Function](#org4c1d80a)
+- [gdown](#org48fd82b)
+- [gstatus](#org400e11b)
+- [Known Limitations](#org203730a)
+  - [UDP is not tunneled](#org3afd294)
+  - [Phone must stay connected](#org491b7e7)
+- [What T-Mobile Actually Sees](#org778f6f0)
+- [The Part Where I Complain About Carriers](#orgc430e9a)
+
+[download gnet.sh](../assets/gnet.sh)
+
+
+<a id="org9ffe161"></a>
+
+# The Situation
+
+I live in a rural area. No cable, no fiber, no DSL. The only internet available to me is a T-Mobile hotspot plan with 10GB of high-speed data. After that it gets throttled into something that would make dialup feel smug. Two carriers control most of the rural mobile market and neither of them feel any urgency to change that. There&rsquo;s no competition pushing them to. So you work with what you have.
+
+The problem is the distinction carriers draw between &ldquo;phone data&rdquo; and &ldquo;hotspot data.&rdquo; Same radio, same towers, same bits — but the moment traffic comes from a tethered device instead of the phone itself, it counts differently, gets throttled earlier, or gets treated as a separate bucket entirely. The technical justification for this is thin. The business justification is that they can, and nobody will stop them.
+
+So I wrote `gnet`. It routes all my computer&rsquo;s traffic through my phone in a way that, from T-Mobile&rsquo;s perspective, looks like phone traffic. This is a writeup of how it works.
+
+
+<a id="orgcc01680"></a>
+
+# What It Does
+
+`gnet` intercepts all outbound traffic before it leaves the machine and pushes it through an SSH tunnel to Termux running on the phone. From there it exits through Mullvad VPN. The carrier sees an encrypted blob going to the phone. The phone sends VPN traffic outbound. Nobody along the way gets a clear look at destinations, DNS queries, or content.
+
+The full chain looks like this:
+
+```
+your app
+  → iptables      (intercepts all outbound TCP)
+  → redsocks      (converts raw TCP to SOCKS5)
+  → SSH tunnel    (encrypted pipe into Termux on the phone)
+  → Mullvad VPN   (running on the phone)
+  → internet
+```
+
+DNS runs a separate path so domain lookups don&rsquo;t leak around the tunnel:
+
+```
+app asks "what is example.com?"
+  → resolv.conf points to 127.0.0.1
+  → dnscrypt-proxy  (encrypts the query over HTTPS/DoH)
+  → through the SSH tunnel
+  → Mullvad's resolvers in the Netherlands
+  → answer returns the same way
+```
+
+Without the DNS piece your ISP sees every domain name you look up even if the actual traffic is hidden. dnscrypt-proxy closes that gap.
+
+
+<a id="org74367a5"></a>
+
+# The Config Variables
+
+Everything the script needs to know about your phone lives in four variables at the top of the `~/.bashrc` block:
+
+```bash
+GNET_USER="u0_a242"
+GNET_PORT="8022"
+GNET_PROXY="1080"
+GNET_REDSOCKS="12345"
+```
+
+-   **`GNET_USER`:** Your Termux username. Run `whoami` inside Termux to get it. Android assigns these automatically; yours will likely differ from mine.
+-   **`GNET_PORT`:** Termux&rsquo;s `sshd` doesn&rsquo;t run on the standard port 22 — it runs on 8022. This is hardcoded in Termux and not configurable without root.
+-   **`GNET_PROXY`:** The local port the SSH tunnel will open as a SOCKS5 proxy. 1080 is the SOCKS convention. Nothing special about it.
+-   **`GNET_REDSOCKS`:** The port redsocks listens on before forwarding into the tunnel. 12345 by default; just needs to not conflict with anything else.
+
+
+<a id="orgb06a2c0"></a>
+
+# Interface Detection
+
+Before anything else starts, the script needs to know which network interface is the phone and which (if any) is a local LAN interface for sharing the connection downstream.
+
+```bash
+_gnet_wan_iface() { ip route show default | awk 'NR==1 {print $5}'; }
+
+_gnet_lan_iface() {
+    if [[ -n "$GNET_LAN_IFACE" ]]; then
+        echo "$GNET_LAN_IFACE"
+        return
+    fi
+    local wan
+    wan=$(_gnet_wan_iface)
+    ip -o link show | awk -F': ' '{print $2}' \
+        | grep -E '^(wlan|wlp)' \
+        | grep -v "^${wan}$" \
+        | head -1
+}
+```
+
+`_gnet_wan_iface` reads the default route and pulls the interface name from column 5. When the phone is tethered over USB this will be something like `enp0s20f0u2`. The awk one-liner is more reliable than parsing with `read` because the field position doesn&rsquo;t shift if the output changes slightly.
+
+`_gnet_lan_iface` handles the case where I&rsquo;m also sharing the tunnel connection to other machines on my home network — a Raspberry Pi, a Talos node, etc. It first checks if `GNET_LAN_IFACE` is set manually (useful override if autodetection gets it wrong), then falls back to finding a `wlan` or `wlp` interface that isn&rsquo;t the WAN. If there&rsquo;s nothing to find it returns empty and LAN sharing is silently skipped.
+
+
+<a id="org76e71ac"></a>
+
+# The SSH Tunnel
+
+```bash
+local CIPHER="aes128-gcm@openssh.com"
+[[ "$MODE" == "fast" ]] && CIPHER="chacha20-poly1305@openssh.com"
+
+ssh -f -N -D "${GNET_PROXY}" -p "${GNET_PORT}" \
+    -c "${CIPHER}" \
+    -o Compression=no \
+    -o IPQoS=throughput \
+    -o ConnectTimeout=5 \
+    "${GNET_USER}@${PHONE_IP}"
+```
+
+The `-D` flag is what turns this into a SOCKS5 proxy. It tells SSH to open a local dynamic port-forwarding listener — anything that connects to `127.0.0.1:1080` gets tunneled through the encrypted SSH connection and exits from the phone.
+
+`-f -N` runs it in the background without executing a remote command. `-f` forks to background after authentication succeeds; `-N` tells it there&rsquo;s no remote command to run, just hold the tunnel open.
+
+The cipher choice is deliberate. `aes128-gcm` is fast on x86 because modern CPUs have AES hardware acceleration (AES-NI). `chacha20-poly1305` is the better pick on ARM processors that lack it — it&rsquo;s faster in software. Since the phone is the ARM end of this connection and isn&rsquo;t doing the encryption (SSH runs on the laptop), AES wins here. The `-fast` flag swaps it for anyone who wants to experiment.
+
+`Compression=no` and `IPQoS=throughput` are throughput hints. Compression adds CPU overhead that usually costs more than it saves on already-compressed traffic (HTTPS, video). `IPQoS=throughput` nudges the kernel to prioritize bandwidth over latency.
+
+
+<a id="org62385cc"></a>
+
+# redsocks
+
+The SSH tunnel is a SOCKS5 proxy, but most applications don&rsquo;t speak SOCKS5. They open TCP connections and expect the OS to route them. redsocks bridges that gap — it accepts raw TCP connections and speaks SOCKS5 upstream toward the tunnel. Applications don&rsquo;t know it&rsquo;s there.
+
+The config is generated at startup into `/tmp/redsocks.conf`:
+
+```bash
+_redsocks_config() {
+    cat <<EOF > /tmp/redsocks.conf
+base {
+    log_debug = off;
+    log_info  = off;
+    log       = "syslog:daemon";
+    daemon    = on;
+    redirector = iptables;
+}
+redsocks {
+    local_ip   = 0.0.0.0;
+    local_port = ${GNET_REDSOCKS};
+    ip         = 127.0.0.1;
+    port       = ${GNET_PROXY};
+    type       = socks5;
+}
+EOF
+}
+```
+
+`local_ip = 0.0.0.0` means redsocks accepts connections on all interfaces, not just loopback. This is necessary for LAN sharing — when a device on my local network sends traffic through the tunnel, redsocks needs to receive it.
+
+`redirector = iptables` tells redsocks it&rsquo;ll be receiving connections that were transparently redirected by iptables rather than connections from SOCKS5-aware clients. This is what makes the transparent proxy mode work.
+
+Logging is set to `syslog:daemon` and debug/info are off. I don&rsquo;t need redsocks writing to stdout; if something breaks I&rsquo;ll check `journalctl`.
+
+
+<a id="org13b3eb8"></a>
+
+# iptables
+
+iptables is what makes the whole thing transparent — every outbound TCP connection from every application, regardless of whether it knows anything about proxies, gets intercepted and redirected.
+
+```bash
+_iptables_up() {
+    local LAN_IFACE WAN_IFACE
+    LAN_IFACE=$(_gnet_lan_iface)
+    WAN_IFACE=$(_gnet_wan_iface)
+
+    # create the REDSOCKS chain
+    sudo iptables -t nat -N REDSOCKS 2>/dev/null
+
+    # exclude private/local address ranges — don't redirect LAN or loopback
+    for net in 0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16 \
+               172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4; do
+        sudo iptables -t nat -A REDSOCKS -d "$net" -j RETURN
+    done
+
+    # everything else: redirect TCP to redsocks
+    sudo iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports "${GNET_REDSOCKS}"
+
+    # hook the chain into outbound traffic from this machine
+    sudo iptables -t nat -A OUTPUT -p tcp -j REDSOCKS
+
+    # if there's a LAN interface, share the tunnel to downstream devices
+    if [[ -n "$LAN_IFACE" ]]; then
+        sudo iptables -t nat -A PREROUTING -i "${LAN_IFACE}" -p tcp -j REDSOCKS
+        sudo iptables -t nat -A POSTROUTING -o "${WAN_IFACE}" -j MASQUERADE
+        sudo iptables -A FORWARD -i "${LAN_IFACE}" -j ACCEPT
+        sudo iptables -A FORWARD -o "${LAN_IFACE}" -m state --state RELATED,ESTABLISHED -j ACCEPT
+        sudo sysctl -w net.ipv4.ip_forward=1 > /dev/null
+    fi
+}
+```
+
+The script creates a custom chain called `REDSOCKS` in the `nat` table. Putting the rules in their own chain makes teardown clean — you can flush or delete the chain without touching any other iptables rules that might exist on the system.
+
+The exclusion loop is important. Without it, traffic destined for the LAN, loopback, and link-local addresses would get redirected into the tunnel and break local networking entirely. Every private address range gets a `RETURN` rule so it bypasses the redirect.
+
+`OUTPUT` catches traffic from this machine. `PREROUTING` catches traffic arriving from the LAN interface headed outbound — this is what lets a Pi or other device on my local network use the tunnel without any configuration on its end. `POSTROUTING` with `MASQUERADE` handles the NAT so the phone side sees the laptop&rsquo;s IP rather than the downstream device&rsquo;s IP.
+
+
+<a id="org30d496a"></a>
+
+## Teardown
+
+```bash
+_iptables_down() {
+    local LAN_IFACE WAN_IFACE
+    LAN_IFACE=$(_gnet_lan_iface)
+    WAN_IFACE=$(_gnet_wan_iface)
+
+    sudo iptables -t nat -D OUTPUT -p tcp -j REDSOCKS 2>/dev/null
+
+    if [[ -n "$LAN_IFACE" ]]; then
+        sudo iptables -t nat -D PREROUTING -i "${LAN_IFACE}" -p tcp -j REDSOCKS 2>/dev/null
+        sudo iptables -t nat -D POSTROUTING -o "${WAN_IFACE}" -j MASQUERADE 2>/dev/null
+        sudo iptables -D FORWARD -i "${LAN_IFACE}" -j ACCEPT 2>/dev/null
+        sudo iptables -D FORWARD -o "${LAN_IFACE}" -m state --state RELATED,ESTABLISHED -j ACCEPT 2>/dev/null
+    fi
+
+    sudo iptables -t nat -F REDSOCKS 2>/dev/null
+    sudo iptables -t nat -X REDSOCKS 2>/dev/null
+
+    sudo sysctl -w net.ipv4.ip_forward=0 > /dev/null
+}
+```
+
+Teardown order is not optional. If you kill the SSH tunnel while iptables is still running, all TCP is still being redirected to a port where redsocks is listening but has nothing to forward to. Your network goes completely dead — not degraded, dead. `gdown` always flushes iptables first. After that, even if the SSH process is already gone, the OS routes traffic normally again.
+
+`-F` flushes all rules from the `REDSOCKS` chain; `-X` deletes the chain itself. The `2>/dev/null` on every line suppresses errors for rules that don&rsquo;t exist — useful if teardown is running after a partial startup failure.
+
+
+<a id="org91c82df"></a>
+
+# dnscrypt-proxy
+
+```bash
+_dnscrypt_config() {
+    local DNSSEC="${1:-false}"
+    cat <<EOF > /tmp/dnscrypt-proxy.toml
+listen_addresses  = ['127.0.0.1:53']
+server_names      = ['mullvad-doh']
+max_clients       = 250
+ipv4_servers      = true
+ipv6_servers      = false
+dnscrypt_servers  = false
+doh_servers       = true
+require_dnssec    = ${DNSSEC}
+require_nolog     = true
+require_nofilter  = true
+log_level         = 0
+
+[sources.public-resolvers]
+  urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md']
+  cache_file = '/tmp/dnscrypt-resolvers.md'
+  minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+  refresh_delay = 72
+EOF
+}
+```
+
+dnscrypt-proxy listens on `127.0.0.1:53` and encrypts DNS queries over HTTPS before they leave the machine. The script then sets `/etc/resolv.conf` to point at `127.0.0.1` so all system DNS goes through it. Queries travel encrypted through the SSH tunnel and reach Mullvad&rsquo;s resolvers in the Netherlands.
+
+`server_names = ['mullvad-doh']` locks it to Mullvad&rsquo;s DoH resolver specifically. This is the only Mullvad-specific line in the whole script — everything else is provider-agnostic.
+
+`require_nolog = true` and `require_nofilter = true` mean dnscrypt-proxy will refuse to use any resolver that doesn&rsquo;t declare a no-logging, no-filtering policy. It&rsquo;s not a guarantee but it eliminates the obvious offenders.
+
+`ipv6_servers = false` and `dnscrypt_servers = false` keep it to IPv4 DoH only. IPv6 is disabled system-wide anyway; no point querying for it.
+
+The `DNSSEC` parameter is passed in from `gnet`. In `-safe` mode it becomes `true` and dnscrypt-proxy will require DNSSEC validation from its upstream resolver. Off by default because it adds latency and not all resolvers support it cleanly.
+
+
+<a id="org7ddd3cc"></a>
+
+## The DNS Clobber Problem
+
+NetworkManager will cheerfully overwrite `/etc/resolv.conf` back to the phone gateway if the interface drops and reconnects. Fix it permanently:
+
+```ini
+# /etc/NetworkManager/conf.d/no-dns.conf
+[main]
+dns=none
+```
+
+This tells NetworkManager to leave DNS configuration alone entirely. Without this you will eventually get a surprise DNS leak after any reconnect.
+
+
+<a id="orgd20beb7"></a>
+
+# IPv6
+
+```bash
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1     > /dev/null
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1 > /dev/null
+```
+
+IPv6 bypasses iptables rules written for IPv4 entirely. It&rsquo;s a separate network stack. iptables doesn&rsquo;t touch it; ip6tables would, but this setup doesn&rsquo;t configure ip6tables. With IPv6 active you&rsquo;d have a hole straight past the tunnel that reveals your real IP and real DNS.
+
+The fix is blunt: disable it. `net.ipv6.conf.all` covers active interfaces; `net.ipv6.conf.default` covers interfaces that come up after the sysctl runs. Both need to be set. `gdown` reverses both to 0 on teardown.
+
+
+<a id="org4c1d80a"></a>
+
+# The gnet Function
+
+```bash
+function gnet() {
+    local MODE="default"
+    for arg in "$@"; do
+        case "$arg" in
+            -fast) MODE="fast" ;;
+            -safe) MODE="safe" ;;
+            *) echo "usage: gnet [-fast|-safe]"; return 1 ;;
+        esac
+    done
+    ...
+}
+```
+
+`gnet` takes two optional flags:
+
+-   **`-fast`:** Skips dnscrypt-proxy entirely and uses the phone gateway as the DNS server directly. Lower latency, simpler path. DNS queries are not encrypted — they go through the tunnel but aren&rsquo;t DoH-wrapped. Useful when you want speed and aren&rsquo;t concerned about that layer, or when dnscrypt-proxy is being slow to initialize.
+-   **`-safe`:** Blocks all outbound UDP (not just TCP) with an `iptables -j REJECT` rule so nothing can bypass the tunnel. Also enables DNSSEC enforcement in dnscrypt-proxy. Strictest option. Breaks applications that depend on UDP — some games, WebRTC calls, HTTP/3 over QUIC.
+-   **(no flag):** Default mode. TCP tunneled, DoH DNS, UDP unrestricted (but unprotected).
+
+The startup order is strict and each step checks that the previous one succeeded before continuing. If SSH fails to open the tunnel, the function returns an error before redsocks or iptables ever start. There&rsquo;s no point in redirecting traffic to a proxy that has nowhere to forward it.
+
+```
+1. SSH tunnel opens on port 1080
+2. redsocks starts, listens on 12345, forwards to 1080
+3. iptables redirects all outbound TCP to redsocks
+4. dnscrypt-proxy starts, listens on 127.0.0.1:53
+5. resolv.conf set to 127.0.0.1
+6. IPv6 disabled system-wide
+```
+
+
+<a id="org48fd82b"></a>
+
+# gdown
+
+```bash
+function gdown() {
+    echo "tearing down..."
+
+    _iptables_down
+    echo "iptables rules removed"
+
+    if pgrep -x redsocks > /dev/null; then
+        sudo pkill redsocks && echo "redsocks stopped"
+    fi
+
+    local TUNNEL_PID
+    TUNNEL_PID=$(ss -lptn "sport = :${GNET_PROXY}" \
+        | awk -F'pid=' 'NR>1 { split($2, a, ","); print a[1]; exit }')
+
+    if [[ -n "$TUNNEL_PID" ]]; then
+        kill "$TUNNEL_PID" && echo "tunnel stopped (pid $TUNNEL_PID)"
+    fi
+
+    if pgrep -x dnscrypt-proxy > /dev/null; then
+        sudo pkill dnscrypt-proxy && echo "dnscrypt-proxy stopped"
+    fi
+
+    if [[ -f /tmp/resolv.conf.bak ]]; then
+        sudo cp /tmp/resolv.conf.bak /etc/resolv.conf
+        sudo rm /tmp/resolv.conf.bak
+        echo "dns restored"
+    fi
+
+    sudo sysctl -w net.ipv6.conf.all.disable_ipv6=0     > /dev/null
+    sudo sysctl -w net.ipv6.conf.default.disable_ipv6=0 > /dev/null
+    echo "ipv6 restored"
+}
+```
+
+Teardown is the reverse of startup, and the order matters as much as it does going up. iptables always goes first — once those rules are flushed the OS routes traffic normally again regardless of the state of everything else. After that it doesn&rsquo;t matter what order redsocks, SSH, and dnscrypt-proxy stop in.
+
+The tunnel PID lookup uses `ss` to find what process is holding the SOCKS5 port open, then parses the `pid=` field from the output. This is more reliable than storing the PID at startup because the function doesn&rsquo;t assume the tunnel was started in the current shell session — if you opened the tunnel earlier and closed the terminal, the PID is still findable this way.
+
+`resolv.conf` is restored from the backup that `gnet` wrote to `/tmp` at startup. If no backup exists (`gnet` was never run, or it failed before writing one), this step is skipped rather than clobbering your DNS config with nothing.
+
+
+<a id="org400e11b"></a>
+
+# gstatus
+
+```bash
+function gstatus() {
+    ...
+    echo "[ ssh tunnel ]"
+    if _tunnel_active; then
+        TUNNEL_PID=$(ss -lptn "sport = :${GNET_PROXY}" \
+            | awk -F'pid=' 'NR>1 { split($2, a, ","); print a[1]; exit }')
+        echo "  status   active"
+        echo "  port     ${GNET_PROXY}"
+        echo "  pid      ${TUNNEL_PID:-unknown}"
+    fi
+
+    echo "[ ip ]"
+    PROXY_IP=$(curl -s --max-time 5 --socks5-hostname "127.0.0.1:${GNET_PROXY}" ifconfig.me 2>/dev/null)
+    REAL_IP=$(curl -s --max-time 5 --interface "${WAN_IFACE}" ifconfig.me 2>/dev/null)
+    echo "  tunnel   ${PROXY_IP:-unavailable}"
+    echo "  real     ${REAL_IP:-unavailable}"
+
+    echo "[ dns ]"
+    DNS_TEST=$(dig +short +time=3 cloudflare.com @127.0.0.1 2>/dev/null \
+        | grep -E '^[0-9]+\.' | head -1)
+    ...
+}
+```
+
+`gstatus` checks every layer independently. The IP check is worth noting: it makes two separate curl requests — one through the SOCKS5 proxy to get the Mullvad exit IP, one directly over the WAN interface to get the real IP — and compares them. If they match, traffic isn&rsquo;t being masked. If the proxy IP is unavailable, the tunnel is broken.
+
+The DNS check tests that `127.0.0.1` (dnscrypt-proxy) actually resolves something, rather than checking whether the resolved IP matches the exit node. Those are different things — Mullvad&rsquo;s DNS resolvers and Mullvad&rsquo;s VPN exit nodes are distinct infrastructure, so comparing them would give false negatives.
+
+A typical clean run looks like:
+
+```
+[ ssh tunnel ]
+  status   active
+  port     1080
+  pid      3260
+  via      192.168.76.90  (enp0s20f0u2)
+[ redsocks ]
+  status   active
+  port     12345
+  OUTPUT   -> active  (Arch local traffic)
+[ ip ]
+  tunnel   45.134.142.196    ← Mullvad exit node
+  real     (redirected)      ← expected when redsocks is up
+  masked   yes
+[ dns ]
+  dnscrypt active  (127.0.0.1 → Mullvad DoH → tunnel)
+  resolving    ok  (142.251.31.138)
+[ system ]
+  iface    enp0s20f0u2
+  ttl      65
+```
+
+
+<a id="org203730a"></a>
+
+# Known Limitations
+
+
+<a id="org3afd294"></a>
+
+## UDP is not tunneled
+
+redsocks and iptables in this configuration only handle TCP. Raw UDP traffic — some games, video calls, HTTP/3 over QUIC — bypasses the tunnel entirely. This is a fundamental limitation of SOCKS5 proxying, not something the script can work around. `-safe` mode adds an iptables `REJECT` rule for outbound UDP to prevent leaks at the cost of breaking UDP-dependent applications.
+
+
+<a id="org491b7e7"></a>
+
+## Phone must stay connected
+
+The tunnel depends entirely on the SSH connection staying alive. USB disconnect, phone screen lock with aggressive battery management, or Mullvad dropping on the phone side — any of these kills it. Run `gdown` then `gnet` to re-establish. There&rsquo;s no automatic reconnect; that felt like complexity that causes more problems than it solves on a 10GB data budget.
+
+
+<a id="org778f6f0"></a>
+
+# What T-Mobile Actually Sees
+
+With `gnet` running, T-Mobile sees encrypted data going to the phone over USB. That&rsquo;s it. No destinations, no domain names, no content. The phone sends encrypted Mullvad traffic outbound. From the carrier&rsquo;s perspective it&rsquo;s a phone doing phone things.
+
+Verified at <https://browserleaks.com/dns> and <https://ipleak.net>:
+
+-   Public IP is a Mullvad exit node
+-   DNS servers are Mullvad&rsquo;s upstream resolvers in the Netherlands and UK
+-   IPv6 is absent
+-   WebRTC disabled in Brave at `brave://flags`
+
+
+<a id="orgc430e9a"></a>
+
+# The Part Where I Complain About Carriers
+
+The fact that this script needs to exist says something. Two companies control most of rural mobile internet in the United States. They&rsquo;ve carved up the coverage map, lobbied against municipal broadband, and in the absence of any meaningful competition they charge what they want for data caps that haven&rsquo;t grown meaningfully in years. 10GB of high-speed data a month. In 2026. For someone with no other options.
+
+The distinction between &ldquo;phone data&rdquo; and &ldquo;hotspot data&rdquo; is a policy decision dressed up as a technical one. The physics don&rsquo;t care. The radio doesn&rsquo;t care. The bits are identical. The only entity that cares is the one billing you twice for the same spectrum because nobody is making them do otherwise.
+
+This script is what happens when infrastructure is treated as a revenue optimization problem rather than a public utility. Not ideally. Just practically.

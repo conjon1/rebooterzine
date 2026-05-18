@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-05-17 Sun 17:30 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>gnet.sh: Making My Computer Look Like a Phone Because T-Mobile Said So</title>
+<meta name="author" content="Connal McInnis" />
+<meta name="description" content="Routes all system TCP traffic through a SOCKS5 tunnel over USB tethering to an Android phone running Mullvad VPN. DNS encrypted via dnscrypt-proxy over DoH. IPv6 disabled at runtime to prevent leaks." />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='../../style.css'/>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tocHeader = document.querySelector('#table-of-contents h2');
+  const toc = document.querySelector('#table-of-contents');
+  if (tocHeader && toc) {
+    toc.classList.remove('active');
+    tocHeader.addEventListener('click', () => toc.classList.toggle('active'));
+  }
+});
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+
+<div class='nav-header'>
+  <a href='../../index.html' class='back-link'>[← BACK TO HOME]</a>
+  <div class='download-links'>
+    DOWNLOAD:
+    <a href='../downloads/projects/gnet.org' download>ORG</a> |
+    <a href='../downloads/projects/gnet.md' download>MD</a> |
+    <a href='../downloads/projects/gnet.txt' download>TXT</a>
+  </div>
+</div>
+</div>
+<div id="content" class="content">
+<h1 class="title">gnet.sh: Making My Computer Look Like a Phone Because T-Mobile Said So</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org80374da">1. The Situation</a></li>
+<li><a href="#org5148e68">2. What It Does</a></li>
+<li><a href="#orgd76b7d5">3. The Config Variables</a></li>
+<li><a href="#org4b227fe">4. Interface Detection</a></li>
+<li><a href="#org4c5f5cd">5. The SSH Tunnel</a></li>
+<li><a href="#org6f8c2ba">6. redsocks</a></li>
+<li><a href="#orgaa0321b">7. iptables</a>
+<ul>
+<li><a href="#org122a3f2">7.1. Teardown</a></li>
+</ul>
+</li>
+<li><a href="#org5a7de0a">8. dnscrypt-proxy</a>
+<ul>
+<li><a href="#orgaf46b64">8.1. The DNS Clobber Problem</a></li>
+</ul>
+</li>
+<li><a href="#org7bc37f4">9. IPv6</a></li>
+<li><a href="#org2837942">10. The gnet Function</a></li>
+<li><a href="#org3c65d90">11. gdown</a></li>
+<li><a href="#org7400e83">12. gstatus</a></li>
+<li><a href="#orgf7b59b0">13. Known Limitations</a>
+<ul>
+<li><a href="#orgc21bce8">13.1. UDP is not tunneled</a></li>
+<li><a href="#orgcc1ecdb">13.2. Phone must stay connected</a></li>
+</ul>
+</li>
+<li><a href="#orgd7adf08">14. What T-Mobile Actually Sees</a></li>
+<li><a href="#org768414c">15. The Part Where I Complain About Carriers</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="../assets/gnet.sh">download gnet.sh</a>
+</p>
+<div id="outline-container-org80374da" class="outline-2">
+<h2 id="org80374da"><span class="section-number-2">1.</span> The Situation</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I live in a rural area. No cable, no fiber, no DSL. The only internet available
+to me is a T-Mobile hotspot plan with 10GB of high-speed data. After that it
+gets throttled into something that would make dialup feel smug. Two carriers
+control most of the rural mobile market and neither of them feel any urgency to
+change that. There&rsquo;s no competition pushing them to. So you work with what you
+have.
+</p>
+
+<p>
+The problem is the distinction carriers draw between &ldquo;phone data&rdquo; and &ldquo;hotspot
+data.&rdquo; Same radio, same towers, same bits — but the moment traffic comes from a
+tethered device instead of the phone itself, it counts differently, gets
+throttled earlier, or gets treated as a separate bucket entirely. The technical
+justification for this is thin. The business justification is that they can, and
+nobody will stop them.
+</p>
+
+<p>
+So I wrote <code>gnet</code>. It routes all my computer&rsquo;s traffic through my phone in a
+way that, from T-Mobile&rsquo;s perspective, looks like phone traffic. This is a
+writeup of how it works.
+</p>
+</div>
+</div>
+<div id="outline-container-org5148e68" class="outline-2">
+<h2 id="org5148e68"><span class="section-number-2">2.</span> What It Does</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<code>gnet</code> intercepts all outbound traffic before it leaves the machine and pushes it
+through an SSH tunnel to Termux running on the phone. From there it exits
+through Mullvad VPN. The carrier sees an encrypted blob going to the phone. The
+phone sends VPN traffic outbound. Nobody along the way gets a clear look at
+destinations, DNS queries, or content.
+</p>
+
+<p>
+The full chain looks like this:
+</p>
+
+<pre class="example" id="orgfd3b8b3">
+your app
+  → iptables      (intercepts all outbound TCP)
+  → redsocks      (converts raw TCP to SOCKS5)
+  → SSH tunnel    (encrypted pipe into Termux on the phone)
+  → Mullvad VPN   (running on the phone)
+  → internet
+</pre>
+
+<p>
+DNS runs a separate path so domain lookups don&rsquo;t leak around the tunnel:
+</p>
+
+<pre class="example" id="org5a697f4">
+app asks "what is example.com?"
+  → resolv.conf points to 127.0.0.1
+  → dnscrypt-proxy  (encrypts the query over HTTPS/DoH)
+  → through the SSH tunnel
+  → Mullvad's resolvers in the Netherlands
+  → answer returns the same way
+</pre>
+
+<p>
+Without the DNS piece your ISP sees every domain name you look up even if
+the actual traffic is hidden. dnscrypt-proxy closes that gap.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd76b7d5" class="outline-2">
+<h2 id="orgd76b7d5"><span class="section-number-2">3.</span> The Config Variables</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Everything the script needs to know about your phone lives in four variables at
+the top of the <code>~/.bashrc</code> block:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #FCFCFA;">GNET_USER</span>=<span style="color: #FFD866;">"u0_a242"</span>
+<span style="color: #FCFCFA;">GNET_PORT</span>=<span style="color: #FFD866;">"8022"</span>
+<span style="color: #FCFCFA;">GNET_PROXY</span>=<span style="color: #FFD866;">"1080"</span>
+<span style="color: #FCFCFA;">GNET_REDSOCKS</span>=<span style="color: #FFD866;">"12345"</span>
+</code></pre>
+</div>
+
+<dl class="org-dl">
+<dt><code>GNET_USER</code></dt><dd>Your Termux username. Run <code>whoami</code> inside Termux to get it.
+Android assigns these automatically; yours will likely differ from mine.</dd>
+<dt><code>GNET_PORT</code></dt><dd>Termux&rsquo;s <code>sshd</code> doesn&rsquo;t run on the standard port 22 — it runs
+on 8022. This is hardcoded in Termux and not configurable without root.</dd>
+<dt><code>GNET_PROXY</code></dt><dd>The local port the SSH tunnel will open as a SOCKS5 proxy.
+1080 is the SOCKS convention. Nothing special about it.</dd>
+<dt><code>GNET_REDSOCKS</code></dt><dd>The port redsocks listens on before forwarding into the
+tunnel. 12345 by default; just needs to not conflict with anything else.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org4b227fe" class="outline-2">
+<h2 id="org4b227fe"><span class="section-number-2">4.</span> Interface Detection</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Before anything else starts, the script needs to know which network interface
+is the phone and which (if any) is a local LAN interface for sharing the
+connection downstream.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #A9DC76;">_gnet_wan_iface</span>() { ip route show default | awk <span style="color: #FFD866;">'NR==1 {print $5}'</span>; }
+
+<span style="color: #A9DC76;">_gnet_lan_iface</span>() {
+    <span style="color: #FF6188;">if</span> [[ -n <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">GNET_LAN_IFACE</span><span style="color: #FFD866;">"</span> ]]; <span style="color: #FF6188;">then</span>
+        <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">GNET_LAN_IFACE</span><span style="color: #FFD866;">"</span>
+        <span style="color: #FF6188;">return</span>
+    <span style="color: #FF6188;">fi</span>
+    <span style="color: #78DCE8;">local</span> wan
+    <span style="color: #FCFCFA;">wan</span>=$(<span style="color: #FF6188; font-weight: bold;">_gnet_wan_iface</span>)
+    ip -o link show | awk -F<span style="color: #FFD866;">': '</span> <span style="color: #FFD866;">'{print $2}'</span> <span style="color: #FFD866;">\</span>
+        | <span style="color: #78DCE8;">grep</span> -E <span style="color: #FFD866;">'^(wlan|wlp)'</span> <span style="color: #FFD866;">\</span>
+        | <span style="color: #78DCE8;">grep</span> -v <span style="color: #FFD866;">"^</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{wan}</span><span style="color: #FFD866;">$"</span> <span style="color: #FFD866;">\</span>
+        | head -1
+}
+</code></pre>
+</div>
+
+<p>
+<code>_gnet_wan_iface</code> reads the default route and pulls the interface name from
+column 5. When the phone is tethered over USB this will be something like
+<code>enp0s20f0u2</code>. The awk one-liner is more reliable than parsing with <code>read</code>
+because the field position doesn&rsquo;t shift if the output changes slightly.
+</p>
+
+<p>
+<code>_gnet_lan_iface</code> handles the case where I&rsquo;m also sharing the tunnel connection
+to other machines on my home network — a Raspberry Pi, a Talos node, etc. It
+first checks if <code>GNET_LAN_IFACE</code> is set manually (useful override if
+autodetection gets it wrong), then falls back to finding a <code>wlan</code> or <code>wlp</code>
+interface that isn&rsquo;t the WAN. If there&rsquo;s nothing to find it returns empty and
+LAN sharing is silently skipped.
+</p>
+</div>
+</div>
+<div id="outline-container-org4c5f5cd" class="outline-2">
+<h2 id="org4c5f5cd"><span class="section-number-2">5.</span> The SSH Tunnel</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #78DCE8;">local</span> <span style="color: #FCFCFA;">CIPHER</span>=<span style="color: #FFD866;">"aes128-gcm@openssh.com"</span>
+[[ <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">MODE</span><span style="color: #FFD866;">"</span> == <span style="color: #FFD866;">"fast"</span> ]] &amp;&amp; <span style="color: #FCFCFA;">CIPHER</span>=<span style="color: #FFD866;">"chacha20-poly1305@openssh.com"</span>
+
+ssh -f -N -D <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{GNET_PROXY}</span><span style="color: #FFD866;">"</span> -p <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{GNET_PORT}</span><span style="color: #FFD866;">"</span> <span style="color: #FFD866;">\</span>
+    -c <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{CIPHER}</span><span style="color: #FFD866;">"</span> <span style="color: #FFD866;">\</span>
+    -o <span style="color: #FCFCFA;">Compression</span>=no <span style="color: #FFD866;">\</span>
+    -o <span style="color: #FCFCFA;">IPQoS</span>=throughput <span style="color: #FFD866;">\</span>
+    -o <span style="color: #FCFCFA;">ConnectTimeout</span>=5 <span style="color: #FFD866;">\</span>
+    <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{GNET_USER}</span><span style="color: #FFD866;">@</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{PHONE_IP}</span><span style="color: #FFD866;">"</span>
+</code></pre>
+</div>
+
+<p>
+The <code>-D</code> flag is what turns this into a SOCKS5 proxy. It tells SSH to open a
+local dynamic port-forwarding listener — anything that connects to
+<code>127.0.0.1:1080</code> gets tunneled through the encrypted SSH connection and exits
+from the phone.
+</p>
+
+<p>
+<code>-f -N</code> runs it in the background without executing a remote command. <code>-f</code> forks
+to background after authentication succeeds; <code>-N</code> tells it there&rsquo;s no remote
+command to run, just hold the tunnel open.
+</p>
+
+<p>
+The cipher choice is deliberate. <code>aes128-gcm</code> is fast on x86 because modern
+CPUs have AES hardware acceleration (AES-NI). <code>chacha20-poly1305</code> is the better
+pick on ARM processors that lack it — it&rsquo;s faster in software. Since the phone
+is the ARM end of this connection and isn&rsquo;t doing the encryption (SSH runs on
+the laptop), AES wins here. The <code>-fast</code> flag swaps it for anyone who wants to
+experiment.
+</p>
+
+<p>
+<code>Compression=no</code> and <code>IPQoS=throughput</code> are throughput hints. Compression adds
+CPU overhead that usually costs more than it saves on already-compressed traffic
+(HTTPS, video). <code>IPQoS=throughput</code> nudges the kernel to prioritize bandwidth
+over latency.
+</p>
+</div>
+</div>
+<div id="outline-container-org6f8c2ba" class="outline-2">
+<h2 id="org6f8c2ba"><span class="section-number-2">6.</span> redsocks</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+The SSH tunnel is a SOCKS5 proxy, but most applications don&rsquo;t speak SOCKS5.
+They open TCP connections and expect the OS to route them. redsocks bridges
+that gap — it accepts raw TCP connections and speaks SOCKS5 upstream toward the
+tunnel. Applications don&rsquo;t know it&rsquo;s there.
+</p>
+
+<p>
+The config is generated at startup into <code>/tmp/redsocks.conf</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #A9DC76;">_redsocks_config</span>() {
+    <span style="color: #78DCE8;">cat</span> &lt;&lt;EOF &gt; /tmp/redsocks.conf<span style="color: #FFD866;">
+base {
+    log_debug = off;
+    log_info  = off;
+    log       = "syslog:daemon";
+    daemon    = on;
+    redirector = iptables;
+}
+redsocks {
+    local_ip   = 0.0.0.0;
+    local_port = ${GNET_REDSOCKS};
+    ip         = 127.0.0.1;
+    port       = ${GNET_PROXY};
+    type       = socks5;
+}
+EOF
+</span>}
+</code></pre>
+</div>
+
+<p>
+<code>local_ip = 0.0.0.0</code> means redsocks accepts connections on all interfaces, not
+just loopback. This is necessary for LAN sharing — when a device on my local
+network sends traffic through the tunnel, redsocks needs to receive it.
+</p>
+
+<p>
+<code>redirector = iptables</code> tells redsocks it&rsquo;ll be receiving connections that were
+transparently redirected by iptables rather than connections from SOCKS5-aware
+clients. This is what makes the transparent proxy mode work.
+</p>
+
+<p>
+Logging is set to <code>syslog:daemon</code> and debug/info are off. I don&rsquo;t need redsocks
+writing to stdout; if something breaks I&rsquo;ll check <code>journalctl</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgaa0321b" class="outline-2">
+<h2 id="orgaa0321b"><span class="section-number-2">7.</span> iptables</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+iptables is what makes the whole thing transparent — every outbound TCP
+connection from every application, regardless of whether it knows anything
+about proxies, gets intercepted and redirected.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #A9DC76;">_iptables_up</span>() {
+    <span style="color: #78DCE8;">local</span> LAN_IFACE WAN_IFACE
+    <span style="color: #FCFCFA;">LAN_IFACE</span>=$(<span style="color: #FF6188; font-weight: bold;">_gnet_lan_iface</span>)
+    <span style="color: #FCFCFA;">WAN_IFACE</span>=$(<span style="color: #FF6188; font-weight: bold;">_gnet_wan_iface</span>)
+
+    <span style="color: #727072;"># </span><span style="color: #727072;">create the REDSOCKS chain
+</span>    <span style="color: #78DCE8;">sudo</span> iptables -t nat -N REDSOCKS 2&gt;/dev/null
+
+    <span style="color: #727072;"># </span><span style="color: #727072;">exclude private/local address ranges &#8212; don't redirect LAN or loopback
+</span>    <span style="color: #FF6188;">for</span> net<span style="color: #FF6188;"> in</span> 0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16 <span style="color: #FFD866;">\</span>
+               172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4; <span style="color: #FF6188;">do</span>
+        <span style="color: #78DCE8;">sudo</span> iptables -t nat -A REDSOCKS -d <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">net</span><span style="color: #FFD866;">"</span> -j RETURN
+    <span style="color: #FF6188;">done</span>
+
+    <span style="color: #727072;"># </span><span style="color: #727072;">everything else: redirect TCP to redsocks
+</span>    <span style="color: #78DCE8;">sudo</span> iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{GNET_REDSOCKS}</span><span style="color: #FFD866;">"</span>
+
+    <span style="color: #727072;"># </span><span style="color: #727072;">hook the chain into outbound traffic from this machine
+</span>    <span style="color: #78DCE8;">sudo</span> iptables -t nat -A OUTPUT -p tcp -j REDSOCKS
+
+    <span style="color: #727072;"># </span><span style="color: #727072;">if there's a LAN interface, share the tunnel to downstream devices
+</span>    <span style="color: #FF6188;">if</span> [[ -n <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">LAN_IFACE</span><span style="color: #FFD866;">"</span> ]]; <span style="color: #FF6188;">then</span>
+        <span style="color: #78DCE8;">sudo</span> iptables -t nat -A PREROUTING -i <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{LAN_IFACE}</span><span style="color: #FFD866;">"</span> -p tcp -j REDSOCKS
+        <span style="color: #78DCE8;">sudo</span> iptables -t nat -A POSTROUTING -o <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{WAN_IFACE}</span><span style="color: #FFD866;">"</span> -j MASQUERADE
+        <span style="color: #78DCE8;">sudo</span> iptables -A FORWARD -i <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{LAN_IFACE}</span><span style="color: #FFD866;">"</span> -j ACCEPT
+        <span style="color: #78DCE8;">sudo</span> iptables -A FORWARD -o <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{LAN_IFACE}</span><span style="color: #FFD866;">"</span> -m state --state RELATED,ESTABLISHED -j ACCEPT
+        <span style="color: #78DCE8;">sudo</span> sysctl -w net.ipv4.ip_forward=1 &gt; /dev/null
+    <span style="color: #FF6188;">fi</span>
+}
+</code></pre>
+</div>
+
+<p>
+The script creates a custom chain called <code>REDSOCKS</code> in the <code>nat</code> table. Putting
+the rules in their own chain makes teardown clean — you can flush or delete the
+chain without touching any other iptables rules that might exist on the system.
+</p>
+
+<p>
+The exclusion loop is important. Without it, traffic destined for the LAN,
+loopback, and link-local addresses would get redirected into the tunnel and
+break local networking entirely. Every private address range gets a <code>RETURN</code>
+rule so it bypasses the redirect.
+</p>
+
+<p>
+<code>OUTPUT</code> catches traffic from this machine. <code>PREROUTING</code> catches traffic arriving
+from the LAN interface headed outbound — this is what lets a Pi or other device
+on my local network use the tunnel without any configuration on its end.
+<code>POSTROUTING</code> with <code>MASQUERADE</code> handles the NAT so the phone side sees the
+laptop&rsquo;s IP rather than the downstream device&rsquo;s IP.
+</p>
+</div>
+<div id="outline-container-org122a3f2" class="outline-3">
+<h3 id="org122a3f2"><span class="section-number-3">7.1.</span> Teardown</h3>
+<div class="outline-text-3" id="text-7-1">
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #A9DC76;">_iptables_down</span>() {
+    <span style="color: #78DCE8;">local</span> LAN_IFACE WAN_IFACE
+    <span style="color: #FCFCFA;">LAN_IFACE</span>=$(<span style="color: #FF6188; font-weight: bold;">_gnet_lan_iface</span>)
+    <span style="color: #FCFCFA;">WAN_IFACE</span>=$(<span style="color: #FF6188; font-weight: bold;">_gnet_wan_iface</span>)
+
+    <span style="color: #78DCE8;">sudo</span> iptables -t nat -D OUTPUT -p tcp -j REDSOCKS 2&gt;/dev/null
+
+    <span style="color: #FF6188;">if</span> [[ -n <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">LAN_IFACE</span><span style="color: #FFD866;">"</span> ]]; <span style="color: #FF6188;">then</span>
+        <span style="color: #78DCE8;">sudo</span> iptables -t nat -D PREROUTING -i <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{LAN_IFACE}</span><span style="color: #FFD866;">"</span> -p tcp -j REDSOCKS 2&gt;/dev/null
+        <span style="color: #78DCE8;">sudo</span> iptables -t nat -D POSTROUTING -o <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{WAN_IFACE}</span><span style="color: #FFD866;">"</span> -j MASQUERADE 2&gt;/dev/null
+        <span style="color: #78DCE8;">sudo</span> iptables -D FORWARD -i <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{LAN_IFACE}</span><span style="color: #FFD866;">"</span> -j ACCEPT 2&gt;/dev/null
+        <span style="color: #78DCE8;">sudo</span> iptables -D FORWARD -o <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{LAN_IFACE}</span><span style="color: #FFD866;">"</span> -m state --state RELATED,ESTABLISHED -j ACCEPT 2&gt;/dev/null
+    <span style="color: #FF6188;">fi</span>
+
+    <span style="color: #78DCE8;">sudo</span> iptables -t nat -F REDSOCKS 2&gt;/dev/null
+    <span style="color: #78DCE8;">sudo</span> iptables -t nat -X REDSOCKS 2&gt;/dev/null
+
+    <span style="color: #78DCE8;">sudo</span> sysctl -w net.ipv4.ip_forward=0 &gt; /dev/null
+}
+</code></pre>
+</div>
+
+<p>
+Teardown order is not optional. If you kill the SSH tunnel while iptables is
+still running, all TCP is still being redirected to a port where redsocks is
+listening but has nothing to forward to. Your network goes completely dead — not
+degraded, dead. <code>gdown</code> always flushes iptables first. After that, even if the
+SSH process is already gone, the OS routes traffic normally again.
+</p>
+
+<p>
+<code>-F</code> flushes all rules from the <code>REDSOCKS</code> chain; <code>-X</code> deletes the chain itself.
+The <code>2&gt;/dev/null</code> on every line suppresses errors for rules that don&rsquo;t exist —
+useful if teardown is running after a partial startup failure.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org5a7de0a" class="outline-2">
+<h2 id="org5a7de0a"><span class="section-number-2">8.</span> dnscrypt-proxy</h2>
+<div class="outline-text-2" id="text-8">
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #A9DC76;">_dnscrypt_config</span>() {
+    <span style="color: #78DCE8;">local</span> <span style="color: #FCFCFA;">DNSSEC</span>=<span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{1:-false}</span><span style="color: #FFD866;">"</span>
+    <span style="color: #78DCE8;">cat</span> &lt;&lt;EOF &gt; /tmp/dnscrypt-proxy.toml<span style="color: #FFD866;">
+listen_addresses  = ['127.0.0.1:53']
+server_names      = ['mullvad-doh']
+max_clients       = 250
+ipv4_servers      = true
+ipv6_servers      = false
+dnscrypt_servers  = false
+doh_servers       = true
+require_dnssec    = ${DNSSEC}
+require_nolog     = true
+require_nofilter  = true
+log_level         = 0
+
+[sources.public-resolvers]
+  urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md']
+  cache_file = '/tmp/dnscrypt-resolvers.md'
+  minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+  refresh_delay = 72
+EOF
+</span>}
+</code></pre>
+</div>
+
+<p>
+dnscrypt-proxy listens on <code>127.0.0.1:53</code> and encrypts DNS queries over HTTPS
+before they leave the machine. The script then sets <code>/etc/resolv.conf</code> to point
+at <code>127.0.0.1</code> so all system DNS goes through it. Queries travel encrypted
+through the SSH tunnel and reach Mullvad&rsquo;s resolvers in the Netherlands.
+</p>
+
+<p>
+<code>server_names = ['mullvad-doh']</code> locks it to Mullvad&rsquo;s DoH resolver specifically.
+This is the only Mullvad-specific line in the whole script — everything else is
+provider-agnostic.
+</p>
+
+<p>
+<code>require_nolog = true</code> and <code>require_nofilter = true</code> mean dnscrypt-proxy will
+refuse to use any resolver that doesn&rsquo;t declare a no-logging, no-filtering
+policy. It&rsquo;s not a guarantee but it eliminates the obvious offenders.
+</p>
+
+<p>
+<code>ipv6_servers = false</code> and <code>dnscrypt_servers = false</code> keep it to IPv4 DoH only.
+IPv6 is disabled system-wide anyway; no point querying for it.
+</p>
+
+<p>
+The <code>DNSSEC</code> parameter is passed in from <code>gnet</code>. In <code>-safe</code> mode it becomes
+<code>true</code> and dnscrypt-proxy will require DNSSEC validation from its upstream
+resolver. Off by default because it adds latency and not all resolvers support
+it cleanly.
+</p>
+</div>
+<div id="outline-container-orgaf46b64" class="outline-3">
+<h3 id="orgaf46b64"><span class="section-number-3">8.1.</span> The DNS Clobber Problem</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+NetworkManager will cheerfully overwrite <code>/etc/resolv.conf</code> back to the phone
+gateway if the interface drops and reconnects. Fix it permanently:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ini"><code># /etc/NetworkManager/conf.d/no-dns.conf
+[main]
+dns=none
+</code></pre>
+</div>
+
+<p>
+This tells NetworkManager to leave DNS configuration alone entirely. Without
+this you will eventually get a surprise DNS leak after any reconnect.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org7bc37f4" class="outline-2">
+<h2 id="org7bc37f4"><span class="section-number-2">9.</span> IPv6</h2>
+<div class="outline-text-2" id="text-9">
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #78DCE8;">sudo</span> sysctl -w net.ipv6.conf.all.disable_ipv6=1     &gt; /dev/null
+<span style="color: #78DCE8;">sudo</span> sysctl -w net.ipv6.conf.default.disable_ipv6=1 &gt; /dev/null
+</code></pre>
+</div>
+
+<p>
+IPv6 bypasses iptables rules written for IPv4 entirely. It&rsquo;s a separate network
+stack. iptables doesn&rsquo;t touch it; ip6tables would, but this setup doesn&rsquo;t
+configure ip6tables. With IPv6 active you&rsquo;d have a hole straight past the
+tunnel that reveals your real IP and real DNS.
+</p>
+
+<p>
+The fix is blunt: disable it. <code>net.ipv6.conf.all</code> covers active interfaces;
+<code>net.ipv6.conf.default</code> covers interfaces that come up after the sysctl runs.
+Both need to be set. <code>gdown</code> reverses both to 0 on teardown.
+</p>
+</div>
+</div>
+<div id="outline-container-org2837942" class="outline-2">
+<h2 id="org2837942"><span class="section-number-2">10.</span> The gnet Function</h2>
+<div class="outline-text-2" id="text-10">
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #FF6188;">function</span> <span style="color: #A9DC76;">gnet</span>() {
+    <span style="color: #78DCE8;">local</span> <span style="color: #FCFCFA;">MODE</span>=<span style="color: #FFD866;">"default"</span>
+    <span style="color: #FF6188;">for</span> arg<span style="color: #FF6188;"> in</span> <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">@</span><span style="color: #FFD866;">"</span>; <span style="color: #FF6188;">do</span>
+        <span style="color: #FF6188;">case</span> <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">arg</span><span style="color: #FFD866;">"</span><span style="color: #FF6188;"> in</span>
+            -fast) <span style="color: #FCFCFA;">MODE</span>=<span style="color: #FFD866;">"fast"</span> ;;
+            -safe) <span style="color: #FCFCFA;">MODE</span>=<span style="color: #FFD866;">"safe"</span> ;;
+            *) <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"usage: gnet [-fast|-safe]"</span>; <span style="color: #FF6188;">return</span> 1 ;;
+        <span style="color: #FF6188;">esac</span>
+    <span style="color: #FF6188;">done</span>
+    ...
+}
+</code></pre>
+</div>
+
+<p>
+<code>gnet</code> takes two optional flags:
+</p>
+
+<dl class="org-dl">
+<dt><code>-fast</code></dt><dd>Skips dnscrypt-proxy entirely and uses the phone gateway as the DNS
+server directly. Lower latency, simpler path. DNS queries are not encrypted
+— they go through the tunnel but aren&rsquo;t DoH-wrapped. Useful when you want
+speed and aren&rsquo;t concerned about that layer, or when dnscrypt-proxy is being
+slow to initialize.</dd>
+<dt><code>-safe</code></dt><dd>Blocks all outbound UDP (not just TCP) with an <code>iptables -j REJECT</code>
+rule so nothing can bypass the tunnel. Also enables DNSSEC enforcement in
+dnscrypt-proxy. Strictest option. Breaks applications that depend on UDP —
+some games, WebRTC calls, HTTP/3 over QUIC.</dd>
+<dt>(no flag)</dt><dd>Default mode. TCP tunneled, DoH DNS, UDP unrestricted (but
+unprotected).</dd>
+</dl>
+
+<p>
+The startup order is strict and each step checks that the previous one
+succeeded before continuing. If SSH fails to open the tunnel, the function
+returns an error before redsocks or iptables ever start. There&rsquo;s no point in
+redirecting traffic to a proxy that has nowhere to forward it.
+</p>
+
+<pre class="example" id="orgb31f1a5">
+1. SSH tunnel opens on port 1080
+2. redsocks starts, listens on 12345, forwards to 1080
+3. iptables redirects all outbound TCP to redsocks
+4. dnscrypt-proxy starts, listens on 127.0.0.1:53
+5. resolv.conf set to 127.0.0.1
+6. IPv6 disabled system-wide
+</pre>
+</div>
+</div>
+<div id="outline-container-org3c65d90" class="outline-2">
+<h2 id="org3c65d90"><span class="section-number-2">11.</span> gdown</h2>
+<div class="outline-text-2" id="text-11">
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #FF6188;">function</span> <span style="color: #A9DC76;">gdown</span>() {
+    <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"tearing down..."</span>
+
+    _iptables_down
+    <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"iptables rules removed"</span>
+
+    <span style="color: #FF6188;">if</span> <span style="color: #78DCE8;">pgrep</span> -x redsocks &gt; /dev/null; <span style="color: #FF6188;">then</span>
+        <span style="color: #78DCE8;">sudo</span> <span style="color: #78DCE8;">pkill</span> redsocks &amp;&amp; <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"redsocks stopped"</span>
+    <span style="color: #FF6188;">fi</span>
+
+    <span style="color: #78DCE8;">local</span> TUNNEL_PID
+    <span style="color: #FCFCFA;">TUNNEL_PID</span>=$(<span style="color: #FF6188; font-weight: bold;">ss -lptn "sport = :${GNET_PROXY}" \</span>
+        | awk -F<span style="color: #FFD866;">'pid='</span> <span style="color: #FFD866;">'NR&gt;1 { split($2, a, ","); print a[1]; exit }'</span>)
+
+    <span style="color: #FF6188;">if</span> [[ -n <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">TUNNEL_PID</span><span style="color: #FFD866;">"</span> ]]; <span style="color: #FF6188;">then</span>
+        <span style="color: #78DCE8;">kill</span> <span style="color: #FFD866;">"</span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">TUNNEL_PID</span><span style="color: #FFD866;">"</span> &amp;&amp; <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"tunnel stopped (pid </span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">TUNNEL_PID</span><span style="color: #FFD866;">)"</span>
+    <span style="color: #FF6188;">fi</span>
+
+    <span style="color: #FF6188;">if</span> <span style="color: #78DCE8;">pgrep</span> -x dnscrypt-proxy &gt; /dev/null; <span style="color: #FF6188;">then</span>
+        <span style="color: #78DCE8;">sudo</span> <span style="color: #78DCE8;">pkill</span> dnscrypt-proxy &amp;&amp; <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"dnscrypt-proxy stopped"</span>
+    <span style="color: #FF6188;">fi</span>
+
+    <span style="color: #FF6188;">if</span> [[ -f /tmp/resolv.conf.bak ]]; <span style="color: #FF6188;">then</span>
+        <span style="color: #78DCE8;">sudo</span> <span style="color: #78DCE8;">cp</span> /tmp/resolv.conf.bak /etc/resolv.conf
+        <span style="color: #78DCE8;">sudo</span> <span style="color: #78DCE8;">rm</span> /tmp/resolv.conf.bak
+        <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"dns restored"</span>
+    <span style="color: #FF6188;">fi</span>
+
+    <span style="color: #78DCE8;">sudo</span> sysctl -w net.ipv6.conf.all.disable_ipv6=0     &gt; /dev/null
+    <span style="color: #78DCE8;">sudo</span> sysctl -w net.ipv6.conf.default.disable_ipv6=0 &gt; /dev/null
+    <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"ipv6 restored"</span>
+}
+</code></pre>
+</div>
+
+<p>
+Teardown is the reverse of startup, and the order matters as much as it does
+going up. iptables always goes first — once those rules are flushed the OS
+routes traffic normally again regardless of the state of everything else. After
+that it doesn&rsquo;t matter what order redsocks, SSH, and dnscrypt-proxy stop in.
+</p>
+
+<p>
+The tunnel PID lookup uses <code>ss</code> to find what process is holding the SOCKS5 port
+open, then parses the <code>pid=</code> field from the output. This is more reliable than
+storing the PID at startup because the function doesn&rsquo;t assume the tunnel was
+started in the current shell session — if you opened the tunnel earlier and
+closed the terminal, the PID is still findable this way.
+</p>
+
+<p>
+<code>resolv.conf</code> is restored from the backup that <code>gnet</code> wrote to <code>/tmp</code> at startup.
+If no backup exists (<code>gnet</code> was never run, or it failed before writing one),
+this step is skipped rather than clobbering your DNS config with nothing.
+</p>
+</div>
+</div>
+<div id="outline-container-org7400e83" class="outline-2">
+<h2 id="org7400e83"><span class="section-number-2">12.</span> gstatus</h2>
+<div class="outline-text-2" id="text-12">
+<div class="org-src-container">
+<pre class="src src-bash"><code><span style="color: #FF6188;">function</span> <span style="color: #A9DC76;">gstatus</span>() {
+    ...
+    <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"[ ssh tunnel ]"</span>
+    <span style="color: #FF6188;">if</span> _tunnel_active; <span style="color: #FF6188;">then</span>
+        <span style="color: #FCFCFA;">TUNNEL_PID</span>=$(<span style="color: #FF6188; font-weight: bold;">ss -lptn "sport = :${GNET_PROXY}" \</span>
+            | awk -F<span style="color: #FFD866;">'pid='</span> <span style="color: #FFD866;">'NR&gt;1 { split($2, a, ","); print a[1]; exit }'</span>)
+        <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"  status   active"</span>
+        <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"  port     </span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{GNET_PROXY}</span><span style="color: #FFD866;">"</span>
+        <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"  pid      </span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{TUNNEL_PID:-unknown}</span><span style="color: #FFD866;">"</span>
+    <span style="color: #FF6188;">fi</span>
+
+    <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"[ ip ]"</span>
+    <span style="color: #FCFCFA;">PROXY_IP</span>=$(<span style="color: #FF6188; font-weight: bold;">curl -s --max-time 5 --socks5-hostname "127.0.0.1:${GNET_PROXY}" ifconfig.me 2&gt;/dev/null</span>)
+    <span style="color: #FCFCFA;">REAL_IP</span>=$(<span style="color: #FF6188; font-weight: bold;">curl -s --max-time 5 --interface "${WAN_IFACE}" ifconfig.me 2&gt;/dev/null</span>)
+    <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"  tunnel   </span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{PROXY_IP:-unavailable}</span><span style="color: #FFD866;">"</span>
+    <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"  real     </span><span style="color: #AB9DF2;">$</span><span style="color: #FCFCFA;">{REAL_IP:-unavailable}</span><span style="color: #FFD866;">"</span>
+
+    <span style="color: #78DCE8;">echo</span> <span style="color: #FFD866;">"[ dns ]"</span>
+    <span style="color: #FCFCFA;">DNS_TEST</span>=$(<span style="color: #FF6188; font-weight: bold;">dig +short +time=3 cloudflare.com @127.0.0.1 2&gt;/dev/null \</span>
+        | <span style="color: #78DCE8;">grep</span> -E <span style="color: #FFD866;">'^[0-9]+\.'</span> | head -1)
+    ...
+}
+</code></pre>
+</div>
+
+<p>
+<code>gstatus</code> checks every layer independently. The IP check is worth noting: it
+makes two separate curl requests — one through the SOCKS5 proxy to get the
+Mullvad exit IP, one directly over the WAN interface to get the real IP — and
+compares them. If they match, traffic isn&rsquo;t being masked. If the proxy IP is
+unavailable, the tunnel is broken.
+</p>
+
+<p>
+The DNS check tests that <code>127.0.0.1</code> (dnscrypt-proxy) actually resolves
+something, rather than checking whether the resolved IP matches the exit node.
+Those are different things — Mullvad&rsquo;s DNS resolvers and Mullvad&rsquo;s VPN exit
+nodes are distinct infrastructure, so comparing them would give false negatives.
+</p>
+
+<p>
+A typical clean run looks like:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nil"><code>[ ssh tunnel ]
+  status   active
+  port     1080
+  pid      3260
+  via      192.168.76.90  (enp0s20f0u2)
+[ redsocks ]
+  status   active
+  port     12345
+  OUTPUT   -&gt; active  (Arch local traffic)
+[ ip ]
+  tunnel   45.134.142.196    ← Mullvad exit node
+  real     (redirected)      ← expected when redsocks is up
+  masked   yes
+[ dns ]
+  dnscrypt active  (127.0.0.1 → Mullvad DoH → tunnel)
+  resolving    ok  (142.251.31.138)
+[ system ]
+  iface    enp0s20f0u2
+  ttl      65
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf7b59b0" class="outline-2">
+<h2 id="orgf7b59b0"><span class="section-number-2">13.</span> Known Limitations</h2>
+<div class="outline-text-2" id="text-13">
+</div>
+<div id="outline-container-orgc21bce8" class="outline-3">
+<h3 id="orgc21bce8"><span class="section-number-3">13.1.</span> UDP is not tunneled</h3>
+<div class="outline-text-3" id="text-13-1">
+<p>
+redsocks and iptables in this configuration only handle TCP. Raw UDP traffic —
+some games, video calls, HTTP/3 over QUIC — bypasses the tunnel entirely. This
+is a fundamental limitation of SOCKS5 proxying, not something the script can
+work around. <code>-safe</code> mode adds an iptables <code>REJECT</code> rule for outbound UDP to
+prevent leaks at the cost of breaking UDP-dependent applications.
+</p>
+</div>
+</div>
+<div id="outline-container-orgcc1ecdb" class="outline-3">
+<h3 id="orgcc1ecdb"><span class="section-number-3">13.2.</span> Phone must stay connected</h3>
+<div class="outline-text-3" id="text-13-2">
+<p>
+The tunnel depends entirely on the SSH connection staying alive. USB disconnect,
+phone screen lock with aggressive battery management, or Mullvad dropping on
+the phone side — any of these kills it. Run <code>gdown</code> then <code>gnet</code> to re-establish.
+There&rsquo;s no automatic reconnect; that felt like complexity that causes more
+problems than it solves on a 10GB data budget.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd7adf08" class="outline-2">
+<h2 id="orgd7adf08"><span class="section-number-2">14.</span> What T-Mobile Actually Sees</h2>
+<div class="outline-text-2" id="text-14">
+<p>
+With <code>gnet</code> running, T-Mobile sees encrypted data going to the phone over USB.
+That&rsquo;s it. No destinations, no domain names, no content. The phone sends
+encrypted Mullvad traffic outbound. From the carrier&rsquo;s perspective it&rsquo;s a phone
+doing phone things.
+</p>
+
+<p>
+Verified at <a href="https://browserleaks.com/dns">https://browserleaks.com/dns</a> and <a href="https://ipleak.net">https://ipleak.net</a>:
+</p>
+<ul class="org-ul">
+<li>Public IP is a Mullvad exit node</li>
+<li>DNS servers are Mullvad&rsquo;s upstream resolvers in the Netherlands and UK</li>
+<li>IPv6 is absent</li>
+<li>WebRTC disabled in Brave at <code>brave://flags</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org768414c" class="outline-2">
+<h2 id="org768414c"><span class="section-number-2">15.</span> The Part Where I Complain About Carriers</h2>
+<div class="outline-text-2" id="text-15">
+<p>
+The fact that this script needs to exist says something. Two companies control
+most of rural mobile internet in the United States. They&rsquo;ve carved up the
+coverage map, lobbied against municipal broadband, and in the absence of any
+meaningful competition they charge what they want for data caps that haven&rsquo;t
+grown meaningfully in years. 10GB of high-speed data a month. In 2026. For
+someone with no other options.
+</p>
+
+<p>
+The distinction between &ldquo;phone data&rdquo; and &ldquo;hotspot data&rdquo; is a policy decision
+dressed up as a technical one. The physics don&rsquo;t care. The radio doesn&rsquo;t care.
+The bits are identical. The only entity that cares is the one billing you
+twice for the same spectrum because nobody is making them do otherwise.
+</p>
+
+<p>
+This script is what happens when infrastructure is treated as a revenue
+optimization problem rather than a public utility. Not ideally. Just practically.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Connal McInnis</p>
+<p class="date">Created: 2026-05-17 Sun 17:30</p>
+</div>
+</body>
+</html>
