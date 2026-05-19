@@ -1,27 +1,27 @@
-- [The Situation](#org9ffe161)
-- [What It Does](#orgcc01680)
-- [The Config Variables](#org74367a5)
-- [Interface Detection](#orgb06a2c0)
-- [The SSH Tunnel](#org76e71ac)
-- [redsocks](#org62385cc)
-- [iptables](#org13b3eb8)
-  - [Teardown](#org30d496a)
-- [dnscrypt-proxy](#org91c82df)
-  - [The DNS Clobber Problem](#org7ddd3cc)
-- [IPv6](#orgd20beb7)
-- [The gnet Function](#org4c1d80a)
-- [gdown](#org48fd82b)
-- [gstatus](#org400e11b)
-- [Known Limitations](#org203730a)
-  - [UDP is not tunneled](#org3afd294)
-  - [Phone must stay connected](#org491b7e7)
-- [What T-Mobile Actually Sees](#org778f6f0)
-- [The Part Where I Complain About Carriers](#orgc430e9a)
+- [The Situation](#org2829a07)
+- [What It Does](#orgc64c685)
+- [The Config Variables](#org7f39cc4)
+- [Interface Detection](#orgb20c0f2)
+- [The SSH Tunnel](#orgc77894b)
+- [redsocks](#orgdf874f2)
+- [iptables](#org6e5a87e)
+  - [Teardown](#org105698e)
+- [dnscrypt-proxy](#orgcf1ce0b)
+  - [The DNS Clobber Problem](#orgdc4e3b5)
+- [IPv6](#org5b3d36c)
+- [The gnet Function](#org94d5592)
+- [gdown](#org181d060)
+- [gstatus](#orgffad29e)
+- [Known Limitations](#org48aa7e4)
+  - [UDP is not tunneled](#orge09ef13)
+  - [Phone must stay connected](#orgf2e7152)
+- [What T-Mobile Actually Sees](#orge1f799a)
+- [The Part Where I Complain About Carriers](#org4cd7a69)
 
 [download gnet.sh](../assets/gnet.sh)
 
 
-<a id="org9ffe161"></a>
+<a id="org2829a07"></a>
 
 # The Situation
 
@@ -32,7 +32,7 @@ The problem is the distinction carriers draw between &ldquo;phone data&rdquo; an
 So I wrote `gnet`. It routes all my computer&rsquo;s traffic through my phone in a way that, from T-Mobile&rsquo;s perspective, looks like phone traffic. This is a writeup of how it works.
 
 
-<a id="orgcc01680"></a>
+<a id="orgc64c685"></a>
 
 # What It Does
 
@@ -63,7 +63,7 @@ app asks "what is example.com?"
 Without the DNS piece your ISP sees every domain name you look up even if the actual traffic is hidden. dnscrypt-proxy closes that gap.
 
 
-<a id="org74367a5"></a>
+<a id="org7f39cc4"></a>
 
 # The Config Variables
 
@@ -82,7 +82,7 @@ GNET_REDSOCKS="12345"
 -   **`GNET_REDSOCKS`:** The port redsocks listens on before forwarding into the tunnel. 12345 by default; just needs to not conflict with anything else.
 
 
-<a id="orgb06a2c0"></a>
+<a id="orgb20c0f2"></a>
 
 # Interface Detection
 
@@ -110,7 +110,7 @@ _gnet_lan_iface() {
 `_gnet_lan_iface` handles the case where I&rsquo;m also sharing the tunnel connection to other machines on my home network — a Raspberry Pi, a Talos node, etc. It first checks if `GNET_LAN_IFACE` is set manually (useful override if autodetection gets it wrong), then falls back to finding a `wlan` or `wlp` interface that isn&rsquo;t the WAN. If there&rsquo;s nothing to find it returns empty and LAN sharing is silently skipped.
 
 
-<a id="org76e71ac"></a>
+<a id="orgc77894b"></a>
 
 # The SSH Tunnel
 
@@ -135,7 +135,7 @@ The cipher choice is deliberate. `aes128-gcm` is fast on x86 because modern CPUs
 `Compression=no` and `IPQoS=throughput` are throughput hints. Compression adds CPU overhead that usually costs more than it saves on already-compressed traffic (HTTPS, video). `IPQoS=throughput` nudges the kernel to prioritize bandwidth over latency.
 
 
-<a id="org62385cc"></a>
+<a id="orgdf874f2"></a>
 
 # redsocks
 
@@ -171,7 +171,7 @@ EOF
 Logging is set to `syslog:daemon` and debug/info are off. I don&rsquo;t need redsocks writing to stdout; if something breaks I&rsquo;ll check `journalctl`.
 
 
-<a id="org13b3eb8"></a>
+<a id="org6e5a87e"></a>
 
 # iptables
 
@@ -216,7 +216,7 @@ The exclusion loop is important. Without it, traffic destined for the LAN, loopb
 `OUTPUT` catches traffic from this machine. `PREROUTING` catches traffic arriving from the LAN interface headed outbound — this is what lets a Pi or other device on my local network use the tunnel without any configuration on its end. `POSTROUTING` with `MASQUERADE` handles the NAT so the phone side sees the laptop&rsquo;s IP rather than the downstream device&rsquo;s IP.
 
 
-<a id="org30d496a"></a>
+<a id="org105698e"></a>
 
 ## Teardown
 
@@ -247,7 +247,7 @@ Teardown order is not optional. If you kill the SSH tunnel while iptables is sti
 `-F` flushes all rules from the `REDSOCKS` chain; `-X` deletes the chain itself. The `2>/dev/null` on every line suppresses errors for rules that don&rsquo;t exist — useful if teardown is running after a partial startup failure.
 
 
-<a id="org91c82df"></a>
+<a id="orgcf1ce0b"></a>
 
 # dnscrypt-proxy
 
@@ -287,7 +287,7 @@ dnscrypt-proxy listens on `127.0.0.1:53` and encrypts DNS queries over HTTPS bef
 The `DNSSEC` parameter is passed in from `gnet`. In `-safe` mode it becomes `true` and dnscrypt-proxy will require DNSSEC validation from its upstream resolver. Off by default because it adds latency and not all resolvers support it cleanly.
 
 
-<a id="org7ddd3cc"></a>
+<a id="orgdc4e3b5"></a>
 
 ## The DNS Clobber Problem
 
@@ -302,7 +302,7 @@ dns=none
 This tells NetworkManager to leave DNS configuration alone entirely. Without this you will eventually get a surprise DNS leak after any reconnect.
 
 
-<a id="orgd20beb7"></a>
+<a id="org5b3d36c"></a>
 
 # IPv6
 
@@ -316,7 +316,7 @@ IPv6 bypasses iptables rules written for IPv4 entirely. It&rsquo;s a separate ne
 The fix is blunt: disable it. `net.ipv6.conf.all` covers active interfaces; `net.ipv6.conf.default` covers interfaces that come up after the sysctl runs. Both need to be set. `gdown` reverses both to 0 on teardown.
 
 
-<a id="org4c1d80a"></a>
+<a id="org94d5592"></a>
 
 # The gnet Function
 
@@ -352,7 +352,7 @@ The startup order is strict and each step checks that the previous one succeeded
 ```
 
 
-<a id="org48fd82b"></a>
+<a id="org181d060"></a>
 
 # gdown
 
@@ -398,7 +398,7 @@ The tunnel PID lookup uses `ss` to find what process is holding the SOCKS5 port 
 `resolv.conf` is restored from the backup that `gnet` wrote to `/tmp` at startup. If no backup exists (`gnet` was never run, or it failed before writing one), this step is skipped rather than clobbering your DNS config with nothing.
 
 
-<a id="org400e11b"></a>
+<a id="orgffad29e"></a>
 
 # gstatus
 
@@ -456,26 +456,26 @@ A typical clean run looks like:
 ```
 
 
-<a id="org203730a"></a>
+<a id="org48aa7e4"></a>
 
 # Known Limitations
 
 
-<a id="org3afd294"></a>
+<a id="orge09ef13"></a>
 
 ## UDP is not tunneled
 
 redsocks and iptables in this configuration only handle TCP. Raw UDP traffic — some games, video calls, HTTP/3 over QUIC — bypasses the tunnel entirely. This is a fundamental limitation of SOCKS5 proxying, not something the script can work around. `-safe` mode adds an iptables `REJECT` rule for outbound UDP to prevent leaks at the cost of breaking UDP-dependent applications.
 
 
-<a id="org491b7e7"></a>
+<a id="orgf2e7152"></a>
 
 ## Phone must stay connected
 
 The tunnel depends entirely on the SSH connection staying alive. USB disconnect, phone screen lock with aggressive battery management, or Mullvad dropping on the phone side — any of these kills it. Run `gdown` then `gnet` to re-establish. There&rsquo;s no automatic reconnect; that felt like complexity that causes more problems than it solves on a 10GB data budget.
 
 
-<a id="org778f6f0"></a>
+<a id="orge1f799a"></a>
 
 # What T-Mobile Actually Sees
 
@@ -489,7 +489,7 @@ Verified at <https://browserleaks.com/dns> and <https://ipleak.net>:
 -   WebRTC disabled in Brave at `brave://flags`
 
 
-<a id="orgc430e9a"></a>
+<a id="org4cd7a69"></a>
 
 # The Part Where I Complain About Carriers
 

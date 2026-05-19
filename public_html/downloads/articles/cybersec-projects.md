@@ -1,108 +1,108 @@
-- [CHAINS KEY](#org2e3cab0)
-  - [══════════════════════════════════════════](#org2f3e08d)
-- [TIER 1 — WEEKEND PROJECTS (1–2 days each)](#org21f4f02)
-  - [══════════════════════════════════════════](#org80cfe0b)
-  - [[NET-W1] Set Up Kali Linux VM](#orga6ee71a)
-  - [[NET-W2] Home Network Recon with Nmap](#org981cbeb)
-  - [[NET-W3] Wireshark Traffic Analysis](#org4e1a385)
-  - [[NET-W4] Crack a WPA2 Handshake (Own Router)](#org49b4eef)
-  - [[NET-W5] Netcat Fundamentals — Shells & Transfers](#org191cbd8)
-  - [[WEB-W1] SQLi & XSS on DVWA](#org8bd2d6c)
-  - [[WEB-W2] Burp Suite Interception Basics](#orgb8531a1)
-  - [[WEB-W3] Command Injection & File Inclusion on DVWA](#org373f764)
-  - [[WEB-W4] Subdomain Enumeration & Recon](#org849609b)
-  - [[OSINT-W1] Google Dorking & Shodan Recon](#org32ccdcf)
-  - [[OSINT-W2] Email & Username OSINT](#org6e63353)
-  - [[OSINT-W3] DNS Enumeration](#orge1528d1)
-  - [[SCRPT-W1] Python or Go Port Scanner](#org65be947)
-  - [[SCRPT-W2] Caesar Cipher → Basic Crypto in Python/go](#org4d007a1)
-  - [[CRYPT-W1] Hash Cracking with Hashcat](#org4e13731)
-  - [[CRYPT-W2] Steganography — Hide & Find](#org685dc19)
-  - [[DEF-W1] SSH Hardening + Key Auth](#orgcc42e78)
-  - [[DEF-W2] Firewall Rules with UFW/iptables](#orga7cdedf)
-  - [[MAL-W1] Static Malware Analysis](#orgf13104b)
-  - [[MAL-W2] Analyze a Malicious PCAP](#org0c194b3)
-  - [[RE-W1] Linux Privilege Escalation Basics](#org71b9286)
-  - [[DEF-W3] GPG Encryption — Files & Email](#org294986f)
-  - [[NET-W6] Set Up WireGuard VPN](#orgdaf6082)
-  - [[OSINT-W4] Digital Forensics — File Recovery](#org237e59a)
-  - [[WEB-W5] JWT Attack Lab](#orgb76f27c)
-  - [[CTF-W1] Complete 5 picoCTF Beginner Challenges](#org837b8c3)
-  - [[SCRPT-W3] Log Parser in Python](#org5a142f3)
-  - [[NET-W7] Proxy Chains + Tor Setup](#org1c7b29a)
-  - [[WEB-W6] HTTP Security Headers Audit Tool](#orgee9b839)
-  - [[DEF-W4] Set Up Basic Honeypot (Cowrie)](#org89d7a3a)
-  - [[RE-W2] Reverse a Simple Crackme Binary](#org03a0949)
-  - [[AD-W1] Active Directory Concepts + Lab Setup](#orga4fdf46)
-  - [[CLOUD-W1] AWS Free Tier — IAM Misconfig Hunt](#orga14244e)
-  - [[SCRPT-W4] Build HTTP Header Fuzzer](#orge35c309)
-  - [[NET-W8] TryHackMe — Complete 2 Beginner Rooms](#org3e22c14)
-  - [══════════════════════════════════════════](#org9c3093e)
-- [TIER 2 — WEEK PROJECTS (3–7 days each)](#orga100c6e)
-  - [══════════════════════════════════════════](#orgd7ddb70)
-    - [[SCRPT-WK1] Full Go or Python Recon Framework](#org73eb690)
-    - [[NET-WK1] Full Pentest: VulnHub Beginner Machine](#org6153845)
-    - [[WEB-WK1] Complete OWASP Top 10 on WebGoat](#org0ee2f8e)
-    - [[NET-WK2] Man-in-the-Middle Attack Lab](#orgc7f1b0b)
-    - [[DEF-WK1] Set Up ELK Stack SIEM](#org61ffe04)
-    - [[DEF-WK2] Honeypot + Log Pipeline](#org6c8e5c0)
-    - [[MAL-WK1] Dynamic Malware Analysis in Sandbox](#orgf24fced)
-    - [[MAL-WK2] Reverse Engineering with Ghidra](#org469d990)
-    - [[NET-WK3] Network Pivoting Lab](#orgdd86167)
-    - [[CRYPT-WK1] Implement Crypto Attacks in Python](#orgd4795c6)
-    - [[WEB-WK2] SQLi Scanner + SSRF + XXE Lab](#org8c74f76)
-    - [[AD-WK1] Active Directory Attack Lab](#orgb433c49)
-    - [[SCRPT-WK2] Build a C2 Beaconing Script (Lab Only)](#orga1b2f86)
-    - [[DEF-WK3] Set Up Suricata + Zeek IDS](#orgc644dd4)
-    - [[WEB-WK3] Full Subdomain + Dir Recon Automation](#org50236b4)
-    - [[CTF-WK1] Complete HackTheBox Starting Point (3 Machines)](#org839f371)
-    - [[OSINT-WK1] OSINT Framework in Python](#org726ec56)
-    - [[NET-WK4] Metasploit Deep Dive](#org7375da2)
-    - [[CLOUD-WK1] AWS Misconfig & Container Security Lab](#org371718d)
-    - [[CRYPT-WK2] Build a PKI from Scratch](#orgcb0b788)
-    - [[MAL-WK3] YARA Rules — Write & Test](#org5e669e5)
-    - [[WEB-WK4] Android App Security Testing](#org445d13f)
-    - [[DEF-WK4] Incident Response Lab](#orgc0f3c32)
-    - [[NET-WK5] WPA2 PMKID Attack + Evil Twin AP](#org16aea04)
-    - [[SCRPT-WK3] Vulnerability Scanner in Python](#orgcca7f54)
-    - [[OSINT-WK2] Threat Intel Aggregator](#orgd2fa4b8)
-    - [[RE-WK1] Buffer Overflow 101](#org04e23c4)
-    - [[WEB-WK5] Build a Vulnerable Web App (for CTF)](#org6566c69)
-    - [[DEF-WK5] Zero Trust Network Lab](#orga31003b)
-    - [[NET-WK6] Analyze a Real-World CVE + Write PoC](#orgc5bd272)
-    - [[CLOUD-WK2] Serverless + API Security Testing](#org32bbf4f)
-  - [══════════════════════════════════════════](#org3b4ccbb)
-- [TIER 3 — MONTH PROJECTS (3–4 weeks each)](#org923e413)
-  - [══════════════════════════════════════════](#orgfa0bb31)
-    - [[DEF-MO1] Build a Full Home SOC](#org24efb69)
-    - [[NET-MO1] OSCP-Style Multi-Machine Lab + Report](#org2b8348b)
-    - [[WEB-MO1] Full Web App Pentest Automation Suite](#orgab96889)
-    - [[MAL-MO1] Full Malware Analysis Report on Real Sample](#org9751e45)
-    - [[AD-MO1] Active Directory Full Attack + Defense Lab](#orgdfdca13)
-    - [[OSINT-MO1] Automated OSINT Platform](#org34f8015)
-    - [[CRYPT-MO1] Cryptography Attack Suite + PKI System](#org5e22e86)
-    - [[CLOUD-MO1] Cloud Security Audit + Hardening](#org6f956be)
-    - [[SCRPT-MO1] Full Pentest Automation Suite (CLI Tool)](#org3b26d9a)
-    - [[CTF-MO1] Host a Public CTF Competition](#org899b684)
-  - [══════════════════════════════════════════](#org8be5a88)
-- [CHAIN COMBO MAPS — SUGGESTED PATHS](#org2be59f2)
-  - [══════════════════════════════════════════](#orgfe04580)
-    - [PATH A: Network Pentester (Offensive)](#orge2ca6fd)
-    - [PATH B: Web/Bug Bounty Hunter](#org0f68b3a)
-    - [PATH C: Blue Team / SOC Analyst](#org5ffdcfd)
-    - [PATH D: Malware Analyst / Threat Intel](#orgacc0a8f)
-    - [PATH E: Security Engineer / Tool Builder](#org1931468)
-  - [══════════════════════════════](#org36f3caf)
-- [RESOURCES](#orgc95ab10)
-  - [══════════════════════════════](#org8c3f7e1)
-    - [Platforms And Websites](#org0c6995d)
-    - [Essential Tools](#orgf3d9be7)
-    - [Free Certifications to Stack](#org9359209)
-    - [Time Budget Suggestion](#org13d584a)
+- [CHAINS KEY](#org217c9b8)
+  - [══════════════════════════════════════════](#org9c96600)
+- [TIER 1 — WEEKEND PROJECTS (1–2 days each)](#orgaa48ca8)
+  - [══════════════════════════════════════════](#org4ad0167)
+  - [[NET-W1] Set Up Kali Linux VM](#org34c528b)
+  - [[NET-W2] Home Network Recon with Nmap](#orge7fe1c7)
+  - [[NET-W3] Wireshark Traffic Analysis](#orgda1b2cc)
+  - [[NET-W4] Crack a WPA2 Handshake (Own Router)](#org5f49a65)
+  - [[NET-W5] Netcat Fundamentals — Shells & Transfers](#org3a8dec9)
+  - [[WEB-W1] SQLi & XSS on DVWA](#org4124123)
+  - [[WEB-W2] Burp Suite Interception Basics](#orgfda88f4)
+  - [[WEB-W3] Command Injection & File Inclusion on DVWA](#orgc7bcf6f)
+  - [[WEB-W4] Subdomain Enumeration & Recon](#org721de5e)
+  - [[OSINT-W1] Google Dorking & Shodan Recon](#org39d5eb9)
+  - [[OSINT-W2] Email & Username OSINT](#org4acaa8e)
+  - [[OSINT-W3] DNS Enumeration](#orga1b4704)
+  - [[SCRPT-W1] Python or Go Port Scanner](#org2d815a4)
+  - [[SCRPT-W2] Caesar Cipher → Basic Crypto in Python/go](#orgb662738)
+  - [[CRYPT-W1] Hash Cracking with Hashcat](#org96c9e02)
+  - [[CRYPT-W2] Steganography — Hide & Find](#orgb6a14d4)
+  - [[DEF-W1] SSH Hardening + Key Auth](#orge92331f)
+  - [[DEF-W2] Firewall Rules with UFW/iptables](#org83196c5)
+  - [[MAL-W1] Static Malware Analysis](#org65d9c7b)
+  - [[MAL-W2] Analyze a Malicious PCAP](#org2901e9c)
+  - [[RE-W1] Linux Privilege Escalation Basics](#org1bf2b1d)
+  - [[DEF-W3] GPG Encryption — Files & Email](#org7bb4658)
+  - [[NET-W6] Set Up WireGuard VPN](#org410028e)
+  - [[OSINT-W4] Digital Forensics — File Recovery](#orge27d84a)
+  - [[WEB-W5] JWT Attack Lab](#org69c9316)
+  - [[CTF-W1] Complete 5 picoCTF Beginner Challenges](#org6ddfc4f)
+  - [[SCRPT-W3] Log Parser in Python](#orge082d60)
+  - [[NET-W7] Proxy Chains + Tor Setup](#org5bb5936)
+  - [[WEB-W6] HTTP Security Headers Audit Tool](#orgf5a445e)
+  - [[DEF-W4] Set Up Basic Honeypot (Cowrie)](#org3a517c0)
+  - [[RE-W2] Reverse a Simple Crackme Binary](#org418a00d)
+  - [[AD-W1] Active Directory Concepts + Lab Setup](#org831a748)
+  - [[CLOUD-W1] AWS Free Tier — IAM Misconfig Hunt](#orgb5c33ae)
+  - [[SCRPT-W4] Build HTTP Header Fuzzer](#org3bed862)
+  - [[NET-W8] TryHackMe — Complete 2 Beginner Rooms](#orged9caa6)
+  - [══════════════════════════════════════════](#org783104b)
+- [TIER 2 — WEEK PROJECTS (3–7 days each)](#orgc42c3db)
+  - [══════════════════════════════════════════](#orgf12346d)
+    - [[SCRPT-WK1] Full Go or Python Recon Framework](#org084acf1)
+    - [[NET-WK1] Full Pentest: VulnHub Beginner Machine](#org37236f2)
+    - [[WEB-WK1] Complete OWASP Top 10 on WebGoat](#org1ed5a6a)
+    - [[NET-WK2] Man-in-the-Middle Attack Lab](#org2d49f34)
+    - [[DEF-WK1] Set Up ELK Stack SIEM](#org4d8da00)
+    - [[DEF-WK2] Honeypot + Log Pipeline](#org12b426d)
+    - [[MAL-WK1] Dynamic Malware Analysis in Sandbox](#org5edd089)
+    - [[MAL-WK2] Reverse Engineering with Ghidra](#org194cff4)
+    - [[NET-WK3] Network Pivoting Lab](#orgcf351d3)
+    - [[CRYPT-WK1] Implement Crypto Attacks in Python](#org210bcc3)
+    - [[WEB-WK2] SQLi Scanner + SSRF + XXE Lab](#org332ba26)
+    - [[AD-WK1] Active Directory Attack Lab](#org5eba004)
+    - [[SCRPT-WK2] Build a C2 Beaconing Script (Lab Only)](#orgea48ce5)
+    - [[DEF-WK3] Set Up Suricata + Zeek IDS](#org4690052)
+    - [[WEB-WK3] Full Subdomain + Dir Recon Automation](#org9e81ccf)
+    - [[CTF-WK1] Complete HackTheBox Starting Point (3 Machines)](#org5fc6ae6)
+    - [[OSINT-WK1] OSINT Framework in Python](#orgd001b83)
+    - [[NET-WK4] Metasploit Deep Dive](#org95e646d)
+    - [[CLOUD-WK1] AWS Misconfig & Container Security Lab](#org5d43644)
+    - [[CRYPT-WK2] Build a PKI from Scratch](#org13b2a8d)
+    - [[MAL-WK3] YARA Rules — Write & Test](#orge956d74)
+    - [[WEB-WK4] Android App Security Testing](#org4142b5a)
+    - [[DEF-WK4] Incident Response Lab](#org4bca2a7)
+    - [[NET-WK5] WPA2 PMKID Attack + Evil Twin AP](#org6e3037e)
+    - [[SCRPT-WK3] Vulnerability Scanner in Python](#org95c55ff)
+    - [[OSINT-WK2] Threat Intel Aggregator](#org56ba6c7)
+    - [[RE-WK1] Buffer Overflow 101](#orgf4d9654)
+    - [[WEB-WK5] Build a Vulnerable Web App (for CTF)](#orgc763128)
+    - [[DEF-WK5] Zero Trust Network Lab](#org64a3ba0)
+    - [[NET-WK6] Analyze a Real-World CVE + Write PoC](#orgb129e4e)
+    - [[CLOUD-WK2] Serverless + API Security Testing](#orgba565df)
+  - [══════════════════════════════════════════](#org3cd2da4)
+- [TIER 3 — MONTH PROJECTS (3–4 weeks each)](#org03d4a97)
+  - [══════════════════════════════════════════](#org93bd9d5)
+    - [[DEF-MO1] Build a Full Home SOC](#org000df4b)
+    - [[NET-MO1] OSCP-Style Multi-Machine Lab + Report](#org81d9d1c)
+    - [[WEB-MO1] Full Web App Pentest Automation Suite](#org71e5893)
+    - [[MAL-MO1] Full Malware Analysis Report on Real Sample](#org7bbd52d)
+    - [[AD-MO1] Active Directory Full Attack + Defense Lab](#org0a2e65c)
+    - [[OSINT-MO1] Automated OSINT Platform](#orgc1e4e8f)
+    - [[CRYPT-MO1] Cryptography Attack Suite + PKI System](#orgbb96d8d)
+    - [[CLOUD-MO1] Cloud Security Audit + Hardening](#org7e42fcc)
+    - [[SCRPT-MO1] Full Pentest Automation Suite (CLI Tool)](#org30bd316)
+    - [[CTF-MO1] Host a Public CTF Competition](#org15ccd19)
+  - [══════════════════════════════════════════](#orgd2e3408)
+- [CHAIN COMBO MAPS — SUGGESTED PATHS](#org8760742)
+  - [══════════════════════════════════════════](#orgf1fb5b1)
+    - [PATH A: Network Pentester (Offensive)](#org5708a97)
+    - [PATH B: Web/Bug Bounty Hunter](#org8049081)
+    - [PATH C: Blue Team / SOC Analyst](#org10b8603)
+    - [PATH D: Malware Analyst / Threat Intel](#orgd8878cb)
+    - [PATH E: Security Engineer / Tool Builder](#org69aae1e)
+  - [══════════════════════════════](#org0c97b83)
+- [RESOURCES](#org361750f)
+  - [══════════════════════════════](#orgd6f6a44)
+    - [Platforms And Websites](#org5b76cfa)
+    - [Essential Tools](#orgd9d2072)
+    - [Free Certifications to Stack](#org36f2d88)
+    - [Time Budget Suggestion](#org6ffbb79)
 
 
 
-<a id="org2e3cab0"></a>
+<a id="org217c9b8"></a>
 
 # CHAINS KEY
 
@@ -120,22 +120,22 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 | AD    | Active Directory       | :ad:        |
 
 
-<a id="org2f3e08d"></a>
+<a id="org9c96600"></a>
 
 ## ══════════════════════════════════════════
 
 
-<a id="org21f4f02"></a>
+<a id="orgaa48ca8"></a>
 
 # TIER 1 — WEEKEND PROJECTS (1–2 days each)
 
 
-<a id="org80cfe0b"></a>
+<a id="org4ad0167"></a>
 
 ## ══════════════════════════════════════════
 
 
-<a id="orga6ee71a"></a>
+<a id="org34c528b"></a>
 
 ## TODO [NET-W1] Set Up Kali Linux VM     :network:
 
@@ -147,7 +147,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Base for every other project. Do first.
 
 
-<a id="org981cbeb"></a>
+<a id="orge7fe1c7"></a>
 
 ## TODO [NET-W2] Home Network Recon with Nmap     :network:
 
@@ -159,7 +159,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Feeds into Python scanner (SCRPT-W1) and SIEM setup (DEF-WK1)
 
 
-<a id="org4e1a385"></a>
+<a id="orgda1b2cc"></a>
 
 ## TODO [NET-W3] Wireshark Traffic Analysis     :network:
 
@@ -171,7 +171,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Pairs with MitM week project (NET-WK4)
 
 
-<a id="org49b4eef"></a>
+<a id="org5f49a65"></a>
 
 ## TODO [NET-W4] Crack a WPA2 Handshake (Own Router)     :network:
 
@@ -183,7 +183,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** NOTE: Own network only. Legal line clear.
 
 
-<a id="org191cbd8"></a>
+<a id="org3a8dec9"></a>
 
 ## TODO [NET-W5] Netcat Fundamentals — Shells & Transfers     :network:
 
@@ -195,7 +195,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Foundation for all post-exploitation work
 
 
-<a id="org8bd2d6c"></a>
+<a id="org4124123"></a>
 
 ## TODO [WEB-W1] SQLi & XSS on DVWA     :web:
 
@@ -207,7 +207,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Directly builds into full OWASP week (WEB-WK1)
 
 
-<a id="orgb8531a1"></a>
+<a id="orgfda88f4"></a>
 
 ## TODO [WEB-W2] Burp Suite Interception Basics     :web:
 
@@ -219,7 +219,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Essential tool for all web projects
 
 
-<a id="org373f764"></a>
+<a id="orgc7bcf6f"></a>
 
 ## TODO [WEB-W3] Command Injection & File Inclusion on DVWA     :web:
 
@@ -229,7 +229,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   CSRF: forge requests, steal sessions
 
 
-<a id="org849609b"></a>
+<a id="org721de5e"></a>
 
 ## TODO [WEB-W4] Subdomain Enumeration & Recon     :web:osint:
 
@@ -239,7 +239,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Document findings in structured notes
 
 
-<a id="org32ccdcf"></a>
+<a id="org39d5eb9"></a>
 
 ## TODO [OSINT-W1] Google Dorking & Shodan Recon     :osint:
 
@@ -249,7 +249,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Build a personal dork cheatsheet
 
 
-<a id="org6e63353"></a>
+<a id="org4acaa8e"></a>
 
 ## TODO [OSINT-W2] Email & Username OSINT     :osint:
 
@@ -259,7 +259,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Build a target profile (use yourself as test subject)
 
 
-<a id="orge1528d1"></a>
+<a id="orga1b4704"></a>
 
 ## TODO [OSINT-W3] DNS Enumeration     :osint:network:
 
@@ -269,7 +269,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Reverse DNS lookup sweep
 
 
-<a id="org65be947"></a>
+<a id="org2d815a4"></a>
 
 ## TODO [SCRPT-W1] Python or Go Port Scanner     :scripting:
 
@@ -281,7 +281,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Base for full recon tool (SCRPT-WK1)
 
 
-<a id="org4d007a1"></a>
+<a id="orgb662738"></a>
 
 ## TODO [SCRPT-W2] Caesar Cipher → Basic Crypto in Python/go     :scripting:crypto:
 
@@ -291,7 +291,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Understand why these fail
 
 
-<a id="org4e13731"></a>
+<a id="org96c9e02"></a>
 
 ## TODO [CRYPT-W1] Hash Cracking with Hashcat     :crypto:
 
@@ -301,7 +301,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Dictionary vs brute vs combo attack modes
 
 
-<a id="org685dc19"></a>
+<a id="orgb6a14d4"></a>
 
 ## TODO [CRYPT-W2] Steganography — Hide & Find     :crypto:
 
@@ -311,7 +311,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Solve 3 stego CTF challenges
 
 
-<a id="orgcc42e78"></a>
+<a id="orge92331f"></a>
 
 ## TODO [DEF-W1] SSH Hardening + Key Auth     :defense:
 
@@ -321,7 +321,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Test hardening with nmap from Kali
 
 
-<a id="orga7cdedf"></a>
+<a id="org83196c5"></a>
 
 ## TODO [DEF-W2] Firewall Rules with UFW/iptables     :defense:
 
@@ -331,7 +331,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Test rules from external VM
 
 
-<a id="orgf13104b"></a>
+<a id="org65d9c7b"></a>
 
 ## TODO [MAL-W1] Static Malware Analysis     :malware:
 
@@ -341,7 +341,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Identify packing/obfuscation signs
 
 
-<a id="org0c194b3"></a>
+<a id="org2901e9c"></a>
 
 ## TODO [MAL-W2] Analyze a Malicious PCAP     :malware:network:
 
@@ -351,7 +351,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Write a short analysis report
 
 
-<a id="org71b9286"></a>
+<a id="org1bf2b1d"></a>
 
 ## TODO [RE-W1] Linux Privilege Escalation Basics     :re:
 
@@ -361,7 +361,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   linPEAS on a VulnHub machine
 
 
-<a id="org294986f"></a>
+<a id="org7bb4658"></a>
 
 ## TODO [DEF-W3] GPG Encryption — Files & Email     :defense:crypto:
 
@@ -371,7 +371,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Export/import public keys
 
 
-<a id="orgdaf6082"></a>
+<a id="org410028e"></a>
 
 ## TODO [NET-W6] Set Up WireGuard VPN     :network:defense:
 
@@ -381,7 +381,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Verify with Wireshark — confirm encryption
 
 
-<a id="org237e59a"></a>
+<a id="orge27d84a"></a>
 
 ## TODO [OSINT-W4] Digital Forensics — File Recovery     :osint:
 
@@ -391,7 +391,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Build a basic forensics checklist
 
 
-<a id="orgb76f27c"></a>
+<a id="org69c9316"></a>
 
 ## TODO [WEB-W5] JWT Attack Lab     :web:
 
@@ -401,7 +401,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Key confusion attack (RS256→HS256)
 
 
-<a id="org837b8c3"></a>
+<a id="org6ddfc4f"></a>
 
 ## TODO [CTF-W1] Complete 5 picoCTF Beginner Challenges     :web:crypto:re:
 
@@ -411,7 +411,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Join a CTF Discord for hints
 
 
-<a id="org5a142f3"></a>
+<a id="orge082d60"></a>
 
 ## TODO [SCRPT-W3] Log Parser in Python     :scripting:defense:
 
@@ -421,7 +421,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Extend to syslog, apache access logs
 
 
-<a id="org1c7b29a"></a>
+<a id="org5bb5936"></a>
 
 ## TODO [NET-W7] Proxy Chains + Tor Setup     :network:
 
@@ -431,7 +431,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Test anonymity with whatismyip
 
 
-<a id="orgee9b839"></a>
+<a id="orgf5a445e"></a>
 
 ## TODO [WEB-W6] HTTP Security Headers Audit Tool     :web:scripting:
 
@@ -441,7 +441,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Run against 10 real sites (ethically)
 
 
-<a id="org89d7a3a"></a>
+<a id="org3a517c0"></a>
 
 ## TODO [DEF-W4] Set Up Basic Honeypot (Cowrie)     :defense:
 
@@ -451,7 +451,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Extract attacker IPs and commands
 
 
-<a id="org03a0949"></a>
+<a id="org418a00d"></a>
 
 ## TODO [RE-W2] Reverse a Simple Crackme Binary     :re:
 
@@ -461,7 +461,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Patch binary to bypass check
 
 
-<a id="orga4fdf46"></a>
+<a id="org831a748"></a>
 
 ## TODO [AD-W1] Active Directory Concepts + Lab Setup     :ad:
 
@@ -471,7 +471,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Join a Windows 10 VM to the domain
 
 
-<a id="orga14244e"></a>
+<a id="orgb5c33ae"></a>
 
 ## TODO [CLOUD-W1] AWS Free Tier — IAM Misconfig Hunt     :cloud:
 
@@ -481,7 +481,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Enumerate with AWS CLI using overprivileged user
 
 
-<a id="orge35c309"></a>
+<a id="org3bed862"></a>
 
 ## TODO [SCRPT-W4] Build HTTP Header Fuzzer     :scripting:web:
 
@@ -491,7 +491,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Test on DVWA or local lab app
 
 
-<a id="org3e22c14"></a>
+<a id="orged9caa6"></a>
 
 ## TODO [NET-W8] TryHackMe — Complete 2 Beginner Rooms     :network:
 
@@ -501,22 +501,22 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Subscribe to free tier
 
 
-<a id="org9c3093e"></a>
+<a id="org783104b"></a>
 
 ## ══════════════════════════════════════════
 
 
-<a id="orga100c6e"></a>
+<a id="orgc42c3db"></a>
 
 # TIER 2 — WEEK PROJECTS (3–7 days each)
 
 
-<a id="orgd7ddb70"></a>
+<a id="orgf12346d"></a>
 
 ## ══════════════════════════════════════════
 
 
-<a id="org73eb690"></a>
+<a id="org084acf1"></a>
 
 ### TODO [SCRPT-WK1] Full Go or Python Recon Framework     :scripting:network:osint:
 
@@ -528,7 +528,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Ports directly into full pentest suite (SCRPT-MO1)
 
 
-<a id="org6153845"></a>
+<a id="org37236f2"></a>
 
 ### TODO [NET-WK1] Full Pentest: VulnHub Beginner Machine     :network:web:re:
 
@@ -540,7 +540,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Chain 3+ machines → OSCP prep (NET-MO1)
 
 
-<a id="org0ee2f8e"></a>
+<a id="org1ed5a6a"></a>
 
 ### TODO [WEB-WK1] Complete OWASP Top 10 on WebGoat     :web:
 
@@ -552,7 +552,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Unlocks web pentest automation month project
 
 
-<a id="orgc7f1b0b"></a>
+<a id="org2d49f34"></a>
 
 ### TODO [NET-WK2] Man-in-the-Middle Attack Lab     :network:
 
@@ -562,7 +562,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Defend: static ARP + HTTPS enforcement
 
 
-<a id="org61ffe04"></a>
+<a id="org4d8da00"></a>
 
 ### TODO [DEF-WK1] Set Up ELK Stack SIEM     :defense:
 
@@ -574,7 +574,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Core of home SOC (DEF-MO1)
 
 
-<a id="org6c8e5c0"></a>
+<a id="org12b426d"></a>
 
 ### TODO [DEF-WK2] Honeypot + Log Pipeline     :defense:
 
@@ -584,7 +584,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Alert on new attacker commands
 
 
-<a id="orgf24fced"></a>
+<a id="org5edd089"></a>
 
 ### TODO [MAL-WK1] Dynamic Malware Analysis in Sandbox     :malware:
 
@@ -594,7 +594,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Document: file drops, registry changes, network IOCs
 
 
-<a id="org469d990"></a>
+<a id="org194cff4"></a>
 
 ### TODO [MAL-WK2] Reverse Engineering with Ghidra     :malware:re:
 
@@ -605,7 +605,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Annotate functions in Ghidra
 
 
-<a id="orgdd86167"></a>
+<a id="orgcf351d3"></a>
 
 ### TODO [NET-WK3] Network Pivoting Lab     :network:
 
@@ -617,7 +617,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Essential for AD month project
 
 
-<a id="orgd4795c6"></a>
+<a id="org210bcc3"></a>
 
 ### TODO [CRYPT-WK1] Implement Crypto Attacks in Python     :crypto:scripting:
 
@@ -627,7 +627,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   RSA small e attack (cube root)
 
 
-<a id="org8c74f76"></a>
+<a id="org332ba26"></a>
 
 ### TODO [WEB-WK2] SQLi Scanner + SSRF + XXE Lab     :web:scripting:
 
@@ -637,7 +637,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Test all three on deliberately vulnerable apps
 
 
-<a id="orgb433c49"></a>
+<a id="org5eba004"></a>
 
 ### TODO [AD-WK1] Active Directory Attack Lab     :ad:
 
@@ -649,7 +649,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: Full AD pentest chains into month project
 
 
-<a id="orga1b2f86"></a>
+<a id="orgea48ce5"></a>
 
 ### TODO [SCRPT-WK2] Build a C2 Beaconing Script (Lab Only)     :scripting:malware:
 
@@ -661,7 +661,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** NOTE: Lab/VM only. Learn detection via DEF-WK1.
 
 
-<a id="orgc644dd4"></a>
+<a id="org4690052"></a>
 
 ### TODO [DEF-WK3] Set Up Suricata + Zeek IDS     :defense:network:
 
@@ -671,7 +671,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Feed both into ELK (from DEF-WK1)
 
 
-<a id="org50236b4"></a>
+<a id="org9e81ccf"></a>
 
 ### TODO [WEB-WK3] Full Subdomain + Dir Recon Automation     :web:osint:scripting:
 
@@ -681,7 +681,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Run against HackerOne bug bounty target
 
 
-<a id="org839f371"></a>
+<a id="org5fc6ae6"></a>
 
 ### TODO [CTF-WK1] Complete HackTheBox Starting Point (3 Machines)     :network:web:
 
@@ -691,7 +691,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Focus: methodology, not just flags
 
 
-<a id="org726ec56"></a>
+<a id="orgd001b83"></a>
 
 ### TODO [OSINT-WK1] OSINT Framework in Python     :osint:scripting:
 
@@ -701,7 +701,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Add screenshot of profiles (selenium)
 
 
-<a id="org7375da2"></a>
+<a id="org95e646d"></a>
 
 ### TODO [NET-WK4] Metasploit Deep Dive     :network:
 
@@ -711,7 +711,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Write custom resource script to automate
 
 
-<a id="org371718d"></a>
+<a id="org5d43644"></a>
 
 ### TODO [CLOUD-WK1] AWS Misconfig & Container Security Lab     :cloud:
 
@@ -721,7 +721,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Kubernetes: exposed dashboard, RBAC bypass
 
 
-<a id="orgcb0b788"></a>
+<a id="org13b2a8d"></a>
 
 ### TODO [CRYPT-WK2] Build a PKI from Scratch     :crypto:defense:
 
@@ -731,7 +731,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Implement CRL (certificate revocation list)
 
 
-<a id="org5e669e5"></a>
+<a id="orge956d74"></a>
 
 ### TODO [MAL-WK3] YARA Rules — Write & Test     :malware:defense:
 
@@ -741,7 +741,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Integrate YARA scan into Python script
 
 
-<a id="org445d13f"></a>
+<a id="org4142b5a"></a>
 
 ### TODO [WEB-WK4] Android App Security Testing     :web:re:
 
@@ -751,7 +751,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Intercept traffic with Burp on Android emulator
 
 
-<a id="orgc0f3c32"></a>
+<a id="org4bca2a7"></a>
 
 ### TODO [DEF-WK4] Incident Response Lab     :defense:
 
@@ -761,7 +761,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Write incident report
 
 
-<a id="org16aea04"></a>
+<a id="org6e3037e"></a>
 
 ### TODO [NET-WK5] WPA2 PMKID Attack + Evil Twin AP     :network:
 
@@ -773,7 +773,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** NOTE: Own network lab only.
 
 
-<a id="orgcca7f54"></a>
+<a id="org95c55ff"></a>
 
 ### TODO [SCRPT-WK3] Vulnerability Scanner in Python     :scripting:network:web:
 
@@ -783,7 +783,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Diff reports: detect new vulns between scans
 
 
-<a id="orgd2fa4b8"></a>
+<a id="org56ba6c7"></a>
 
 ### TODO [OSINT-WK2] Threat Intel Aggregator     :osint:defense:scripting:
 
@@ -793,7 +793,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Daily digest email report (smtplib)
 
 
-<a id="org04e23c4"></a>
+<a id="orgf4d9654"></a>
 
 ### TODO [RE-WK1] Buffer Overflow 101     :re:
 
@@ -803,7 +803,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Bypass NX with ret2libc
 
 
-<a id="org6566c69"></a>
+<a id="orgc763128"></a>
 
 ### TODO [WEB-WK5] Build a Vulnerable Web App (for CTF)     :web:scripting:
 
@@ -814,7 +814,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Combo: CTF hosting = teaches both attack & defense mindset
 
 
-<a id="orga31003b"></a>
+<a id="org64a3ba0"></a>
 
 ### TODO [DEF-WK5] Zero Trust Network Lab     :defense:network:
 
@@ -824,7 +824,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Verify: no lateral movement possible between zones
 
 
-<a id="orgc5bd272"></a>
+<a id="orgb129e4e"></a>
 
 ### TODO [NET-WK6] Analyze a Real-World CVE + Write PoC     :network:scripting:
 
@@ -835,7 +835,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Document: vuln class, impact, patch
 
 
-<a id="org32bbf4f"></a>
+<a id="orgba565df"></a>
 
 ### TODO [CLOUD-WK2] Serverless + API Security Testing     :cloud:web:
 
@@ -845,22 +845,22 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 -   Use Postman + manual testing
 
 
-<a id="org3b4ccbb"></a>
+<a id="org3cd2da4"></a>
 
 ## ══════════════════════════════════════════
 
 
-<a id="org923e413"></a>
+<a id="org03d4a97"></a>
 
 # TIER 3 — MONTH PROJECTS (3–4 weeks each)
 
 
-<a id="orgfa0bb31"></a>
+<a id="org93bd9d5"></a>
 
 ## ══════════════════════════════════════════
 
 
-<a id="org24efb69"></a>
+<a id="org000df4b"></a>
 
 ### TODO [DEF-MO1] Build a Full Home SOC     :defense:network:
 
@@ -874,7 +874,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: This alone is a real portfolio piece
 
 
-<a id="org2b8348b"></a>
+<a id="org81d9d1c"></a>
 
 ### TODO [NET-MO1] OSCP-Style Multi-Machine Lab + Report     :network:web:re:
 
@@ -887,7 +887,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: Submit to eJPT or use as OSCP prep
 
 
-<a id="orgab96889"></a>
+<a id="org71e5893"></a>
 
 ### TODO [WEB-MO1] Full Web App Pentest Automation Suite     :web:scripting:
 
@@ -900,7 +900,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: Use on real bug bounty targets (HackerOne/Bugcrowd)
 
 
-<a id="org9751e45"></a>
+<a id="org7bbd52d"></a>
 
 ### TODO [MAL-MO1] Full Malware Analysis Report on Real Sample     :malware:re:
 
@@ -914,7 +914,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: Top 1% of junior candidates have this
 
 
-<a id="orgdfdca13"></a>
+<a id="org0a2e65c"></a>
 
 ### TODO [AD-MO1] Active Directory Full Attack + Defense Lab     :ad:network:defense:
 
@@ -927,7 +927,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: Directly maps to enterprise pentest + SOC roles
 
 
-<a id="org34f8015"></a>
+<a id="orgc1e4e8f"></a>
 
 ### TODO [OSINT-MO1] Automated OSINT Platform     :osint:scripting:
 
@@ -940,7 +940,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: Open-source on GitHub — recruiter magnet
 
 
-<a id="org5e22e86"></a>
+<a id="orgbb96d8d"></a>
 
 ### TODO [CRYPT-MO1] Cryptography Attack Suite + PKI System     :crypto:scripting:
 
@@ -952,7 +952,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: Shows you understand crypto deeply, not just tools
 
 
-<a id="org6f956be"></a>
+<a id="org7e42fcc"></a>
 
 ### TODO [CLOUD-MO1] Cloud Security Audit + Hardening     :cloud:defense:
 
@@ -965,7 +965,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: AWS/GCP security skills are very hireable
 
 
-<a id="org3b26d9a"></a>
+<a id="org30bd316"></a>
 
 ### TODO [SCRPT-MO1] Full Pentest Automation Suite (CLI Tool)     :scripting:network:web:
 
@@ -978,7 +978,7 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: If this gets GitHub stars, it opens doors
 
 
-<a id="org899b684"></a>
+<a id="org15ccd19"></a>
 
 ### TODO [CTF-MO1] Host a Public CTF Competition     :web:network:crypto:re:
 
@@ -991,72 +991,72 @@ Projects grouped in 8 chains. Chain projects stack — weekend → week → mont
 **\*** Showcase: Organizing = leadership. Recruiting loves this.
 
 
-<a id="org8be5a88"></a>
+<a id="orgd2e3408"></a>
 
 ## ══════════════════════════════════════════
 
 
-<a id="org2be59f2"></a>
+<a id="org8760742"></a>
 
 # CHAIN COMBO MAPS — SUGGESTED PATHS
 
 
-<a id="orgfe04580"></a>
+<a id="orgf1fb5b1"></a>
 
 ## ══════════════════════════════════════════
 
 
-<a id="orge2ca6fd"></a>
+<a id="org5708a97"></a>
 
 ### PATH A: Network Pentester (Offensive)
 
 Weekend → Week → Month NET-W1 → NET-W2 → NET-W5 → RE-W1 → NET-WK1 → NET-WK3 → NET-WK4 → AD-WK1 → NET-MO1 (OSCP-style lab)
 
 
-<a id="org0f68b3a"></a>
+<a id="org8049081"></a>
 
 ### PATH B: Web/Bug Bounty Hunter
 
 Weekend → Week → Month WEB-W1 → WEB-W2 → WEB-W3 → WEB-W4 → WEB-W5 → WEB-WK1 → WEB-WK2 → WEB-WK3 → WEB-MO1 (pentest suite + bounty submission)
 
 
-<a id="org5ffdcfd"></a>
+<a id="org10b8603"></a>
 
 ### PATH C: Blue Team / SOC Analyst
 
 Weekend → Week → Month DEF-W1 → DEF-W2 → DEF-W4 → MAL-W1 → DEF-WK1 → DEF-WK2 → DEF-WK3 → DEF-WK4 → DEF-MO1 (home SOC) → AD-MO1 (AD defense)
 
 
-<a id="orgacc0a8f"></a>
+<a id="orgd8878cb"></a>
 
 ### PATH D: Malware Analyst / Threat Intel
 
 Weekend → Week → Month MAL-W1 → MAL-W2 → RE-W2 → MAL-WK1 → MAL-WK2 → MAL-WK3 → RE-WK1 → MAL-MO1 (full malware analysis report)
 
 
-<a id="org1931468"></a>
+<a id="org69aae1e"></a>
 
 ### PATH E: Security Engineer / Tool Builder
 
 Weekend → Week → Month SCRPT-W1 → SCRPT-W2 → SCRPT-W3 → SCRPT-WK1 → SCRPT-WK2 → SCRPT-WK3 → SCRPT-MO1 (pentest suite)
 
 
-<a id="org36f3caf"></a>
+<a id="org0c97b83"></a>
 
 ## ══════════════════════════════
 
 
-<a id="orgc95ab10"></a>
+<a id="org361750f"></a>
 
 # RESOURCES
 
 
-<a id="org8c3f7e1"></a>
+<a id="orgd6f6a44"></a>
 
 ## ══════════════════════════════
 
 
-<a id="org0c6995d"></a>
+<a id="org5b76cfa"></a>
 
 ### Platforms And Websites
 
@@ -1069,7 +1069,7 @@ Weekend → Week → Month SCRPT-W1 → SCRPT-W2 → SCRPT-W3 → SCRPT-WK1 → 
 -   crackmes.one: <https://crackmes.one>
 
 
-<a id="orgf3d9be7"></a>
+<a id="orgd9d2072"></a>
 
 ### Essential Tools
 
@@ -1083,7 +1083,7 @@ Weekend → Week → Month SCRPT-W1 → SCRPT-W2 → SCRPT-W3 → SCRPT-WK1 → 
 -   Python 3 or Go (your best weapons)
 
 
-<a id="org9359209"></a>
+<a id="org36f2d88"></a>
 
 ### Free Certifications to Stack
 
@@ -1093,7 +1093,7 @@ Weekend → Week → Month SCRPT-W1 → SCRPT-W2 → SCRPT-W3 → SCRPT-WK1 → 
 -   CompTIA Security+ (entry-level industry standard)
 
 
-<a id="org13d584a"></a>
+<a id="org6ffbb79"></a>
 
 ### Time Budget Suggestion
 
